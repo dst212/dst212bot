@@ -1,0 +1,7 @@
+variables.py
+data
+trash
+**/__pycache__
+__pycache__
+dst212bot
+*.session

@@ -1,0 +1,84 @@
+from langs import en as LANG
+import base64, html, traceback, binascii
+from pyrogram.enums import ParseMode
+
+class Encode:
+	def __init__(self, users):
+		self.__usr = users
+		self.__encodings = {
+			"binary": ("b", "bin", "binary"),
+			"base64": ("b64", "base64"),
+			"text": ("t", "txt", "text")
+		}
+	def text2base64(self, s: str) -> str:
+		return base64.b64encode(bytes(s, "utf-8")).decode()
+	def base642text(self, s: str) -> str:
+		return str(base64.b64decode(bytes(s, "utf-8")), "utf-8")
+	def binary2text(self, s: list) -> str: #binary list to text, input must be a list
+		return "".join(chr(int(c,2)) for c in s)
+	def text2binary(self, s: str) -> list:
+		return [format(ord(c),"08b") for c in s]
+
+	def retrieve_encoding(self, dec: str, enc: str) -> (str, str):
+		real_dec, real_enc = None, None
+		for k, v in self.__encodings.items():
+			if not real_dec and dec in v: real_dec = k
+			if not real_enc and enc in v: real_enc = k
+			if real_enc and real_dec: break
+		return real_dec, real_enc
+
+	def function(self, LANG, args, alternate_text: str) -> (str, str):
+		out, ok = "", False
+		if (len(args) < 4 and alternate_text == "") or (len(args) < 3 and alternate_text != ""):
+			out = f"{LANG('PROVIDE_DECODING_ENCODING_TEXT')}\n{LANG('EXAMPLE')}:\n<code>/encode text binary henlo uorld</code>"
+		else:
+			out = args[3:] or alternate_text
+			dec, enc = self.retrieve_encoding(args[1].lower(), args[2].lower())
+			if dec and enc:
+				if dec == enc: out = LANG('YOU_SHOULD_KNOW')
+				else:
+					try:
+						#decode from
+						if dec == "binary":		out = self.binary2text(out)
+						elif dec == "base64":	out = self.base642text(" ".join(out))
+						elif dec == "text":		out = " ".join(out)
+						#encode to
+						if enc == "binary":		out = " ".join(self.text2binary(out))
+						elif enc == "base64":	out = self.text2base64(out)
+						ok = True
+					except binascii.Error as e:
+						out = "The provided text's encoding wasn't <code>base64</code>."
+					except ValueError as e:
+						out = "The provided text's encoding wasn't <code>binary</code>."
+					except Exception as e:
+						out = f"An error occurred, spot any encoding oddity in your message."
+						print(traceback.format_exc())
+			elif not dec and enc:
+				out = f"<code>{html.escape(args[1])}</code> is not a valid encoding."
+			elif not enc and dec:
+				out = f"<code>{html.escape(args[2])}</code> is not a valid encoding."
+			else:
+				out = f"<code>{html.escape(args[1])}</code> and <code>{html.escape(args[2])}</code> are not valid encodings."
+		return out, ok
+
+	def command(self, LANG, bot, message):
+		text, ok = self.function(LANG, (message.text or message.caption).split(" "), "" if message.reply_to_message is None else (message.reply_to_message.text or message.reply_to_message.caption).split(" "))
+		message.reply_text("<code>" + html.escape(text) + "</code>" if ok else text)
+
+	def inlinequery(self, LANG, bot, inline_query):
+		query = inline_query.split(" ")
+		if len(query) < 4:
+			return [InlineQueryResultArticle(
+				id = "0",
+				title = LANG('INVALID_SYNTAX'),
+				input_message_content = InputTextMessageContent(LANG('PROVIDE_DECODING_ENCODING_TEXT')),
+				description = LANG('PROVIDE_DECODING_ENCODING_TEXT'),
+			)]
+		else:
+			output, _ = self.function(LANG, query, "")
+			return [InlineQueryResultArticle(
+				id = "0",
+				title = LANG('ENCODE_FROM_TO').format("", query[1], query[2]),
+				input_message_content = InputTextMessageContent(f"<code>{html.escape(output)}</code>", parse_mode=ParseMode.HTML),
+				description = output,
+			)]
