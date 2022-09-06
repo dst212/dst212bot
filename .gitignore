@@ -5,3 +5,4 @@ trash
 __pycache__
 dst212bot
 *.session
+env
