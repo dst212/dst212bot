@@ -124,6 +124,6 @@ class Config:
 	def log(self, text):
 		for a in self.get_log_chats():
 			try:
-				self.bot.send_message(a, "Bot started.")
+				self.bot.send_message(a, text)
 			except Exception as e:
 				log.error(f"[{a}] {e}")
