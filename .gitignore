@@ -5,4 +5,5 @@ trash
 __pycache__
 dst212bot
 *.session
+*.session-journal
 env
