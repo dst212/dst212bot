@@ -6,10 +6,10 @@ from pyrogram.types import User, Message
 
 class Config:
 	def __init__(self, bot, users):
-		self.__bot = bot
-		self.__usr = users
-		self.__base_dir = "./data/config/"
-		self.__cfg = {
+		self.bot = bot
+		self.usr = users
+		self.base_dir = "./data/config/"
+		self.cfg = {
 			"admin": [],		# can do admin stuff except adding or removing other admins
 			"log": [],			# will get info about the bot operations (boot up, shutdown, errors)
 			"helper": [],		# can use /reply
@@ -19,34 +19,34 @@ class Config:
 		self.refresh_data()
 
 	def refresh_data(self) -> None:
-		os.makedirs(self.__base_dir, exist_ok=True)
-		for k in self.__cfg:
-			file = self.__base_dir + k + ".json"
+		os.makedirs(self.base_dir, exist_ok=True)
+		for k in self.cfg:
+			file = self.base_dir + k + ".json"
 			if os.path.exists(file):
 				try:
 					with open(file, "r") as f:
-						self.__cfg[k] = json.load(f)
+						self.cfg[k] = json.load(f)
 				except:
 					os.rename(file, file + "." + datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".corrupted")
 					log.error("Couldn't read " + file + ", renamed.")
-			if not self.__cfg.get(k):
+			if not self.cfg.get(k):
 				with open(file, "w") as f:
-					json.dump(self.__cfg[k], f)
-		if len(self.__cfg["admin"]) == 0:
-			log.warning("Please, manually set one or more admin for the bot in " + self.__base_dir + "admin.json")
+					json.dump(self.cfg[k], f)
+		if len(self.cfg["admin"]) == 0:
+			log.warning("Please, manually set one or more admin for the bot in " + self.base_dir + "admin.json")
 
 	def get(self, what) -> list:
-		return self.__cfg.get(what) or []
+		return self.cfg.get(what) or []
 	def get_admins(self) -> list:
-		return self.__cfg["admin"]
+		return self.cfg["admin"]
 	def get_log_chats(self) -> list:
-		return self.__cfg["log"]
+		return self.cfg["log"]
 	def get_support_chats(self) -> list:
-		return self.__cfg["support"]
+		return self.cfg["support"]
 	def get_helpers(self) -> list:
-		return self.__cfg["support"]
+		return self.cfg["support"]
 	def get_blocked(self) -> list:
-		return self.__cfg["blocked"]
+		return self.cfg["blocked"]
 
 	def is_in(self, who, where) -> bool:
 		if type(who) != int:
@@ -59,12 +59,12 @@ class Config:
 			else:
 				return False
 		if type(where) == str:
-			return who in self.__cfg.get(where)
+			return who in self.cfg.get(where)
 		for group in where:
-			if who in self.__cfg.get(group):
+			if who in self.cfg.get(group):
 				return True
 		return False
-		# else: True in (who in self.__cfg.get(i) for i in where)
+		# else: True in (who in self.cfg.get(i) for i in where)
 	def is_admin(self, who) -> bool:
 		return self.is_in(who, "admin")
 	def is_helper(self, who) -> bool:
@@ -75,48 +75,55 @@ class Config:
 	def get_users_groups(self, l) -> list:
 		out = []
 		for i in l:
-			try: out += [self.__bot.get_users(i)]
+			try: out += [self.bot.get_users(i)]
 			except:
-				try: out += [self.__bot.get_chat(i)]
+				try: out += [self.bot.get_chat(i)]
 				except: pass
 		return out
 	def list_all(self, l) -> str:
 		out = []
 		for i in l:
-			try: res = self.__bot.get_users(i)
+			try: res = self.bot.get_users(i)
 			except:
-				try: res = self.__bot.get_chat(i)
+				try: res = self.bot.get_chat(i)
 				except: pass
 			out += [format_user(res) if res else f"[<code>{i}</code>] (dead)"]
 		return ", ".join(out)
 
 	def add_items(self, group, ids) -> str:
-		if group not in self.__cfg or group == "admin":
+		if group not in self.cfg or group == "admin":
 			return "<code>{group}</code> is not a valid group."
 		out = ""
 		for item in self.get_users_groups(ids):
 			out += format_user(item)
-			if item.id in self.__cfg[group]:
+			if item.id in self.cfg[group]:
 				out += f" already in <code>{group}</code>.\n"
 			else:
-				self.__cfg[group] += [item.id]
+				self.cfg[group] += [item.id]
 				out += f" added to <code>{group}</code>.\n"
-		with open(self.__base_dir + group + ".json", "w") as f:
-			json.dump(self.__cfg[group], f)
+		with open(self.base_dir + group + ".json", "w") as f:
+			json.dump(self.cfg[group], f)
 			out += "\nConfig updated."
 		return out
 	def rem_items(self, group, ids) -> str:
-		if group not in self.__cfg or group == "admin":
+		if group not in self.cfg or group == "admin":
 			return "<code>{group}</code> is not a valid group."
 		out = ""
 		for item in self.get_users_groups(ids):
 			out += format_user(item)
-			if item.id in self.__cfg[group]:
-				self.__cfg[group].remove(item.id)
+			if item.id in self.cfg[group]:
+				self.cfg[group].remove(item.id)
 				out += f" removed from <code>{group}</code>.\n"
 			else:
 				out += f" is not in <code>{group}</code>.\n"
-		with open(self.__base_dir + group + ".json", "w") as f:
-			json.dump(self.__cfg[group], f)
+		with open(self.base_dir + group + ".json", "w") as f:
+			json.dump(self.cfg[group], f)
 			out += "\nConfig updated."
 		return out
+
+	def log(self, text):
+		for a in self.get_log_chats():
+			try:
+				self.bot.send_message(a, "Bot started.")
+			except Exception as e:
+				log.error(f"[{a}] {e}")

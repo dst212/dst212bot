@@ -1,3 +1,4 @@
+from bot.classes import Command
 from custom.log import log
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -8,38 +9,37 @@ def command_entry(LANG, k, v):
 		"\n" + v["desc"]
 	) if v else LANG('NO_ENTRY_FOR').format(k)
 
-class Base:
-	def __init__(self, users):
-		self.__usr = users
+def help_buttons(LANG, bot, chat, m, cmds):
+	# TODO: pass message and edit __usr.lang
+	if len(cmds) < 1:
+		callback = f"help.{chat}.{m}."
+		buttons = []
+		row = []
+		for k, _ in LANG('COMMANDS').items():
+			row += [InlineKeyboardButton(k, callback + k)]
+			if len(row) > 2:
+				buttons += [row]
+				row = []
+		buttons += [row]
+		bot.edit_message_text(chat, m, 
+			f"<b>{LANG('HELP')}</b>" + "\n\n" + LANG('CHOOSE_A_BUTTON') + "\n\n" + LANG('INLINE_MODE_NOTICE'),
+			reply_markup=InlineKeyboardMarkup(buttons)
+		)
+	else:
+		bot.edit_message_text(chat, m,
+			command_entry(LANG, cmds[0], LANG('COMMANDS').get(cmds[0])) + "\n\n" + LANG('INLINE_MODE_NOTICE'),
+			reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help.{chat}.{m}./")]])
+		)
 
-	def start(self, LANG, bot, m):
+class CmdStart(Command):
+	def run(self, LANG, bot, m):
 		m.reply_text(LANG('WELCOME_MESSAGE').format(m.from_user.first_name))
 
-	def help_buttons(self, LANG, bot, chat, m, cmds):
-		# TODO: pass message and edit __usr.lang
-		if len(cmds) < 1:
-			callback = f"help.{chat}.{m}."
-			buttons = []
-			row = []
-			for k, _ in LANG('COMMANDS').items():
-				row += [InlineKeyboardButton(k, callback + k)]
-				if len(row) > 2:
-					buttons += [row]
-					row = []
-			buttons += [row]
-			bot.edit_message_text(chat, m, 
-				f"<b>{LANG('HELP')}</b>" + "\n\n" + LANG('CHOOSE_A_BUTTON') + "\n\n" + LANG('INLINE_MODE_NOTICE'),
-				reply_markup=InlineKeyboardMarkup(buttons)
-			)
-		else:
-			bot.edit_message_text(chat, m,
-				command_entry(LANG, cmds[0], LANG('COMMANDS').get(cmds[0])) + "\n\n" + LANG('INLINE_MODE_NOTICE'),
-				reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help.{chat}.{m}./")]])
-			)
-
-	def help_command(self, LANG, bot, m):
+class CmdHelp(Command):
+	def run(self, LANG, bot, m):
 		m = bot.send_message(m.chat.id, LANG('LOADING'))
-		self.help_buttons(LANG, bot, m.chat.id, m.id, (m.text or m.caption).split(" ")[1:])
+		help_buttons(LANG, bot, m.chat.id, m.id, (m.text or m.caption).split(" ")[1:])
 
-	def credits_command(self, LANG, bot, m):
+class CmdCredits(Command):
+	def run(self, LANG, bot, m):
 		m.reply_text(LANG('CREDITS_MESSAGE'))

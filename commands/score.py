@@ -1,9 +1,10 @@
+from bot.classes import Command
 import json, html, os, re
 
-class Score:
-	def __init__(self, users):
-		self.__usr = users
-		self.__base_dir = "data/score/"
+class CmdScore(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.base_dir = "data/score/"
 
 	def sort(self, data):
 		data["items"] = {k: v for k, v in sorted(data["items"].items(), key=lambda x: x[1], reverse=True)}
@@ -12,7 +13,7 @@ class Score:
 		return f"<b>{html.escape(score['display'])}</b>\n\n" + (("\n".join(f"<i>{html.escape(k)}</i> : <code>{v}</code>" for k, v in score["items"].items()) or LANG('SCORE_NO_ITEMS')))
 
 	def get_score(self, LANG, m, name):
-		cdir = f"{self.__base_dir}{m.chat.id}/"# + message.from_user.id
+		cdir = f"{self.base_dir}{m.chat.id}/"# + m.from_user.id
 		os.makedirs(cdir, exist_ok=True)
 		if not bool(re.match("^[a-zA-Z0-9_-]+$", name)):
 			m.reply(LANG('SCORE_INVALID_NAME'))
@@ -161,81 +162,81 @@ class Score:
 			json.dump(data, f)
 		m.reply(f"{LANG('SCORE_WAS').format(was)}\n\n{LANG('SCORE_NOW_ITS').format(self.score_str(LANG, data))}")
 
-	def command(self, LANG, bot, message):
-		args = (message.text or message.caption).split(" ")
+	def run(self, LANG, bot, m):
+		args = (m.text or m.caption).split(" ")
 		if len(args) > 1:
 			if args[1] in ("h", "help"):
-				message.reply(LANG('SCORE_HELP'))
+				m.reply(LANG('SCORE_HELP'))
 			elif args[1] in ("get", "print"):
 				if len(args) <= 2:
-					message.reply(LANG('SCORE_PROVIDE_NAME'))
+					m.reply(LANG('SCORE_PROVIDE_NAME'))
 					return
 				elif len(args) > 3:
-					message.reply(LANG('SCORE_UNNEEDED_ARGUMENT'))
+					m.reply(LANG('SCORE_UNNEEDED_ARGUMENT'))
 					return
-				self.score_get(LANG, message, args[2])
+				self.score_get(LANG, m, args[2])
 			elif args[1] in ("new", "create"):
 				if len(args) <= 2:
-					message.reply(LANG('SCORE_PROVIDE_NAME'))
+					m.reply(LANG('SCORE_PROVIDE_NAME'))
 					return
 				elif len(args) > 3:
-					message.reply(LANG('SCORE_UNNEEDED_ARGUMENT'))
+					m.reply(LANG('SCORE_UNNEEDED_ARGUMENT'))
 					return
-				self.score_new(LANG, message, args[2])
+				self.score_new(LANG, m, args[2])
 			elif args[1] in ("del", "delete", "remove"):
 				if len(args) <= 2:
-					message.reply(LANG('SCORE_PROVIDE_NAME'))
+					m.reply(LANG('SCORE_PROVIDE_NAME'))
 					return
 				for arg in args[2:]:
-					self.score_del(LANG, message, arg)
+					self.score_del(LANG, m, arg)
 			elif args[1] in ("ren", "rename"):
 				if len(args) <= 3:
-					message.reply(LANG('SCORE_PROVIDE_NAME'))
+					m.reply(LANG('SCORE_PROVIDE_NAME'))
 					return
-				self.score_ren(LANG, message, args[2], args[3])
+				self.score_ren(LANG, m, args[2], args[3])
 			elif args[1] in ("display", "setdisplay"):
 				if len(args) <= 3:
-					message.reply(LANG('SCORE_PROVIDE_NAME'))
+					m.reply(LANG('SCORE_PROVIDE_NAME'))
 					return
-				self.score_display(LANG, message, args[2], " ".join(args[3:]))
+				self.score_display(LANG, m, args[2], " ".join(args[3:]))
 			elif args[1] in ("add",):
 				if len(args) <= 3:
-					message.reply(LANG('USAGE') + ":\n<code>/score add score_name item_name [value=1]</code>\n\nIncrement by <code>value</code> the item <code>item_name</code> of <code>score_name</code>.\nYou may use negative values as <code>value</code>.")
+					m.reply(LANG('USAGE') + ":\n<code>/score add score_name item_name [value=1]</code>\n\nIncrement by <code>value</code> the item <code>item_name</code> of <code>score_name</code>.\nYou may use negative values as <code>value</code>.")
 					return
 				try:
-					self.score_add(LANG, message, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
+					self.score_add(LANG, m, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
 				except ValueError:
 					m.reply(LANG('SCORE_ONLY_NUMBERS'))
 			elif args[1] in ("set",):
 				if len(args) <= 3:
-					message.reply(LANG('USAGE') + ":\n<code>/score set score_name item_name [value=1]</code>\n\nSet to <code>value</code> the item <code>item_name</code> of <code>score_name</code>.")
+					m.reply(LANG('USAGE') + ":\n<code>/score set score_name item_name [value=1]</code>\n\nSet to <code>value</code> the item <code>item_name</code> of <code>score_name</code>.")
 					return
 				try:
-					self.score_set(LANG, message, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
+					self.score_set(LANG, m, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
 				except ValueError:
-					message.reply(LANG('SCORE_ONLY_NUMBERS'))
+					m.reply(LANG('SCORE_ONLY_NUMBERS'))
 			elif args[1] in ("setraw",):
 				i = args[2].find("\n") if len(args) > 2 else -1
 				if i == -1:
-					message.reply(LANG('USAGE') + ":\n<code>/score setraw score_name\nitem1 : value\nitem2 : value\nitem3 : value</code>\n\nFor each new line, create a item and assign the specified value to it.")
+					m.reply(LANG('USAGE') + ":\n<code>/score setraw score_name\nitem1 : value\nitem2 : value\nitem3 : value</code>\n\nFor each new line, create a item and assign the specified value to it.")
 					return
 				score = args[2][:i]
 				items = {}
 				try:
-					for item in (message.text or message.caption).split("\n")[1:]:
+					for item in (m.text or m.caption).split("\n")[1:]:
 						item = item.split(":")
 						if len(item) > 0 and item[0] != "":
 							items[item[0].strip()] = int(item[1]) if len(item) > 1 else 1
 				except ValueError:
-					message.reply(LANG('SCORE_ONLY_NUMBERS'))
-				self.score_setraw(LANG, message, score, items)
+					m.reply(LANG('SCORE_ONLY_NUMBERS'))
+				self.score_setraw(LANG, m, score, items)
 			elif args[1] in ("delitem",):
 				if len(args) <= 3:
-					message.reply(LANG('SCORE_PROVIDE_ITEM_NAME'))
+					m.reply(LANG('SCORE_PROVIDE_ITEM_NAME'))
 					return
-				self.score_set(LANG, message, args[2], args[3], 0)
+				self.score_set(LANG, m, args[2], args[3], 0)
 			else:
-				message.reply(LANG('INVALID_SYNTAX'))
+				m.reply(LANG('INVALID_SYNTAX'))
 		else:
-			message.reply(LANG('SCORE_HELP'))
+			m.reply(LANG('SCORE_HELP'))
 				

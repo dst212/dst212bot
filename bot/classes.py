@@ -1,21 +1,18 @@
 class Query:
 	def __init__(self, inline):
-		pass
-	def inline():
-		pass
-	def text():
-		pass
-	def args():
-		pass
+		self.inline = inline 				# the object itself
+		self.text = inline.query			# the text of the query
+		self.args = inline.query.split(" ")	# the arguments splitted
 
 class Command:
-	def __init__(self, users, config):
-		self.usr = users
-		self.cfg = config
+	def __init__(self, data):
+		self.usr = data["users"]
+		self.cfg = data["config"]
 
-	def run(self, bot, m):
+	def run(self, LANG, bot, m):
 		# LANG = lambda s : self.usr.lang(m, s)
-		pass
+		m.reply("@dst212 is pretty stupid and forgot to link the correct function.")
+		raise Warning("Yoo dst are you dumb")
 
-	def inline(self, bot, query):
+	def inline(self, LANG, bot, q):
 		pass

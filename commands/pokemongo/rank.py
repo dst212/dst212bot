@@ -151,7 +151,9 @@ def closure():
 		try:
 			max_cp	= 1500	if len(args) < 3 else int(args[2])
 			min_iv	= 0		if len(args) < 4 else int(args[3])
+			if min_iv > 15: raise ValueError("Minimum IVs' value cannot exceed 15.")
 			max_lvl	= 50.0	if len(args) < 5 else float(args[4])
+			if max_lvl < 0: raise ValueError("Maximum level cannot be less than 0.")
 		except ValueError:
 			return LANG('ERROR'), LANG('POGO_ENSURE_DATA_IS_CORRECT')
 

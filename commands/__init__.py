@@ -1,63 +1,74 @@
-from . import admin, base, counter, encode, hey_admins, info, misc, pickrandom, pokemon, pokemongo, qrcode, rand, score, scramble, settings, translate, tts, wordfor
+#from . import admin, base, counter, encode, hey_admins, info, misc, pickrandom, pokemon, pokemongo, qrcode, rand, score, scramble, settings, translate, tts, wordfor
+from glob import glob
+import os
+from . import pokemon, pokemongo
+__all__ = [os.path.basename(i)[:-3] for i in glob(os.path.join(os.path.dirname(__file__), "*.py")) if os.path.isfile(i) and not i.startswith("_")]
+
+from . import *
 
 class Commands:
 	def __init__(self, bot, users, config):
-		self.admin = admin.Admin(users, config)
-		self.base = base.Base(users)
-		self.counter = counter.Counter(users)
-		self.encode = encode.Encode(users)
-		self.hey_admins = hey_admins.Hey(users, config)
-		self.info = info.Info(users)
-		self.misc = misc.Misc(users)
-		self.pickrandom = pickrandom.PickRandom(users)
-		self.pokemon = pokemon
-		self.pokemongo = pokemongo
-		self.qrcode = qrcode.QRCode(users)
-		self.random = rand
-		self.score = score.Score(users)
-		self.scramble = scramble.Scramble(users)
-		self.settings = settings.Settings(users)
-		self.translate = translate
-		self.tts = tts
-		self.wordfor = wordfor
+		data = {"users": users, "config": config}
+
+		self.admin = admin.CmdAdmin(data)
+		self.reboot = admin.CmdReboot(data)
+
+		self.base = base
+		self.misc = misc
+		self.counter = counter.CmdCounter(data)
+		self.encode = encode.CmdEncode(data)
+		self.hey_admins = hey_admins.CmdHey(data)
+		self.info = info.CmdInfo(data)
+		self.pickrandom = pickrandom.CmdPickRandom(data)
+		self.pokemon = pokemon.CmdPokemon(data)
+		self.pokemongo = pokemongo.CmdPoGo(data)
+		self.qrcode = qrcode.CmdQRCode(data)
+		self.random = rand.CmdRand(data)
+		self.score = score.CmdScore(data)
+		self.scramble = scramble.CmdScramble(data)
+		self.settings = settings.CmdSettings(data)
+		self.translate = translate.CmdTranslate(data)
+		self.tts = tts.CmdTTS(data)
+		self.wordfor = wordfor.CmdWordFor(data)
 
 		self.map = {
 			# base commands
-			"start": self.base.start,
-			"help": self.base.help_command,
-			"credits": self.base.credits_command,
+			"start": self.base.CmdStart(data),
+			"help": self.base.CmdHelp(data),
+			"credits": self.base.CmdCredits(data),
 
 			# misc commands
-			"ping": self.misc.pong,
-			"say": self.misc.say,
-			"msgi": self.misc.message_info,
-			"count": self.misc.count_messages,
-			"len": self.misc.message_length,
-			"tricyclepenisboat": self.misc.tpb,
-			"delall": self.misc.purge,
-			"raiseerror": self.misc.raise_error,
+			"ping": self.misc.CmdPing(data),
+			"say": self.misc.CmdSay(data),
+			"msgi": self.misc.CmdMsgInfo(data),
+			"count": self.misc.CmdCount(data),
+			"len": self.misc.CmdLength(data),
+			"retarded": self.misc.CmdRetarded(data),
+			"tricyclepenisboat": self.misc.CmdTPB(data),
+			"delall": self.misc.CmdPurge(data),
+			"raiseerror": self.misc.CmdRaiseError(data),
 
 			# specific commands
-			"settings": self.settings.command,
-			"hey": self.hey_admins.command, "feedback": self.hey_admins.command,
-			"info": self.info.command,
-			"encode": self.encode.command, "e": self.encode.command,
-			"scramble": self.scramble.command,
-			"random": self.random.command, "r": self.random.command,
-			"pickrandom": self.pickrandom.command, "pr": self.pickrandom.command,
-			"pokemon": self.pokemon.command,
-			"pogo": self.pokemongo.command,
-			"translate": self.translate.command, "tr": self.translate.command,
-			"tts": self.tts.command,
-			"qr": self.qrcode.command,
-			"wordfor": self.wordfor.command,
+			"settings": self.settings,
+			"hey": self.hey_admins, "feedback": self.hey_admins,
+			"info": self.info,
+			"encode": self.encode, "e": self.encode,
+			"scramble": self.scramble,
+			"random": self.random, "r": self.random,
+			"pickrandom": self.pickrandom, "pr": self.pickrandom,
+			"pokemon": self.pokemon,
+			"pogo": self.pokemongo,
+			"translate": self.translate, "tr": self.translate,
+			"tts": self.tts,
+			"qr": self.qrcode,
+			"wordfor": self.wordfor,
 
 			# monitoring commands
-			"score": self.score.command,
-			"counter": self.counter.command,
+			"score": self.score,
+			"counter": self.counter,
 
 			# administration commands
-			"reboot": self.admin.reboot,
-			"admin": self.admin.command,
-			"sudo": self.admin.command,
+			"reboot": self.reboot,
+			"admin": self.admin,
+			"sudo": self.admin,
 		}

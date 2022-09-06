@@ -1,11 +1,12 @@
+from bot.classes import Command
 from langs import en as LANG
 import base64, html, traceback, binascii
 from pyrogram.enums import ParseMode
 
-class Encode:
-	def __init__(self, users):
-		self.__usr = users
-		self.__encodings = {
+class CmdEncode(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.encodings = {
 			"binary": ("b", "bin", "binary"),
 			"base64": ("b64", "base64"),
 			"text": ("t", "txt", "text")
@@ -21,7 +22,7 @@ class Encode:
 
 	def retrieve_encoding(self, dec: str, enc: str) -> (str, str):
 		real_dec, real_enc = None, None
-		for k, v in self.__encodings.items():
+		for k, v in self.encodings.items():
 			if not real_dec and dec in v: real_dec = k
 			if not real_enc and enc in v: real_enc = k
 			if real_enc and real_dec: break
@@ -61,13 +62,12 @@ class Encode:
 				out = f"<code>{html.escape(args[1])}</code> and <code>{html.escape(args[2])}</code> are not valid encodings."
 		return out, ok
 
-	def command(self, LANG, bot, message):
-		text, ok = self.function(LANG, (message.text or message.caption).split(" "), "" if message.reply_to_message is None else (message.reply_to_message.text or message.reply_to_message.caption).split(" "))
-		message.reply_text("<code>" + html.escape(text) + "</code>" if ok else text)
+	def run(self, LANG, bot, m):
+		text, ok = self.function(LANG, (m.text or m.caption).split(" "), "" if m.reply_to_message is None else (m.reply_to_message.text or m.reply_to_message.caption).split(" "))
+		m.reply_text("<code>" + html.escape(text) + "</code>" if ok else text)
 
-	def inlinequery(self, LANG, bot, inline_query):
-		query = inline_query.split(" ")
-		if len(query) < 4:
+	def inline(self, LANG, bot, q):
+		if len(q.args) < 4:
 			return [InlineQueryResultArticle(
 				id = "0",
 				title = LANG('INVALID_SYNTAX'),
@@ -75,10 +75,10 @@ class Encode:
 				description = LANG('PROVIDE_DECODING_ENCODING_TEXT'),
 			)]
 		else:
-			output, _ = self.function(LANG, query, "")
+			output, _ = self.function(LANG, q.args, "")
 			return [InlineQueryResultArticle(
 				id = "0",
-				title = LANG('ENCODE_FROM_TO').format("", query[1], query[2]),
+				title = LANG('ENCODE_FROM_TO').format("", q.args[1], q.args[2]),
 				input_message_content = InputTextMessageContent(f"<code>{html.escape(output)}</code>", parse_mode=ParseMode.HTML),
 				description = output,
 			)]

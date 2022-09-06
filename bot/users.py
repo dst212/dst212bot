@@ -6,17 +6,17 @@ from pyrogram.types import Chat, User, Message
 
 class Users:
 	def __init__(self, bot):
-		self.__base_dir = "./data/users/"
-		self.__bot = bot
-		self.__usr = {}
+		self.base_dir = "./data/users/"
+		self.bot = bot
+		self.usr = {}
 
 	def save(self, uid: int, config: dict):
-		os.makedirs(self.__base_dir, exist_ok=True)
-		with open(f"{self.__base_dir}{uid}", "w") as f:
+		os.makedirs(self.base_dir, exist_ok=True)
+		with open(f"{self.base_dir}{uid}", "w") as f:
 			json.dump(config, f)
 
 	def load(self, uid: int) -> dict:
-		file = f"{self.__base_dir}{uid}"
+		file = f"{self.base_dir}{uid}"
 		if os.path.exists(file):
 			with open(file, "r") as f:
 				try:
@@ -27,7 +27,7 @@ class Users:
 		return None
 
 	def do_override(self, m):
-		return m.from_user and self.__usr.get(m.from_user.id) and self.__usr.get(m.from_user.id).get("override")
+		return m.from_user and self.usr.get(m.from_user.id) and self.usr.get(m.from_user.id).get("override")
 
 	def get_id(self, uid) -> int:
 		if type(uid) == Message:
@@ -41,7 +41,7 @@ class Users:
 	def get(self, uid, item=None):
 		user = None
 		uid = self.get_id(uid)
-		if not self.__usr.get(uid):
+		if not self.usr.get(uid):
 			user = self.load(uid)
 			if not user:
 				user = {
@@ -50,9 +50,9 @@ class Users:
 					"override": False	# override group settings
 				}
 				self.save(uid, user)
-			self.__usr[uid] = user
+			self.usr[uid] = user
 		else:
-			user = self.__usr[uid]
+			user = self.usr[uid]
 		return (user.get(item) if item else user) if user else None
 
 	def lang_code(self, uid):

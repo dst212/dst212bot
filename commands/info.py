@@ -1,12 +1,9 @@
-from langs import en as LANG
+from bot.classes import Command
 import html, json
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, User, Chat, ChatPreview, InputMediaPhoto
 from pyrogram.enums import UserStatus, ChatType
 
-class Info:
-	def __init__(self, users):
-		self.__usr = users
-
+class CmdInfo(Command):
 	def function(self, LANG, item) -> str:
 		if type(item) == User:
 			text = f"<i>Info for <u>{html.escape(item.first_name)}</u></i>\n\n"
@@ -52,24 +49,24 @@ class Info:
 					text += f"- {i.text} ({i.platform})"
 		return text
 
-	def command(self, LANG, bot, message) -> None:
-		if message.reply_to_message is not None:
-			if message.reply_to_message.forward_from is not None:
-				item = message.reply_to_message.forward_from
+	def run(self, LANG, bot, m):
+		if m.reply_to_message is not None:
+			if m.reply_to_message.forward_from is not None:
+				item = m.reply_to_message.forward_from
 			else:
-				item = message.reply_to_message.from_user
+				item = m.reply_to_message.from_user
 		else:
-			args = (message.text or message.caption).split(" ")
+			args = (m.text or m.caption).split(" ")
 			try:
 				if len(args) == 1:
-					item = message.from_user if message.chat.type == ChatType.PRIVATE else message.chat
+					item = m.from_user if m.chat.type == ChatType.PRIVATE else m.chat
 				else:
 					item = bot.get_users(args[1]) #[1:] if args[1][0] == "@" else int(args[1]))
 			except:
 				try:
 					item = bot.get_chat(args[1])
 				except:
-					message.reply_text(f"{LANG('PROVIDE_USERNAME_OR_ID')}\n{LANG('EXAMPLE')}:\n/info @dst212bot")
+					m.reply_text(f"{LANG('PROVIDE_USERNAME_OR_ID')}\n{LANG('EXAMPLE')}:\n/info @dst212bot")
 					return
 
 		text = self.function(LANG, item)
@@ -83,13 +80,13 @@ class Info:
 			if len(photo) > 0 and len(photo[0]) > 0:
 				photo = photo[0][0].file_id
 		if photo:
-				message.reply_media_group(media=[InputMediaPhoto(media=photo,caption=text)])
+				m.reply_media_group(media=[InputMediaPhoto(media=photo,caption=text)])
 		else:
-			message.reply_text(text)
+			m.reply_text(text)
 
-	def inlinequery(LANG, bot, inline, query):
+	def inline(self, LANG, bot, q):
 		try:
-			item = bot.get_users(query[1]) #[1:] if query[1][0] == "@" else int(query[1]))
+			item = bot.get_users(q.args[1]) #[1:] if q.args[1][0] == "@" else int(q.args[1]))
 		except:
 			return [InlineQueryResultArticle(
 				title = LANG('PROVIDE_USERNAME_OR_ID'),

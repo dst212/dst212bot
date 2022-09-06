@@ -1,6 +1,6 @@
 #!/usr/bin/env /usr/bin/python3
 
-from variables import TOKEN_MALVAJO as TOKEN, API_ID, API_HASH
+from variables import TOKEN as TOKEN, API_ID, API_HASH
 from custom.log import log
 from langs import en as LANG
 from bot.config import Config
@@ -45,14 +45,12 @@ def main():
 	bot.add_handler(InlineQueryHandler(handlers.inlinequery))
 	bot.add_handler(CallbackQueryHandler(handlers.handle_callback))
 
-	for a in config.get_log_chats():
-		bot.send_message(a, "Bot started.")
+	config.log("Bot started.")
 
 	log.info("Idling...")
 	idle()
 
-	for a in config.get_log_chats():
-		bot.send_message(a, "Bot stopped.")
+	config.log("Bot stopped.")
 
 	log.info("Stopping...")
 	bot.stop()

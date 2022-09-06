@@ -1,10 +1,8 @@
+from bot.classes import Command
 import random
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
-class Scramble:
-	def __init__(self, users):
-		self.__usr = users
-
+class CmdScramble(Command):
 	def function(self, s: str) -> str:
 		t = list(s)
 		s = []
@@ -12,20 +10,20 @@ class Scramble:
 			s += [t.pop(int(random.random()*len(t)))]
 		return "".join(s)
 
-	def command(self, LANG, bot, message):
+	def run(self, LANG, bot, m):
 		text = None
-		if message.reply_to_message is None:
-			text = (message.text or message.caption)
+		if m.reply_to_message is None:
+			text = (m.text or m.caption)
 			text = text[text.find(" ") + 1 or len(text):]
 		else:
-			text = (message.reply_to_message.text or message.reply_to_message.caption)
+			text = (m.reply_to_message.text or m.reply_to_message.caption)
 		if text:
-			message.reply_text(self.function(text))
+			m.reply_text(self.function(text))
 		else:
-			message.reply_text(LANG('PROVIDE_TEXT'))
+			m.reply_text(LANG('PROVIDE_TEXT'))
 
-	def inlinequery(self, LANG, bot, inline, query):
-		text = self.function(inline.query[inline.query.find(" ")+1:])
+	def inline(self, LANG, bot, q):
+		text = self.function(q.text[len(q.args[0])+1:])
 		return [InlineQueryResultArticle(
 			id = "0",
 			title = LANG('SCRAMBLE_TEXT'),

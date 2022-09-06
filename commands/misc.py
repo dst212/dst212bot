@@ -1,15 +1,59 @@
+from bot.classes import Command
 from custom.log import log
 from custom.misc import can_delete, sender_is_admin
 import html, random
 
-class Misc:
-	def __init__(self, users):
-		self.__usr = users
-
-	def raise_error(self, bot, message):
+class CmdRaiseError(Command):
+	def run(self, LANG, bot, m):
 		raise Warning("This is a test.")
 
-	def retarded(self, t):
+class CmdMsgInfo(Command):
+	def run(self, LANG, bot, m):
+		m.reply_text("<code>" + html.escape(str(m.reply_to_message or m)) + "</code>")
+
+class CmdCount(Command):
+	def run(self, LANG, bot, m):
+		m.reply_text(str(m.id - m.reply_to_message.id if m.reply_to_message else m.id))
+
+class CmdLength(Command):
+	def run(self, LANG, bot, m):
+		m.reply_text(len(" ".join((m.text or m.caption).split(" ")[1:]) or ("" if m.reply_to_message is None else (m.reply_to_message.text or m.reply_to_message.caption))))
+
+class CmdPing(Command):
+	def run(self, LANG, bot, m):
+		m.reply_text("Pong")
+
+class CmdPurge(Command):
+	def run(self, LANG, bot, m):
+		if not sender_is_admin(m):
+			m = m.reply_text(LANG("NO"))
+			time.sleep(3)
+			if can_delete(m):
+				bot.delete_messages(m.chat.id, [m.id, m.id])
+			else:
+				m.delete()
+		elif can_delete(m):
+			bot.delete_messages(m.chat.id, range(m.reply_to_message.id if m.reply_to_message else m.id, m.id + 1))
+
+class CmdSay(Command):
+	def run(self, LANG, bot, m):
+		text = m.text or m.caption
+		i = text.find(" ")
+		text = "⁭ " if i == -1 else text[i + 1:]
+		if text:
+			if can_delete(m):
+				bot.delete_messages(m.chat.id, m.id)
+			if m.reply_to_message:
+				m.reply_to_message.reply_text(text, reply_to_message_id=m.reply_to_message.id)
+			else:
+				bot.send_message(m.chat.id, text)
+
+class CmdTPB(Command):
+	def run(self, LANG, bot, m):
+		m.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
+
+class CmdRetarded(Command):
+	def function(t):
 		out = ""
 		b = True
 		for i in t:
@@ -25,40 +69,12 @@ class Misc:
 				out += i
 		return out or "I'm SmOrT!1!1!"
 
-	def message_info(self, LANG, bot, message):
-		message.reply_text("<code>" + html.escape(str(message.reply_to_message or message)) + "</code>")
+	def run(self, LANG, bot, m):
+		m.reply(self.function(m.text or m.caption))
 
-	def count_messages(self, LANG, bot, message):
-		message.reply_text(str(message.id - message.reply_to_message.id if message.reply_to_message else message.id))
-
-	def message_length(self, LANG, bot, message):
-		message.reply_text(len(" ".join((message.text or message.caption).split(" ")[1:]) or ("" if message.reply_to_message is None else (message.reply_to_message.text or message.reply_to_message.caption))))
-
-	def pong(self, LANG, bot, message):
-		message.reply_text("Pong")
-
-	def purge(self, LANG, bot, message):
-		if not sender_is_admin(message):
-			m = message.reply_text(LANG("NO"))
-			time.sleep(3)
-			if can_delete(message):
-				bot.delete_messages(message.chat.id, [m.id, message.id])
-			else:
-				m.delete()
-		elif can_delete(message):
-			bot.delete_messages(message.chat.id, range(message.reply_to_message.id if message.reply_to_message else message.id, message.id + 1))
-
-	def say(self, LANG, bot, message):
-		text = message.text or message.caption
-		i = text.find(" ")
-		text = "⁭ " if i == -1 else text[i + 1:]
-		if text:
-			if can_delete(message):
-				bot.delete_messages(message.chat.id, message.id)
-			if message.reply_to_message:
-				message.reply_to_message.reply_text(text, reply_to_message_id=message.reply_to_message.id)
-			else:
-				bot.send_message(message.chat.id, text)
-
-	def tpb(self, LANG, bot, message):
-		message.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
+	def inline(self, LANG, bot, q):
+		return [InlineQueryResultArticle(
+			title = LANG('CLICK_HERE_TO_BE_RETARDED'),
+			input_message_content = InputTextMessageContent(text),
+			description = " ".join(q.args[1:]) or LANG('IM_SMORT'),
+		)]
