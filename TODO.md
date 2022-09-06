@@ -1,6 +1,6 @@
 # TODO list of *dst212bot*
 
-- [ ] create class AbstractCommand and base all the commands on that
+- [x] create class Command and base all the commands on that
 
 - [x] buttons on `/help`
 
@@ -18,7 +18,13 @@
 
 - [x] `/info` about groups and channels, detecting the id. if sending `/info` in a group, get info about that group
 
-- [x] `/pogo` add support for both dot `.` and slash `/` as separators for stats
+- [ ] `/pogo`
+  
+  - [x] add support for both dot `.` and slash `/` as separators for stats
+  
+  - [ ] help with buttons
+  
+  - [ ] `/pogo` lets you choose data with buttons
 
 - [x] block unallowed users in `handle_callback`
 
@@ -60,25 +66,25 @@
   
   - [ ] turn all commands into classes (is it necessary?)
     
-    - [ ] pokemon/ (results will probably be displayed in English, I don't care)
+    - [x] pokemon/ (results will probably be displayed in English, I don't care)
     
-    - [ ] pogo/
+    - [x] pogo/
     
-    - [ ] random.py
+    - [x] random.py
     
     - [x] score.py
     
-    - [ ] tts.py
+    - [x] tts.py
     
-    - [ ] wordfor.py
+    - [x] wordfor.py
     
-    - [ ] translate.py (it is necessary)
+    - [x] translate.py (it is necessary)
       
       - [ ] sync with settings
 
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   
-  - [ ] enable chat forward: every message sent is forwarded (`hey_admins.parse()` will check if forward is enabled in `__usr`)
+  - [ ] enable chat forward: every message sent is forwarded (`hey_admins.parse()` will check if forward is enabled in `self.usr`)
   
   - [x] enable media forward from admin's chats (done by using `copy_message()`)
   
@@ -90,6 +96,6 @@
   
   - [ ] `.send chat_id message` command
 
-- [ ] ~~***Next giga step***, make commands instances temporary: each command executed is an instance~~
+- [x] ~~***Next giga step***, make commands instances temporary: each command executed is an instance~~ (probably the worst idea I have ever had)
 
-- [ ] ***Next giga step***, using Rust instead of Python
+- [x] ~~***Next giga step***, using Rust instead of Python~~ (no, the snek is just ok)
