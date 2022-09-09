@@ -14,22 +14,12 @@ from pyrogram import Client, idle
 from pyrogram.handlers import MessageHandler, InlineQueryHandler, CallbackQueryHandler
 from pyrogram.enums import ParseMode
 
-###############################################################################
-
-# def print_info(bot, message):
-# 	group = "" if message.chat.username == message.from_user.username else f"@{message.chat.username or ''}[{message.chat.id}], "
-# 	log.info(
-# 		f"[{message.date.strftime('%Y-%m-%d %H:%M:%S')}] " +
-# 		group + f"@{(message.from_user or message.sender_chat).username}[{(message.from_user or message.sender_chat).id}]: " +
-# 		(message.text or message.caption or "[media]")
-# 	)
-
 def main():
 	while os.system("ping -c 1 api.telegram.org>/dev/null") != 0:
 		log.info("Waiting for connection...")
 		time.sleep(20)
 
-	bot = Client("dst212bot testing", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
+	bot = Client("dst212bot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 	bot.set_parse_mode(ParseMode.HTML)
 
 	users = Users(bot)
