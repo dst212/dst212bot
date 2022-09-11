@@ -12,7 +12,7 @@
 
 - [x] `command()` on `admin` to improve (detect users)
 
-- [x] create `handlers.py` and put the `inlinequery` in there too, move `commands_map` to commands's `__init__.py`
+- [x] create `handlers.py` and put the `inlinequery` in there too, move `commands_map` to commands module's `__init__.py`
 
 - [x] add/remove replied user in `/admin`
 
@@ -22,9 +22,13 @@
   
   - [x] add support for both dot `.` and slash `/` as separators for stats
   
-  - [ ] help with buttons
+  - [ ] ~~help with buttons~~
   
   - [ ] `/pogo` lets you choose data with buttons
+  
+  - [x] unify `rank` and `iv` and update help
+  
+  - [ ] pokedex: rename all of the Deoxys without "Forme" in their name
 
 - [x] block unallowed users in `handle_callback`
 
@@ -50,7 +54,7 @@
   
   - [ ] ~~pass message to each `function()` (so as to retrieve settings and change language basing on that)~~
   
-  - [x] **IMPORTANT**: the lang will be passed to the `inlinequery()` function and to the `command()` function and shared among the classes' methods as parameter (ugly as fuck but I don't know what else to do)
+  - [x] **IMPORTANT**: the lang will be passed to the `inline()` function and to the `run()` function and shared among the classes' methods as parameter (ugly as fuck but I don't know what else to do)
   
   - [ ] "auto" should rely on `User.language_code` or "en"
   
