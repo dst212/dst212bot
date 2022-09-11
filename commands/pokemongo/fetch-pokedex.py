@@ -1,5 +1,5 @@
 #!/bin/env python3
-import json, requests, pandas as pd
+import json, requests
 from bs4 import BeautifulSoup as bs
 
 def main():
@@ -19,9 +19,14 @@ def main():
 				muted = td[1].select_one("small.text-muted") 
 				if muted:
 					muted = muted.get_text().strip()
-					for form in ("Alolan", "Galarian", "Hisuian"):
-						if form in muted:
-							keep = True
+					if "Forme" in muted:
+						# exclude " Forme" which is six characters long
+						muted = td[1].get_text().strip()[:-6]
+						keep = True
+					else:
+						for form in ("Alolan", "Galarian", "Hisuian"):
+							if form in muted:
+								keep = True
 				mon = {
 					"id":		int(td[0].select_one("span:nth-of-type(2)").get_text()),
 					"name":		muted if keep else td[1].get_text().strip(),
