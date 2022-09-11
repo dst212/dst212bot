@@ -53,7 +53,7 @@ class CmdTPB(Command):
 		m.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
 
 class CmdRetarded(Command):
-	def function(t):
+	def function(self, t):
 		out = ""
 		b = True
 		for i in t:
