@@ -1,8 +1,7 @@
 #!/usr/bin/env /usr/bin/python3
 
-from variables import TOKEN as TOKEN, API_ID, API_HASH
+from variables import TOKEN, API_ID, API_HASH
 from custom.log import log
-from langs import en as LANG
 from bot.config import Config
 from bot.handlers import Handlers
 from bot.users import Users
