@@ -263,12 +263,12 @@ is the same as:
 The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'s data.
 """,
 "POGO_INVALID_USAGE": "Invalid usage.\nSend <code>/pogo help</code> to get usage details.",
-"POGO_IV_MUST_BE_BETWEEN": "Invalid data: IVs must be 3 integer numbers between 0 and 15.",
-"POGO_RANK_MUST_BE_INTEGER": "Invalid data: rank must be an integer between 1 and 4096.",
+"POGO_IV_MUST_BE_BETWEEN": "Invalid data: IVs must be 3 integer numbers between <code>0</code> and <code>15</code>.",
+"POGO_RANK_MUST_BE_BETWEEN": "Invalid data: rank must be an integer between <code>1</code> and <code>{}</code>.",
 "POGO_ENSURE_DATA_IS_CORRECT": "Invalid data: ensure everything is correct. Send <code>/pogo help</code> to get usage details.",
-"POGO_MAX_CP_LT_10": "Maximum CPs cannot be less than 10.",
-"POGO_MAX_LVL_LT_0": "Maximum level cannot be less than 0.",
-"POGO_MIN_IV_MT_15": "Minimum IVs cannot be more than 15.",
+"POGO_MAX_CP_LT_10": "Maximum CPs cannot be less than <code>10</code>.",
+"POGO_MAX_LVL_LT_0": "Maximum level cannot be less than <code>0</code>.",
+"POGO_MIN_IV_MT_15": "Minimum IVs cannot be more than <code>15</code>.",
 "POGO_NOT_RECOGNIZED": "<code>{}</code> is not a recognized keyword.",
 
 # Other commands

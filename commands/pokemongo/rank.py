@@ -109,9 +109,7 @@ def get_rank():
 		else:
 			try:
 				rank = int(args[1]) - 1
-				# rank value is invalid
-				if not 0 <= rank < 4096:
-					return LANG('ERROR'), LANG('POGO_RANK_MUST_BE_INTEGER')
+				# rank validity is checked below after the minimum IVs are defined
 			except:
 				iv = [int(i) for i in re.split("[\/\.]", args[1])]
 				# IVs are invalid
@@ -210,6 +208,9 @@ def get_rank():
 				if p[i-1][0] != p[i][0]:
 					rank = i
 		else: # rank is not None
+			max_rank = pow(16-min_iv, 3)
+			if not 0 <= rank < max_rank:
+				return LANG('ERROR'), LANG('POGO_RANK_MUST_BE_BETWEEN').format(max_rank)
 			title, tmp = pokemon_output(pkm, p[rank], p[0][0], rank, max_cp, min_iv, max_lvl)
 		return title, out + tmp
 
