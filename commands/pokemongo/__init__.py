@@ -7,12 +7,10 @@ class CmdPoGo(Command):
 	def function(self, LANG, args: list[str]):
 		title = None
 		if len(args) > 1:
-			if args[1] in ("rank","r"):
-				title, out = rank.get_rank(LANG, args[2:])
-			elif args[1] in ("iv",):
-				title, out = rank.get_iv(LANG, args[2:])
-			else: #elif args[1] in ("h", "help"):
+			if args[1] in ("h", "help"):
 				out = LANG('POGO_HELP')
+			else:
+				title, out = rank.get_rank(LANG, args[1:])
 		else:
 			out = LANG('POGO_HELP')
 		return title, out or LANG('POGO_INVALID_USAGE')
