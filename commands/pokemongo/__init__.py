@@ -22,7 +22,7 @@ class CmdPoGo(Command):
 		title, out = self.function(LANG, args)
 		m.reply_text(f'<b>{title}</b>\n\n' + out if title else out)
 
-	def inlinequery(self, LANG, bot, q):
+	def inline(self, LANG, bot, q):
 		title, out = self.function(LANG, q.args)
 		return [InlineQueryResultArticle(
 			title = title or "Pokémon GO",
