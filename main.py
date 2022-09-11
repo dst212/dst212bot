@@ -14,10 +14,14 @@ from pyrogram import Client, idle
 from pyrogram.handlers import MessageHandler, InlineQueryHandler, CallbackQueryHandler
 from pyrogram.enums import ParseMode
 
+def ping_server() -> bool:
+	return os.system("ping -c 1 api.telegram.org>/dev/null") == 0 
+
 def main():
-	while os.system("ping -c 1 api.telegram.org>/dev/null") != 0:
+	if not ping_server():
 		log.info("Waiting for connection...")
-		time.sleep(20)
+		while not ping_server():
+			time.sleep(20)
 
 	bot = Client("dst212bot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 	bot.set_parse_mode(ParseMode.HTML)
