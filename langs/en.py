@@ -214,35 +214,46 @@ If the filter appears in a message, the counter will be updated.
 
 # pokemon go
 "POGO_HELP": """
-<code>/pogo</code> - Game data about Pokémon GO.
+<code>/pogo</code> - Retrieve info about a rank given the rank numer or the IV configuration.
 
 <b>Usage:</b>
-<code>/pogo command [arguments]</code>
-Perfom a specific action (<code>command</code>).
-The <code>arguments</code> are defined by the <code>command</code> itself.
+<code>/pogo &lt;pokémon name&gt; &lt;rank number/IVs&gt; [keywords]</code>
+or
+<code>/pogo &lt;pokémon name&gt; &lt;rank number/IVs&gt; &lt;CPs cap&gt; &lt;minimum IVs&gt; &lt;level cap&gt;</code>
 
-<b>Commands:</b>
+<b>Keywords influencing CPs cap:</b> <i>(default is <code>1500</code>)</i>
+- Any league name: <code>great</code>, <code>ultra</code>, <code>master</code>, <code>little</code>
+- Aliases for leagues' names: <code>gl</code>, <code>ul</code>, <code>ml</code>, <code>lc</code> or <code>ll</code>
+- Classic cups (also setting max level to 40): <code>glpc</code> and <code>glc</code> (which actually don't exist), <code>ulpc</code> and <code>ulc</code>, <code>mlpc</code> and <code>mlc</code>
 
-<code>/pogo rank pokemon_name atk.def.hp [max_cp=1500] [min_iv=0] [max_lvl=50]</code>
-Get the rank of a Pokémon given its IVs.
- - <code>pokemon_name</code>: name for the mon to analyse.
- - <code>atk.def.hp</code>: mon's stats, from <code>0</code> to <code>15</code>.
- - <code>max_cp</code>: league's cap, default is <code>1500</code> (Great League).
- - <code>min_iv</code>: minimum IVs to consider, default is <code>0</code> (wild catch).
- - <code>max_lvl</code>: maximum level to consider, default is <code>50</code> (XL Pokémon).
-Examples:
- <code>/pogo rank umbreon 15.15.15 2500 0 51</code>
- <code>/pogo rank talonflame 0.15.14</code>
- <code>/pogo rank pikachu 5/15/14 500</code>
+<b>Keywords influencing minimum IVs:</b> <i>(default is <code>0</code>)</i>
+- Minimum <code>12</code> IVs: <code>lucky</code>
+- Minimum <code>10</code> IVs: <code>raid</code>, <code>egg</code>, <code>reward</code>, <code>mythical</code>
+- Minimum <code>5</code> IVs: <code>best friend</code>
+- Minimum <code>4</code> IVs: <code>weather boosted</code>, <code>weather boost</code>, <code>weather</code>
+- Minimum <code>3</code> IVs: <code>ultra friend</code>
+- Minimum <code>2</code> IVs: <code>great friend</code>
+- Minimum <code>1</code> IVs: <code>good friend</code>
+- Minimum <code>0</code> IVs: <code>wild</code>
 
-<code>/pogo iv pokemon_name rank [max_cp=1500] [min_iv=0] [max_lvl=50]</code>
-Get IVs of a Pokémon given its rank.
-Arguments as above, except for:
- - <code>rank</code>: the rank of the pokemon, must be an integer between 1 and 4096.
-Examples:
- <code>/pogo iv medicham 1 1500 0 51</code>
- <code>/pogo iv talonflame 1 2500</code>
- <code>/pogo iv deoxys defense forme 1 1500 10</code>
+<b>Keywords influencing level cap:</b> <i>(default is <code>50</code>)</i>
+- Depending on the league entered before, classic or regular, this will set the level cap respectvely at 41 or 51: <code>bb</code>, <code>best buddy</code>
+
+<b>Examples:</b>
+<code>/pogo umbreon</code>
+Gives info about Umbreon's rank 1 in Great League.
+
+<code>/pogo medicham bb</code>
+Gives info about Medicham's rank 1 in Great League with a maximum level of 51.
+
+<code>/pogo talonflame 15/15/14 ultra</code>
+Gives info about Talonflame's rank with those IVs (attack/defense/stamina) in Ultra league League.
+
+<code>/pogo registeel 1 raid</code>
+Gives info about Registeel's rank 1 with Raid IVs in Great League.
+
+<code>/pogo nidoqueen 15/15/15 ulc</code>
+Gives info about Nidoqueen's rank with those IVs in Ultra League Classic.
 
 In inline mode, commands are the same:
  <code>@dst212bot pogo iv umbreon 1</code>
@@ -255,6 +266,10 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 "POGO_IV_MUST_BE_BETWEEN": "Invalid data: IVs must be 3 integer numbers between 0 and 15.",
 "POGO_RANK_MUST_BE_INTEGER": "Invalid data: rank must be an integer between 1 and 4096.",
 "POGO_ENSURE_DATA_IS_CORRECT": "Invalid data: ensure everything is correct. Send <code>/pogo help</code> to get usage details.",
+"POGO_MAX_CP_LT_10": "Maximum CPs cannot be less than 10.",
+"POGO_MAX_LVL_LT_0": "Maximum level cannot be less than 0.",
+"POGO_MIN_IV_MT_15": "Minimum IVs cannot be more than 15.",
+"POGO_NOT_RECOGNIZED": "<code>{}</code> is not a recognized keyword.",
 
 # Other commands
 "SCRAMBLE_TEXT": "Scramble text",
@@ -294,7 +309,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 		"examples" : ["pokemon eevee", "move quick attack"],
 	},
 	"pogo": {
-		"args": ["command", "arguments"],
+		"args": ["arguments"],
 		"desc": "Get data about Pokémon GO stuff. <code>/pogo help</code> for details.",
 	},
 	"score": {
