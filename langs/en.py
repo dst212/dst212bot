@@ -256,9 +256,9 @@ Gives info about Registeel's rank 1 with Raid IVs in Great League.
 Gives info about Nidoqueen's rank with those IVs in Ultra League Classic.
 
 In inline mode, commands are the same:
- <code>@dst212bot pogo iv umbreon 1</code>
+ <code>@dst212bot pogo umbreon</code>
 is the same as:
- <code>/pogo iv umbreon 1</code>
+ <code>/pogo umbreon</code>
 
 The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'s data.
 """,
