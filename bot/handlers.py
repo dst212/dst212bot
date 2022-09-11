@@ -9,9 +9,9 @@ class Handlers:
 		self.cfg = config
 		self.usr = users
 		self.cmds = commands
-		self.cmds.map["repeat"] = self.repeat
+		self.cmds.map["repeat"] = self
 
-	def repeat(self, LANG, bot, m):
+	def run(self, LANG, bot, m): # repeat command
 		if m.reply_to_message:
 			if self.cfg.is_admin(m) or (m.from_user and m.reply_to_message.from_user and m.from_user.id == m.reply_to_message.from_user.id):
 				self.handle_update(bot, m.reply_to_message)
