@@ -17,7 +17,7 @@ class CmdCount(Command):
 
 class CmdLength(Command):
 	def run(self, LANG, bot, m):
-		m.reply_text(len(" ".join((m.text or m.caption).split(" ")[1:]) or ("" if m.reply_to_message is None else (m.reply_to_message.text or m.reply_to_message.caption))))
+		m.reply_text(str(len(" ".join((m.text or m.caption).split(" ")[1:]) or ("" if m.reply_to_message is None else (m.reply_to_message.text or m.reply_to_message.caption)))))
 
 class CmdPing(Command):
 	def run(self, LANG, bot, m):
