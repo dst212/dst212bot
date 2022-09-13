@@ -24,7 +24,7 @@ class CmdWordFor(Command):
 			results += [{"word":w["word"], "desc": desc or "No description."}]
 		return results
 
-	def command(self, LANG, bot, m):
+	def run(self, LANG, bot, m):
 		msg = m.reply_text(LANG('FETCHING_DATA'))
 		d = (m.text or m.caption) if m.reply_to_message is None else None
 		if not d:

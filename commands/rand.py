@@ -15,5 +15,5 @@ class CmdRand(Command):
 			max_num += 1
 		return random.randrange(min_num, max_num)
 
-	def command(self, LANG, bot, m):
-		m.reply_text(function((m.text or m.caption).split(" ")))
+	def run(self, LANG, bot, m):
+		m.reply_text(self.function((m.text or m.caption).split(" ")))
