@@ -53,6 +53,7 @@ https://dst212.github.io/
 
 # generic warnings
 "LOL_NO_THANKS": "Lol no thanks.",
+"WE_ALL_KNOW_THAT": "We all know that.",
 "AN_ERROR_OCCURRED": "An error occurred.",
 "ERROR_OCCURRED": "An error occurred.",
 "AN_ERROR_OCCURRED_WHILE_PERFORMING": "An error occurred while performing this operation.\nContact @dst212 for further information.",
