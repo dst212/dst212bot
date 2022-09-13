@@ -52,7 +52,7 @@ class CmdTPB(Command):
 	def run(self, LANG, bot, m):
 		m.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
 
-class CmdRetarded(Command):
+class CmdImDumb(Command):
 	def function(self, t):
 		out = ""
 		b = True

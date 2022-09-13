@@ -43,7 +43,7 @@ class Commands:
 			"msgi": self.misc.CmdMsgInfo(data),
 			"count": self.misc.CmdCount(data),
 			"len": self.misc.CmdLength(data),
-			"retarded": self.misc.CmdRetarded(data),
+			"imdumb": self.misc.CmdImDumb(data),
 			"tricyclepenisboat": self.misc.CmdTPB(data),
 			"delall": self.misc.CmdPurge(data),
 			"raiseerror": self.misc.CmdRaiseError(data),
