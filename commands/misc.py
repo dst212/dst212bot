@@ -70,7 +70,13 @@ class CmdImDumb(Command):
 		return out or "I'm SmOrT!1!1!"
 
 	def run(self, LANG, bot, m):
-		m.reply(self.function(m.text or m.caption))
+		text = (m.text or m.caption)
+		i = text.find(" ")
+		if i == -1:
+			m.reply(LANG('WE_ALL_KNOW_THAT'))
+		else:
+			text = text[i+1:]
+			m.reply(self.function(text))
 
 	def inline(self, LANG, bot, q):
 		return [InlineQueryResultArticle(
