@@ -67,7 +67,7 @@ https://dst212.github.io/
 "ERROR_WHILE_CREATING_FILE": "Error while creating the file.",
 "NOT_AVAILABLE_AT_THIS_TIME": "Not available at this time.",
 "IS_NOT_AVAILABLE_AT_THIS_TIME": "{} is not available at this time.",
-"PICK_RANDOM_REPLY_TO_A_MESSAGE": "Reply to the message containing a lilst of items (one for each line).",
+"PICK_RANDOM_REPLY_TO_A_MESSAGE": "To use this command, reply to a message with more than one line.\nThe bot will pick one (or more).\n<code>/help pickrandom</code> for more info.",
 "IS_INVALID_USING": "<code>{}</code> is not a valid value, using <code>{}</code>.",
 "NO_ENTRY_FOR": "No entry for {}.",
 "NO_PERMISSIONS": "You have no permissions to perform this operation.",
@@ -328,7 +328,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 	"pickrandom": {
 		"args": ["[limit]"],
 		"aliases": ["pr"],
-		"desc": "Pick one or more (<code>limit</code>, default is 1) random items from a list.\nThe list must be provided from a previously written message with one item per line.\nSend the command replying to that message to pick the items.",
+		"desc": "Replying to a message written on multiple lines with this command, one or more lines (<code>limit</code>, default is 1) will be picked up randomly.",
 	},
 	"scramble": {
 		"args": ["[text]"],
