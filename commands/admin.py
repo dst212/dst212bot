@@ -7,7 +7,12 @@ class CmdAdmin(Command):
 		out = ""
 		args = (m.text or m.caption).split(" ")
 		if self.cfg.is_admin(m):
-			if len(args) > 2 and args[1] in ("list", ):
+			if len(args) > 2 and args[1] in ("test",):
+				if args[2] in ("error", "explode"):
+					raise Warning("This is a test.")
+				elif args[2] in ("missing", "string"):
+					out = LANG('string which doesn\'t exist')
+			elif len(args) > 2 and args[1] in ("list",):
 				l = self.cfg.get(args[2])
 				if l and len(l) > 0:
 					out = f"Items in <code>{args[2]}</code>:\n" + self.cfg.list_all(l)
