@@ -58,7 +58,7 @@ class Handlers:
 		if self.cfg.is_blocked(query): return # ignore the query
 		try:
 			LANG = Lang(self.usr.lang_code(query.from_user), self.cfg).string
-			data = query.data.split(".")
+			data = query.data.split(" ")
 			if data[0] == "help":
 				self.cmds.base.help_buttons(LANG, bot, int(data[1]), int(data[2]), [] if data[3] == "/" else [data[3]])
 			elif data[0] == "settings":

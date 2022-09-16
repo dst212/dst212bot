@@ -5,7 +5,7 @@ from pyrogram.enums import ChatType
 
 class CmdSettings(Command):
 	def gen_markup(self, m):
-		callback = f"settings.{m.chat.id}.{m.id}."
+		callback = f"settings {m.chat.id} {m.id} "
 		return InlineKeyboardMarkup([
 			[InlineKeyboardButton(f"""🌐 Language: {self.usr.get(m.chat.id, "lang")}""", callback + "lang")],
 			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "override") else "❌"} {self.usr.lang(m, "SETTINGS_OVERRIDE")}""", callback + "override")],

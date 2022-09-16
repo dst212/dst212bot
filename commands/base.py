@@ -12,7 +12,7 @@ def command_entry(LANG, k, v):
 def help_buttons(LANG, bot, chat, m, cmds):
 	# TODO: pass message and edit __usr.lang
 	if len(cmds) < 1:
-		callback = f"help.{chat}.{m}."
+		callback = f"help {chat} {m} "
 		buttons = []
 		row = []
 		for k, _ in LANG('COMMANDS').items():
@@ -28,7 +28,7 @@ def help_buttons(LANG, bot, chat, m, cmds):
 	else:
 		bot.edit_message_text(chat, m,
 			command_entry(LANG, cmds[0], LANG('COMMANDS').get(cmds[0])) + "\n\n" + LANG('INLINE_MODE_NOTICE'),
-			reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help.{chat}.{m}./")]])
+			reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help {chat} {m} /")]])
 		)
 
 class CmdStart(Command):
