@@ -1,4 +1,5 @@
 import os, requests, json#, shutil
+from custom.log import log
 
 API = "https://pokeapi.co/api/v2/"
 BASE_DIR = "data/pokemon/"
