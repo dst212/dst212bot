@@ -25,6 +25,7 @@
 - [ ] `/settings`
   
   - [ ] per-user settings
+  
   - [ ] callback handler
 
 - [ ] support for multiple languages
@@ -33,11 +34,9 @@
   
   - [ ] "auto" should rely on `User.language_code` or "en"
   
-  - [ ] warn directly log chats on `Users.lang()` if a string is missing
+  - [x] warn directly log chats on `Users.lang()` if a string is missing
   
   - [ ] adding missing strings:
-    
-    - [ ] info.py
     
     - [ ] encode.py
     

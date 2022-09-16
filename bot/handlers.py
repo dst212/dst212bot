@@ -31,7 +31,7 @@ class Handlers:
 			text = text.encode("utf-8").decode("utf-8")
 		# allow commands only from non-anonymous users, if the message is not send from helpers in a support chat
 		if not self.cmds.hey_admins.parse(bot, m) and m.from_user and text and text[0] == "/":
-			LANG = Lang(self.usr.lang_code(m)).string
+			LANG = Lang(self.usr.lang_code(m), self.cfg).string
 			try:
 				# run command
 				i = text.find(" ")
@@ -57,7 +57,7 @@ class Handlers:
 	def handle_callback(self, bot, query):
 		if self.cfg.is_blocked(query): return # ignore the query
 		try:
-			LANG = Lang(self.usr.lang_code(query.from_user)).string
+			LANG = Lang(self.usr.lang_code(query.from_user), self.cfg).string
 			data = query.data.split(".")
 			if data[0] == "help":
 				self.cmds.base.help_buttons(LANG, bot, int(data[1]), int(data[2]), [] if data[3] == "/" else [data[3]])
@@ -68,7 +68,7 @@ class Handlers:
 			self.cfg.log(f"An exception occurred to someone ({query.from_user.mention() if query.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(query.data)}</code>")
 
 	def inlinequery(self, bot, inline):
-		LANG = Lang(self.usr.lang_code(inline.from_user)).string
+		LANG = Lang(self.usr.lang_code(inline.from_user), self.cfg).string
 		if self.cfg.is_blocked(inline): return # ignore the query
 		cache_time = 300
 		query = Query(inline)

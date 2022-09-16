@@ -16,11 +16,16 @@ def closure():
 		return langs[lang].get("formal-name") or "" if langs.get(lang) else ""
 
 	class Lang:
-		def __init__(self, lang):
-			self.__lang = lang
+		def __init__(self, lang, cfg):
+			self.lang = lang
+			self.cfg = cfg
 
 		def string(self, s): # get a specific string of the current language
-			return get(self.__lang).get(s) or get("auto").get(s) or f"[Missing: <code>{s}</code>]"
+			text = get(self.lang).get(s) or get("auto").get(s)
+			if text is None:
+				self.cfg.log(f"A missing string was found: <code>{s}</code>")
+				return f"[Missing: <code>{s}</code>]"
+			return text
 
 	return Lang, get, formal_name, available
 Lang, get, formal_name, available = closure()
