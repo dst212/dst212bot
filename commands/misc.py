@@ -2,6 +2,7 @@ from bot.classes import Command
 from custom.log import log
 from custom.misc import can_delete, sender_is_admin
 import html, random
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 class CmdMsgInfo(Command):
 	def run(self, LANG, bot, m):
@@ -63,7 +64,7 @@ class CmdImDumb(Command):
 					out += "1"
 			else:
 				out += i
-		return out or "I'm SmOrT!1!1!"
+		return out
 
 	def run(self, LANG, bot, m):
 		text = (m.text or m.caption)
@@ -75,8 +76,9 @@ class CmdImDumb(Command):
 			m.reply(self.function(text))
 
 	def inline(self, LANG, bot, q):
+		text = self.function(" ".join(q.args[1:]) or LANG('IM_SMORT'))
 		return [InlineQueryResultArticle(
 			title = LANG('CLICK_HERE_TO_BE_RETARDED'),
 			input_message_content = InputTextMessageContent(text),
-			description = " ".join(q.args[1:]) or LANG('IM_SMORT'),
+			description = text,
 		)]
