@@ -34,7 +34,7 @@ class CmdTTS(Command):
 		lang = m_text[j+1:i] if j != -1 else translator.detect(text).lang
 		if type(lang) == list:
 			lang = lang[0]
-		filepath = f"{self.base_dir}{lang}{md5(text.encode()).hexdigest()}.mp3"
+		filepath = f"{self.base_dir}{md5(text.encode()).hexdigest()}.{lang}.mp3"
 		#save the speech to a file
 		if not os.path.exists(filepath):
 			msg.edit_text(f"Creating...")
@@ -43,6 +43,7 @@ class CmdTTS(Command):
 			except:
 				if j == -1:
 					msg.edit_text(LANG('LANGUAGE_IS_NOT_SUPPORTED').format(html.escape(lang)) + "\n" + LANG('USING_LANGUAGE').format('en'))
+					filepath = filepath[:-len(f".{lang}.mp3")] + ".en.mp3"
 					gTTS(text, lang="en").save(filepath)
 				else:
 					msg.edit_text(LANG('ERROR_WHILE_CREATING_FILE'))# + f"\n{lang}, {text}, {i}, {j}")
