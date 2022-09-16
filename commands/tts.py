@@ -32,7 +32,9 @@ class CmdTTS(Command):
 		msg = message.reply_text("Processing...")
 		j = m_text[:i].find("-")
 		lang = m_text[j+1:i] if j != -1 else translator.detect(text).lang
-		filepath = self.base_dir + lang + md5(text.encode()).hexdigest() + ".mp3"
+		if type(lang) == list:
+			lang = lang[0]
+		filepath = f"{self.base_dir}{lang}{md5(text.encode()).hexdigest()}.mp3"
 		#save the speech to a file
 		if not os.path.exists(filepath):
 			msg.edit_text(f"Creating...")
