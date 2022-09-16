@@ -46,7 +46,6 @@ class Commands:
 			"imdumb": self.misc.CmdImDumb(data),
 			"tricyclepenisboat": self.misc.CmdTPB(data),
 			"delall": self.misc.CmdPurge(data),
-			"raiseerror": self.misc.CmdRaiseError(data),
 
 			# specific commands
 			"settings": self.settings,

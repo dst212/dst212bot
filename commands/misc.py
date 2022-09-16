@@ -3,10 +3,6 @@ from custom.log import log
 from custom.misc import can_delete, sender_is_admin
 import html, random
 
-class CmdRaiseError(Command):
-	def run(self, LANG, bot, m):
-		raise Warning("This is a test.")
-
 class CmdMsgInfo(Command):
 	def run(self, LANG, bot, m):
 		m.reply_text("<code>" + html.escape(str(m.reply_to_message or m)) + "</code>")
