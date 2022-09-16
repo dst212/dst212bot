@@ -3,6 +3,10 @@ import random
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 class CmdScramble(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.cache_time = 1
+
 	def function(self, s: str) -> str:
 		t = list(s)
 		s = []

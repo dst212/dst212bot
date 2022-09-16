@@ -68,38 +68,23 @@ class Handlers:
 			self.cfg.log(f"An exception occurred to someone ({query.from_user.mention() if query.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(query.data)}</code>")
 
 	def inlinequery(self, bot, inline):
-		LANG = Lang(self.usr.lang_code(inline.from_user), self.cfg).string
 		if self.cfg.is_blocked(inline): return # ignore the query
+		LANG = Lang(self.usr.lang_code(inline.from_user), self.cfg).string
 		cache_time = 300
 		query = Query(inline)
-		args = query.args or ["help"]
+		cmd = query.args[0] if query.args else"h"
 		results = []
-		if args[0] in ("h", "help"):
+		if cmd in ("h", "help"):
 			for k, v in LANG('QUERY_COMMANDS').items():
 				results += [InlineQueryResultArticle(
 					title = v["syntax"],
 					input_message_content = InputTextMessageContent(f"""/{v["syntax"]}\n\n{v["description"]}\n\n{LANG('EXAMPLE')}:\n/{v["example"]}"""),
 					description = v["description"],
 				)]
-		elif args[0] in ("e", "encode"):
-			results = self.cmds.convert.inline(LANG, bot, query)
-		elif args[0] in ("info",):
-			results = self.cmds.info.inline(LANG, bot, query)
-		elif args[0] in ("p", "pokemon"):
-			results = self.cmds.pokemon.inline(LANG, bot, query)
-		elif args[0] in ("pogo",):
-			results = self.cmds.pokemongo.inline(LANG, bot, query)
-		elif args[0] in ("tr", "translate"):
-			results = self.cmds.translate.inline(LANG, bot, query)
-		elif args[0] in ("wordfor",):
-			results = self.cmds.wordfor.inline(LANG, bot, query)
-		elif args[0] in ("scramble", "scr"):
-			results = self.cmds.scramble.inline(LANG, bot, query)
-			cache_time = 1
-		elif args[0] in ("retarded", "imdumb", "imsmort", "imdown"):
-			results = self.cmds.retarded.inline(LANG, bot, query)
-			cache_time = 1
-		else:
+		elif self.cmds.map.get(cmd):
+			results = self.cmds.map[cmd].inline(LANG, bot, query)
+			cache_time = self.cmds.map[cmd].cache_time
+		if not results:
 			results = [InlineQueryResultArticle(
 				title = LANG('QUERY')["help"]["title"],
 				input_message_content = InputTextMessageContent(LANG('QUERY')["help"]["content"]),

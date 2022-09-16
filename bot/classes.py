@@ -8,6 +8,7 @@ class Command:
 	def __init__(self, data):
 		self.usr = data["users"]
 		self.cfg = data["config"]
+		self.cache_time = 300
 
 	def run(self, LANG, bot, m):
 		# LANG = lambda s : self.usr.lang(m, s)

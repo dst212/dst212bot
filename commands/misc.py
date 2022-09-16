@@ -50,6 +50,10 @@ class CmdTPB(Command):
 		m.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
 
 class CmdImDumb(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.cache_time = 1
+
 	def function(self, t):
 		out = ""
 		b = True
