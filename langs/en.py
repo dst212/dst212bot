@@ -37,6 +37,7 @@ https://dst212.github.io/
 "SYNTAX": "Syntax",
 "HELP": "Help",
 "BACK": "Back",
+"UNKNOWN": "Unknown",
 "AVAILABLE_CATEGORIES": "Available categories",
 
 # titles
@@ -100,6 +101,34 @@ https://dst212.github.io/
 "QR_CODE_EMPTY": "The content was either empty or OpenCV didn't catch it.",
 "QR_CODE_NOT_FOUND": "No QR codes were detected in that image.",
 "QR_CODE_DETECTING": "Detecting and decoding QR Code...",
+
+# info
+"INFO_FOR": "Info for",
+"INFO_FOR_TITLE": "<i>Info for <u>{}</u></i>",
+"INFO_USERNAME": "<b>Username</b>: @{}",
+"INFO_MENTION": "<b>Mention</b>: {}",
+"INFO_MEMBERS": "<b>Members</b>: {}",
+"INFO_ID": "<b>ID</b>: <code>{}</code>",
+"INFO_DC": "<b>DC</b>: {}",
+"INFO_STATUS": "<b>Status</b>: ",
+"INFO_STATUS_ONLINE": "online",
+"INFO_STATUS_OFFLINE": "offline",
+"INFO_STATUS_RECENTLY": "last seen recently",
+"INFO_STATUS_LAST_WEEK": "last seen within a week",
+"INFO_STATUS_LAST_MONTH": "last seen within a month",
+"INFO_STATUS_LONG_AGO": "last seen a long time ago",
+"INFO_LANGUAGE_CODE": "<b>Language code</b>: {}",
+"INFO_THIS_USER_IS": "This user is {}",
+"INFO_THIS_CHAT_IS": "This chat is {}",
+"INFO_VERIFIED": "verified",
+"INFO_DELETED": "deleted",
+"INFO_BOT": "a bot",
+"INFO_RESTRICTED": "restricted",
+"INFO_SCAM": "marked as scam",
+"INFO_FAKE": "fake",
+"INFO_SUPPORT": "support",
+"INFO_PROTECTED": "This chat has its content protected.",
+"INFO_ME": "Wait... that's me?",
 
 # score
 "SCORE_HELP": f"""

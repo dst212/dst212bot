@@ -6,47 +6,47 @@ from pyrogram.enums import UserStatus, ChatType
 class CmdInfo(Command):
 	def function(self, LANG, item) -> str:
 		if type(item) == User:
-			text = f"<i>Info for <u>{html.escape(item.first_name)}</u></i>\n\n"
-			if item.username: text += f"<b>Username</b>: @{item.username}\n"
-			text += f"<b>Mention</b>: {item.mention()}\n" #f"<a href=\"tg://user?id={item.id}\">{html.escape(item.first_name)}</a>\n"
-			text += f"<b>ID</b>: <code>{item.id}</code>\n"
-			if item.dc_id: text += f"<b>DC</b>: {item.dc_id}\n"
+			text = f"{LANG('INFO_FOR_TITLE').format(html.escape(item.first_name))}\n\n"
+			if item.username: text += f"{LANG('INFO_USERNAME').format(item.username)}\n"
+			text += f"{LANG('INFO_MENTION').format(item.mention())}\n"
+			text += f"{LANG('INFO_ID').format(item.id)}\n"
+			if item.dc_id: text += f"{LANG('INFO_DC').format(item.dc_id)}\n"
 			if item.status:
-				text += f"<b>Status</b>: "
-				if item.status == UserStatus.ONLINE: text += "online"
-				elif item.status == UserStatus.OFFLINE: text += "offline"
-				elif item.status == UserStatus.RECENTLY: text += "last seen recently"
-				elif item.status == UserStatus.LAST_WEEK: text += "last seen within a week"
-				elif item.status == UserStatus.LAST_MONTH: text += "last seen within a month"
-				elif item.status == UserStatus.LONG_AGO: text += "last seen a long time ago"
-				else: text += "unknown"
-				text += "\n" 
-			if item.language_code: text += f"<b>Language code</b>: {item.language_code}\n"
-			if item.is_verified: text += "This user is verified.\n" 
-			if item.is_deleted: text += "This user is deleted.\n" 
-			if item.is_bot: text += "This user is a bot.\n" 
-			if item.is_restricted: text += "This user is restricted.\n" 
-			if item.is_scam: text += "This user is marked as <b>scam</b>.\n" 
-			if item.is_fake: text += "This user is fake.\n" 
-			if item.is_support: text += "This user is support.\n"
-			if item.is_self: text += "\nWait... That's me?"
+				text += LANG('INFO_STATUS')
+				if item.status == UserStatus.ONLINE: text += LANG('INFO_STATUS_ONLINE')
+				elif item.status == UserStatus.OFFLINE: text += LANG('INFO_STATUSOFFLINE')
+				elif item.status == UserStatus.RECENTLY: text += LANG('INFO_STATUS_RECENTLY')
+				elif item.status == UserStatus.LAST_WEEK: text += LANG('INFO_STATUS_LAST_WEEK')
+				elif item.status == UserStatus.LAST_MONTH: text += LANG('INFO_STATUS_LAST_MONTH')
+				elif item.status == UserStatus.LONG_AGO: text += LANG('INFO_STATUS_LONG_AGO')
+				else: text += LANG('UNKNOWN').lower()
+				text += "\n"
+			if item.language_code: text += f"{LANG('INFO_LANGUAGE_CODE').format(item.language_code)}\n"
+			if item.is_verified: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_VERIFIED'))}.\n"
+			if item.is_deleted: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_DELETED'))}.\n"
+			if item.is_bot: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_BOT'))}.\n"
+			if item.is_restricted: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_RESTRICTED'))}.\n"
+			if item.is_scam: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_SCAM'))}.\n"
+			if item.is_fake: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_FAKE'))}.\n"
+			if item.is_support: text += f"{LANG('INFO_THIS_USER_IS').format(LANG('INFO_SUPPORT'))}.\n"
+			if item.is_self: text += "\n" + LANG('INFO_ME')
 		elif type(item) == Chat:
-			text = f"<i>Info for <u>{html.escape(item.title or item.first_name)}</u></i>\n"
+			text = f"{LANG('INFO_FOR_TITLE').format(html.escape(item.title or item.first_name))}\n"
 			if item.bio: text += f"<i>{html.escape(item.bio)}</i>\n"
 			if item.description: text += f"<i>{html.escape(item.description)}</i>\n"
 			text += "\n"
-			if item.members_count: text += f"<b>Members</b>: {item.members_count}\n"
-			if item.username: text += f"<b>Username</b>: @{item.username}\n"
-			if item.id: text += f"<b>ID</b>: <code>{item.id}</code>\n"
-			if item.dc_id: text += f"<b>DC</b>: {item.dc_id}\n"
-			if item.has_protected_content: text += "This chat has its content protected.\n"
-			if item.is_verified: text += "This chat is verified.\n"
-			if item.is_scam: text += "This chat is scam.\n"
-			if item.is_fake: text += "This chat is fake.\n"
+			if item.members_count: text += f"{LANG('INFO_MEMBERS').format(item.members_count)}\n"
+			if item.username: text += f"{LANG('INFO_USERNAME').format(item.username)}\n"
+			if item.id: text += f"{LANG('INFO_ID').format(item.id)}\n"
+			if item.dc_id: text += f"{LANG('INFO_DC').format(item.dc_id)}\n"
+			if item.has_protected_content: text += f"{LANG('INFO_PROTECTED')}.\n"
+			if item.is_verified: text += f"{LANG('INFO_THIS_CHAT_IS').format(LANG('INFO_VERIFIED'))}.\n"
+			if item.is_scam: text += f"{LANG('INFO_THIS_CHAT_IS').format(LANG('INFO_SCAM'))}.\n"
+			if item.is_fake: text += f"{LANG('INFO_THIS_CHAT_IS').format(LANG('INFO_FAKE'))}.\n"
 			if item.is_restricted:
-				text += "This chat is restricted:\n"
+				text += f"{LANG('INFO_THIS_CHAT_IS').format('INFO_RESTRICTED')}:\n"
 				for i in item.restrictions:
-					text += f"- {i.text} ({i.platform})"
+					text += f"- {i.text} ({i.platform})\n"
 		return text
 
 	def run(self, LANG, bot, m):
@@ -94,6 +94,6 @@ class CmdInfo(Command):
 			)]
 		text = self.function(LANG, item)
 		return [InlineQueryResultArticle(
-			title = f"Info for {item.first_name}",
+			title = f"{LANG('INFO_FOR')} {item.first_name}",
 			input_message_content = InputTextMessageContent(text),
 		)]
