@@ -12,7 +12,7 @@ class CmdSettings(Command):
 			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "sync-tr") else "❌"} {self.usr.lang(m, "SETTINGS_SYNC-TR")}""", callback + "sync-tr")],
 		])
 
-	def handle_callback(self, query, data):
+	def callback(self, LANG, bot, c):
 		pass
 
 	def run(self, LANG, bot, m):

@@ -1,4 +1,4 @@
-from bot.classes import Query
+from bot.classes import CallbackQuery, InlineQuery
 from custom.log import log
 from langs import Lang
 import traceback, html
@@ -54,24 +54,23 @@ class Handlers:
 		else:
 			self.cmds.counter.parse_message(m)
 
-	def handle_callback(self, bot, query):
-		if self.cfg.is_blocked(query): return # ignore the query
+	def handle_callback(self, bot, callback):
+		if self.cfg.is_blocked(callback): return # ignore the query
 		try:
-			LANG = Lang(self.usr.lang_code(query.from_user), self.cfg).string
-			data = query.data.split(" ")
-			if data[0] == "help":
-				self.cmds.base.help_buttons(LANG, bot, int(data[1]), int(data[2]), [] if data[3] == "/" else [data[3]])
-			elif data[0] == "settings":
-				self.cmds.settings.handle_callback(query, data)
+			LANG = Lang(self.usr.lang_code(callback.from_user), self.cfg).string
+			query = CallbackQuery(callback)
+			cmd = query.args[0]
+			if self.cmds.map.get(cmd):
+				self.cmds.map[cmd].callback(LANG, bot, query)
 		except Exception as e:
 			traceback.print_exc()
-			self.cfg.log(f"An exception occurred to someone ({query.from_user.mention() if query.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(query.data)}</code>")
+			self.cfg.log(f"An exception occurred to someone ({callback.from_user.mention() if callback.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(callback.data)}</code>")
 
 	def inlinequery(self, bot, inline):
 		if self.cfg.is_blocked(inline): return # ignore the query
 		LANG = Lang(self.usr.lang_code(inline.from_user), self.cfg).string
 		cache_time = 300
-		query = Query(inline)
+		query = InlineQuery(inline)
 		cmd = query.args[0] if query.args else"h"
 		results = []
 		if cmd in ("h", "help"):

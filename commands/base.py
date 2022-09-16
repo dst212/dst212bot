@@ -40,6 +40,10 @@ class CmdHelp(Command):
 		m = bot.send_message(m.chat.id, LANG('LOADING'))
 		help_buttons(LANG, bot, m.chat.id, m.id, (m.text or m.caption).split(" ")[1:])
 
+	def callback(self, LANG, bot, c):
+		if len(c.args) > 3:
+			help_buttons(LANG, bot, int(c.args[1]), int(c.args[2]), [] if c.args[3] == "/" else [c.args[3]])
+
 class CmdCredits(Command):
 	def run(self, LANG, bot, m):
 		m.reply_text(LANG('CREDITS_MESSAGE'))
