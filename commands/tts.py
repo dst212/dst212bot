@@ -42,14 +42,17 @@ class CmdTTS(Command):
 				gTTS(text, lang=lang).save(filepath)
 			except:
 				if j == -1:
-					msg.edit_text(LANG('LANGUAGE_IS_NOT_SUPPORTED').format(html.escape(lang)) + "\n" + LANG('USING_LANGUAGE').format('en'))
-					filepath = filepath[:-len(f".{lang}.mp3")] + ".en.mp3"
-					gTTS(text, lang="en").save(filepath)
+					newlang = "en"
+					msg.edit_text(LANG('LANGUAGE_IS_NOT_SUPPORTED').format(html.escape(lang)) + "\n" + LANG('USING_LANGUAGE').format(newlang))
+					filepath = filepath[:-len(f".{lang}.mp3")] + f".{newlang}.mp3"
+					lang = newlang
+					gTTS(text, lang=lang).save(filepath)
 				else:
 					msg.edit_text(LANG('ERROR_WHILE_CREATING_FILE'))# + f"\n{lang}, {text}, {i}, {j}")
 					return
 		msg.edit_text("Uploading...")
-		bot.send_audio(msg.chat.id, open(filepath, "rb"), file_name="text-to-speech.mp3", caption="Audio for text:\n<code>" + html.escape(text[:1000]) + "</code>")
+		with open(filepath, "rb") as f:
+			bot.send_audio(msg.chat.id, f, file_name=f"text-to-speech.{lang}.mp3", caption="Audio for text:\n<code>" + html.escape(text[:1000]) + "</code>")
 		msg.delete()
 
 	#TODO inlinequery
