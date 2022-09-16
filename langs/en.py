@@ -334,7 +334,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 	},
 	"pokemon": {
 		"args": ["category", "name"],
-		# "aliases": ["p"],
+		"aliases": ["p"],
 		"desc": "Get data about <code>name</code> of <code>category</code>.\nSend /pokemon to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
 		"examples" : ["pokemon eevee", "move quick attack"],
 	},
@@ -374,6 +374,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 	},
 	"info": {
 		"args": ["[username/id]"],
+		"aliases": ["i"],
 		"desc": "Get info about an user by replying to their message.",
 	},
 },
