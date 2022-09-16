@@ -9,7 +9,7 @@ translator = Translator()
 class CmdTTS(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.base_dir = "data/audio/"
+		self.base_dir = "data/cache/audio/"
 
 	def run(self, LANG, bot, message) -> None:
 		os.makedirs(self.base_dir, exist_ok=True)

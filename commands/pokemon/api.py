@@ -2,7 +2,7 @@ import os, requests, json#, shutil
 from custom.log import log
 
 API = "https://pokeapi.co/api/v2/"
-BASE_DIR = "data/pokemon/"
+BASE_DIR = "data/cache/pokemon/"
 API_LIST = BASE_DIR + "api.json"
 
 def api_list() -> dict:
