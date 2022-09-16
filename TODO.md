@@ -57,3 +57,11 @@
 - [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
   
   - [ ] `.send chat_id message` command
+
+- [ ] lang
+  
+  - [ ] revise commands' help dictionary
+  
+  - [ ] put aliases and commands name into the commands object themselves
+    
+    - [ ] make `commands/__init__.py` automatically detect commands and add them to the cmds map
