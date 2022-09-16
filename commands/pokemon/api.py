@@ -9,11 +9,11 @@ def api_list() -> dict:
 	api = {}
 	os.makedirs(BASE_DIR, exist_ok=True)
 	if not os.path.exists(API_LIST):
-		print(f"{API_LIST} doesn't exist.")
+		log.info(f"{API_LIST} doesn't exist.")
 		with open(API_LIST, "w") as f:
 			api = json.loads(requests.get(API).text)
 			json.dump(api, f)
-			print(f"Saved {API_LIST}.")
+			log.info(f"Saved {API_LIST}.")
 	else:
 		with open(API_LIST) as f:
 			api = json.load(f)
@@ -24,13 +24,13 @@ def get_api(key) -> dict:
 	os.makedirs(BASE_DIR + key, exist_ok=True)
 	file_path = BASE_DIR + key + "/list.json"
 	if not os.path.exists(file_path):
-		print(f"{file_path} doesn't exist.")
+		log.info(f"{file_path} doesn't exist.")
 		with open(file_path, "w") as f:
 			api = {}
 			for item in json.loads(requests.get(API + key + "?limit=9999").text)["results"]:
 				api[item["name"]] = item["url"]
 			json.dump(api, f)
-			print(f"Saved {file_path}.")
+			log.info(f"Saved {file_path}.")
 	else:
 		with open(file_path) as f:
 			api = json.load(f)
@@ -48,7 +48,7 @@ def get_item(item, category) -> dict:
 				log.info(f"Malformed json: {file_path} - deleting it.")
 				os.remove(file_path)
 	if not ret:
-		print(f"{file_path} doesn't exist.")
+		log.info(f"{file_path} doesn't exist.")
 		with open(file_path, "w") as f:
 			ret = {}
 			for k, v in json.loads(requests.get(API + category + "/" + item).text).items():
@@ -104,15 +104,5 @@ def get_item(item, category) -> dict:
 				else:
 					ret[k] = v
 			json.dump(ret, f, indent=4)
-			print(f"Saved {file_path}.")
+			log.info(f"Saved {file_path}.")
 	return ret
-
-# def fetch_sprite(url: str, name: str):
-# 	os.makedirs(BASE_DIR + "sprites/", exist_ok=True)
-# 	name = BASE_DIR + "sprites/" + name + ".png"
-# 	if url and not os.path.exists(name):
-# 		res = requests.get(url, stream=True)
-# 		if res.status_code == 200:
-# 			with open(name, "wb") as f:
-# 				shutil.copyfileobj(res.raw, f)
-# 	return open(name, "rb")
