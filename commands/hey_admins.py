@@ -1,5 +1,7 @@
 from bot.classes import Command
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 from custom.misc import get_message_media, format_user
 
 import requests, html

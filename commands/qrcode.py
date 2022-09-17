@@ -1,5 +1,5 @@
 from bot.classes import Command
-import logging, base64, cv2, uuid, os, io, tempfile
+import base64, cv2, uuid, os, io, tempfile
 import pyqrcode
 
 class CmdQRCode(Command):

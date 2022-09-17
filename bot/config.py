@@ -1,4 +1,6 @@
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 from custom.misc import format_user
 import os, json, datetime
 

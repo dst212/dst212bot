@@ -1,5 +1,7 @@
 from bot.classes import CallbackQuery, InlineQuery
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 from langs import Lang
 import traceback, html
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
@@ -71,7 +73,7 @@ class Handlers:
 		LANG = Lang(self.usr.lang_code(inline.from_user), self.cfg).string
 		cache_time = 300
 		query = InlineQuery(inline)
-		cmd = query.args[0] if query.args else"h"
+		cmd = query.args[0] if query.args else "h"
 		results = []
 		if cmd in ("h", "help"):
 			for k, v in LANG('QUERY_COMMANDS').items():

@@ -1,5 +1,7 @@
 from bot.classes import Command
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 from custom.misc import can_delete, sender_is_admin
 import html, random
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent

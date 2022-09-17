@@ -1,7 +1,10 @@
-#!/usr/bin/env /usr/bin/python3
+#!/usr/bin/env python3
+
+import logging
+logging.basicConfig(format='[%(asctime)s] - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+log = logging.getLogger("dst212bot")
 
 from variables import TOKEN, API_ID, API_HASH
-from custom.log import log
 from bot.config import Config
 from bot.handlers import Handlers
 from bot.users import Users

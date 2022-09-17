@@ -1,5 +1,7 @@
 import langs
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 import os, json, datetime, threading
 
 from pyrogram.types import Chat, User, Message

@@ -1,5 +1,7 @@
 from bot.classes import Command
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 def command_entry(LANG, k, v):

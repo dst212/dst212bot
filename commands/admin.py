@@ -1,5 +1,7 @@
 from bot.classes import Command
-from custom.log import log
+import logging
+log = logging.getLogger(__name__)
+
 import os, sys, json
 
 class CmdAdmin(Command):
