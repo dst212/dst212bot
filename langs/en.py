@@ -96,6 +96,7 @@ https://dst212.github.io/
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",
 "SETTINGS_OVERRIDE": "Override groups' settings",
 "SETTINGS_SYNC-TR": "Sync language with /translate",
+"MUST_BE_ADMIN": "You must be admin to perform this action.",
 
 # QRCode
 "QR_CODE_EMPTY": "The content was either empty or OpenCV didn't catch it.",
