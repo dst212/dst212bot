@@ -7,14 +7,19 @@ from bot.handlers import Handlers
 from bot.users import Users
 from commands import Commands
 
-import os, sys, time
+import sys, time, socket
 
 from pyrogram import Client, idle
 from pyrogram.handlers import MessageHandler, InlineQueryHandler, CallbackQueryHandler
 from pyrogram.enums import ParseMode
 
 def ping_server() -> bool:
-	return os.system("ping -c 1 api.telegram.org>/dev/null") == 0 
+	try:
+		with socket.socket() as s:
+			s.connect(("api.telegram.org", 443))
+	except socket.error:
+		return False
+	return True
 
 def main():
 	if not ping_server():
