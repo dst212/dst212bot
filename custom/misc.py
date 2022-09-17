@@ -1,16 +1,22 @@
 import html
-from pyrogram.types import Message, User, Chat
+from pyrogram.types import Message, User, Chat, CallbackQuery
 from pyrogram.enums import ChatType
 
 def can_delete(m) -> bool:
 	return m.chat.type == ChatType.PRIVATE or m.chat.get_member("me").privileges and m.chat.get_member("me").privileges.can_delete_messages
 
 def sender_is_admin(m) -> bool:
+	user = None
+	if type(m) == CallbackQuery:
+		user = m.from_user
+		m = m.message
+	else:
+		user = m.from_user
 	if m.chat.type == ChatType.PRIVATE:
 		return True
-	elif m.from_user is None:
+	elif user is None:
 		return False
-	return m.chat.get_member(m.from_user.id).privileges is not None
+	return m.chat.get_member(user.id).privileges is not None
 
 def get_message_media(bot, message: Message):
 	if not message.media:	return None, None
