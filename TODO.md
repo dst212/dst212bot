@@ -22,11 +22,13 @@
   
   - [ ] turn é into e and lowerize input (category)
 
-- [ ] `/settings`
+- [x] `/settings`
   
-  - [ ] per-user settings
+  - [x] per-user settings
   
-  - [ ] callback handler
+  - [x] callback handler
+  
+  - [ ] actually override settings when `override` is true
 
 - [ ] support for multiple languages
   
@@ -43,6 +45,8 @@
     - [ ] score.py
   
   - [ ] `/translate` (sync with settings)
+  
+  - [ ] import language files automatically when created into `langs/`
 
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   
