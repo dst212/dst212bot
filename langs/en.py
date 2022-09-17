@@ -1,4 +1,5 @@
 name = "English"
+flag = "🇬🇧"
 strings = {
 "YES": "Yes",
 "NO": "No",
@@ -96,6 +97,7 @@ https://dst212.github.io/
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",
 "SETTINGS_OVERRIDE": "Override groups' settings",
 "SETTINGS_SYNC-TR": "Sync language with /translate",
+"SETTINGS_SELECT_VALUE": "Select a new value for <code>{}</code>. Current value is <code>{}</code>.",
 "MUST_BE_ADMIN": "You must be admin to perform this action.",
 
 # QRCode

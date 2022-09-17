@@ -5,6 +5,7 @@ def closure():
 		"en": {
 			"formal-name": en.name,
 			"strings": en.strings,
+			"flag": en.flag,
 		},
 		# "it": it,
 	}
@@ -13,7 +14,9 @@ def closure():
 	def get(lang): # return the lang dictionary
 		return langs[lang]["strings"] if langs.get(lang) else langs["en"]["strings"]
 	def formal_name(lang):
-		return langs[lang].get("formal-name") or "" if langs.get(lang) else ""
+		return langs[lang].get("formal-name") or lang if langs.get(lang) else lang if lang == "auto" else ""
+	def flag(lang):
+		return langs[lang]["flag"] if langs.get(lang) else "🏳️"
 
 	class Lang:
 		def __init__(self, lang, cfg):
@@ -27,6 +30,6 @@ def closure():
 				return f"[Missing: <code>{s}</code>]"
 			return text
 
-	return Lang, get, formal_name, available
-Lang, get, formal_name, available = closure()
+	return Lang, get, formal_name, available, flag
+Lang, get, formal_name, available, flag = closure()
 del closure
