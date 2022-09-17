@@ -42,7 +42,7 @@ class CmdSettings(Command):
 					else:
 						self.usr.set(chat.id, item, value)
 			try:
-				c.callback.edit_message_reply_markup(self.gen_markup(m))
+				c.callback.edit_message_text(LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(m))
 			except:
 				pass
 		else:
