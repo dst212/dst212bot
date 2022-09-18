@@ -82,7 +82,7 @@ https://dst212.github.io/
 "WEBSITE_UNAVAILABLE": "Website unavailable.",
 "PROVIDE_DECODING_ENCODING_TEXT": "Provide a decoding format, an encoding format and a text to parse.",
 "PROVIDE_USERNAME_OR_ID": "Provide a valid username or id.",
-"YOU_SHOULD_KNOW": "You should know it..",
+"YOU_SHOULD_KNOW": "You should know it...",
 
 # generic info
 "RESULTS_FOR": "Result for {}",
@@ -113,6 +113,7 @@ https://dst212.github.io/
 "INFO_MEMBERS": "<b>Members</b>: {}",
 "INFO_ID": "<b>ID</b>: <code>{}</code>",
 "INFO_DC": "<b>DC</b>: {}",
+"INFO_PHONE": "<b>Phone number</b>: {}",
 "INFO_STATUS": "<b>Status</b>: ",
 "INFO_STATUS_ONLINE": "online",
 "INFO_STATUS_OFFLINE": "offline",

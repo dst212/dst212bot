@@ -11,6 +11,7 @@ class CmdInfo(Command):
 			text += f"{LANG('INFO_MENTION').format(item.mention())}\n"
 			text += f"{LANG('INFO_ID').format(item.id)}\n"
 			if item.dc_id: text += f"{LANG('INFO_DC').format(item.dc_id)}\n"
+			if item.phone_number: text += f"{LANG('INFO_PHONE').format(item.phone_number)}\n"
 			if item.status:
 				text += LANG('INFO_STATUS')
 				if item.status == UserStatus.ONLINE: text += LANG('INFO_STATUS_ONLINE')
