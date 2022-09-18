@@ -32,7 +32,7 @@ class Users:
 			"sync-tr": Option(bool, False),
 			"override": Option(bool, False),
 		}
-		self.defauls = {k: v.default for k, v in self.values.items()}
+		self.default = {k: v.default for k, v in self.values.items()}
 
 	def save(self, uid: int, config: dict):
 		self.mutex.acquire()
@@ -80,7 +80,7 @@ class Users:
 		if not self.usr.get(uid):
 			user = self.load(uid)
 			if not user:
-				user = self.defaults.copy()
+				user = self.default.copy()
 				self.save(uid, user)
 			self.usr[uid] = user
 		else:
