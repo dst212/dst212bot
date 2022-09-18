@@ -79,8 +79,10 @@ class CmdInfo(Command):
 			photo = [i for i in bot.get_chat_photos(item.id, limit=1)],
 			if len(photo) > 0 and len(photo[0]) > 0:
 				photo = photo[0][0].file_id
+			else:
+				photo = None
 		if photo:
-				m.reply_media_group(media=[InputMediaPhoto(media=photo,caption=text)])
+			m.reply_media_group(media=[InputMediaPhoto(media=photo,caption=text)])
 		else:
 			m.reply_text(text)
 
