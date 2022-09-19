@@ -38,7 +38,7 @@ class CmdWordFor(Command):
 		if not d:
 			msg.edit_text(LANG('PROVIDE_TEXT'))
 		else:
-			results = function(LANG, d)
+			results = self.function(LANG, d)
 			msg.edit_text(f'<b>{results[0]["word"].upper()}</b>: <i>{html.escape(d)}</i>\n\n{results[0]["desc"]}{CREDITS}')
 
 	def inline(self, LANG, bot, q):
@@ -51,7 +51,7 @@ class CmdWordFor(Command):
 				description = LANG('PROVIDE_SEARCH_QUERY'),
 			)]
 		text = q.text[i+1:]
-		results = function(inline.query, limit=7)
+		results = self.function(inline.query, limit=7)
 		return [InlineQueryResultArticle(
 			id = r["word"],
 			title = r["word"],
