@@ -5,13 +5,13 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
 
 class CmdSettings(Command):
-	def gen_markup(self, m):
+	def gen_markup(self, LANG, m):
 		callback = f"settings {m.chat.id} "
 		lang = self.usr.get(m.chat.id, "lang")
 		return InlineKeyboardMarkup([
 			[InlineKeyboardButton(f"""🌐 Language: {langs.flag(lang)}{langs.formal_name(lang)}""", callback + "lang")],
-			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "override") else "❌"} {self.usr.lang(m, "SETTINGS_OVERRIDE")}""", callback + "override")],
-			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "sync-tr") else "❌"} {self.usr.lang(m, "SETTINGS_SYNC-TR")}""", callback + "sync-tr")],
+			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "override") else "❌"} {LANG('SETTINGS_OVERRIDE')}""", callback + "override")],
+			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "sync-tr") else "❌"} {LANG('SETTINGS_SYNC-TR')}""", callback + "sync-tr")],
 		])
 
 	def callback(self, LANG, bot, c):
@@ -42,7 +42,9 @@ class CmdSettings(Command):
 					else:
 						self.usr.set(chat.id, item, value)
 			try:
-				c.callback.edit_message_text(LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(m))
+				# LANG may have been changed
+				LANG = langs.Lang(self.usr.lang_code(c.callback), self.cfg).string
+				c.callback.edit_message_text(LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(LANG, m))
 			except:
 				pass
 		else:
@@ -50,7 +52,7 @@ class CmdSettings(Command):
 
 	def run(self, LANG, bot, m):
 		if sender_is_admin(m):
-			m.reply_text(LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(m))
+			m.reply_text(LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(LANG, m))
 		else:
 			m.reply_text(LANG('MUST_BE_ADMIN'))
 			# TODO: auto delete messages? nah
