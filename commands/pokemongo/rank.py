@@ -132,7 +132,8 @@ def get_rank():
 			else:
 				arg = arg.lower()
 			# recognizing keyword
-			if arg in ("best", "good", "great", "ultra", "weather"): # compound keywords
+			# "ultra" conflicts with standalone "ultra" keyword, so it's temporarily removed
+			if arg in ("best", "good", "great", "weather"): # compound keywords
 				prev = arg
 				continue
 			# CPs
