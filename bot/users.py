@@ -4,7 +4,7 @@ log = logging.getLogger(__name__)
 
 import os, json, datetime, threading
 
-from pyrogram.types import Chat, User, Message
+from pyrogram.types import Chat, User, Message, CallbackQuery, InlineQuery
 
 class Option:
 	def __init__(self, t: type, default, minimum=None, maximum=None, options: list=[]):
@@ -63,30 +63,40 @@ class Users:
 			self.mutex.release()
 
 	def do_override(self, m):
-		return m.from_user and self.usr.get(m.from_user.id) and self.usr.get(m.from_user.id).get("override")
+		# it's safe to call directly self.get() here
+		# it handles the creation of the user's settings if they don't exist
+		return m.from_user and self.get(m.from_user.id, "override")
 
+	# retrieve user/group id considering the "override" flag
 	def get_id(self, uid) -> int:
 		if type(uid) == Message:
-			if self.do_override(uid): # priority on overrides, of course
-				return uid.from_user.id
-			return uid.chat.id
-		elif type(uid) == Chat or type(uid) == User:
+			return uid.from_user.id if self.do_override(uid) else uid.chat.id
+		elif type(uid) == CallbackQuery:
+			return uid.from_user.id if self.do_override(uid) else uid.message.chat.id
+		elif type (uid) == InlineQuery:
+			return uid.from_user.id
+		elif type(uid) in (Chat, User):
 			return uid.id
 		return uid
 
+	# get users' serrings or values
 	def get(self, uid, item=None):
 		user = None
 		uid = self.get_id(uid)
 		if not self.usr.get(uid):
+			log.info(f"Loading settings for {uid}...")
 			user = self.load(uid)
 			if not user:
+				log.info(f"{uid} not found in files, creating...")
 				user = self.default.copy()
 				self.save(uid, user)
 			self.usr[uid] = user
+			log.info(f"Loaded settings for {uid}: {user}")
 		else:
 			user = self.usr[uid]
 		return (user.get(item) if item else user) if user else None
 
+	# modify users' settings
 	def set(self, uid, item, value):
 		uid = self.get_id(uid)
 		i = self.values.get(item)
@@ -99,12 +109,14 @@ class Users:
 				raise ValueError(f"Type mismatch: {type(self.usr[uid][item])} and {type(value)} ({value})")
 		return False
 
+	# messages and queries can (and should) be passed as uid, they will be parsed later on in get_id()
 	def lang_code(self, uid):
-		return self.get(uid, "lang")
+		lang = self.get(uid, "lang")
+		# uses user's language code (provided by pyrogram) if the language is "auto"
+		return self.bot.get_users(self.get_id(uid)).language_code if lang == "auto" else lang
 
 	def lang_dict(self, uid):
 		return langs.get(self.get(uid, "lang"))
 
 	def lang(self, uid, s):
-		# TODO: warn directly log-chats
-		return langs.get(self.get(uid, "lang")).get(s) or langs.get("auto").get(s) or f"[Missing: <code>{s}</code>]"
+		return langs.get(self.get(uid, "lang")).get(s)

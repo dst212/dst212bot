@@ -34,9 +34,7 @@
   
   - [x] **IMPORTANT**: the lang will be passed to the `inline()` function and to the `run()` function and shared among the classes' methods as parameter (ugly as fuck but I don't know what else to do)
   
-  - [ ] "auto" should rely on `User.language_code` or "en"
-  
-  - [x] warn directly log chats on `Users.lang()` if a string is missing
+  - [x] "auto" should rely on `User.language_code` or "en"
   
   - [ ] adding missing strings:
     

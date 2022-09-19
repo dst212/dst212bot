@@ -59,7 +59,7 @@ class Handlers:
 	def handle_callback(self, bot, callback):
 		if self.cfg.is_blocked(callback): return # ignore the query
 		try:
-			LANG = Lang(self.usr.lang_code(callback.from_user), self.cfg).string
+			LANG = Lang(self.usr.lang_code(callback), self.cfg).string
 			query = CallbackQuery(callback)
 			cmd = query.args[0]
 			if self.cmds.map.get(cmd):
@@ -70,7 +70,7 @@ class Handlers:
 
 	def inlinequery(self, bot, inline):
 		if self.cfg.is_blocked(inline): return # ignore the query
-		LANG = Lang(self.usr.lang_code(inline.from_user), self.cfg).string
+		LANG = Lang(self.usr.lang_code(inline), self.cfg).string
 		cache_time = 300
 		query = InlineQuery(inline)
 		cmd = query.args[0] if query.args else "h"
