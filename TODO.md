@@ -46,7 +46,7 @@
   
   - [ ] `/translate` (sync with settings)
   
-  - [ ] import language files automatically when created into `langs/`
+  - [x] import language files automatically when created into `langs/`
 
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   

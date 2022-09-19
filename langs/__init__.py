@@ -1,22 +1,20 @@
-from . import en#, it
+import os, glob, importlib
 
 def closure():
-	langs = {
-		"en": {
-			"formal-name": en.name,
-			"strings": en.strings,
-			"flag": en.flag,
-		},
-		# "it": it,
-	}
+	langs = {lang: importlib.import_module("."+lang, os.path.basename(__path__[0])) for lang in [os.path.basename(i)[:-3] for i in glob.glob(os.path.join(os.path.dirname(__file__), "[!_]*.py")) if os.path.isfile(i)]}
+
 	def available():
 		return [k for k in langs]
-	def get(lang): # return the lang dictionary
-		return langs[lang]["strings"] if langs.get(lang) else langs["en"]["strings"]
+
+	# return the lang dictionary, using English as fallback
+	def get(lang):
+		return langs[lang].strings if langs.get(lang) else langs["en"].strings
+
 	def formal_name(lang):
-		return langs[lang].get("formal-name") or lang if langs.get(lang) else lang if lang == "auto" else ""
+		return langs[lang].name or lang if langs.get(lang) else lang if lang == "auto" else ""
+
 	def flag(lang):
-		return langs[lang]["flag"] if langs.get(lang) else "🏳️"
+		return langs[lang].flag if langs.get(lang) else "🏳️"
 
 	class Lang:
 		def __init__(self, lang, cfg):
