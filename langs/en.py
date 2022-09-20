@@ -25,9 +25,6 @@ https://dst212.github.io/
 - <i>Pokémon</i>: https://pokeapi.co/
 - <i>Pokémon GO</i>: https://pokemondb.net/
 """,
-# - <code>pypng</code>: support library for <code>pyqrcode</code>
-# - <code>pandas</code>: HTML manipulation
-# - <code>beautifulsoup4</code>: HTML manipulation
 
 # generic words and placeholders
 "ERROR": "Error",
@@ -217,7 +214,7 @@ Rename a counter. This won't change it's display name.
 Set a display name for a counter. This won't rename the counter.
 
 <code>/counter get/print counter_name</code>
-Display the counter with its items and the related values.
+Display the counter and its value.
 
 <code>/counter set counter_name value</code>
 Set a counter to a certain value.
@@ -227,7 +224,7 @@ Add a cerain value to a counter.
 
 <code>/counter auto add/del counter_name filter</code>
 Add/delete a filter to a counter (auto mode).
-If the filter appears in a message, the counter will be updated.
+If a sent message contains the filter, the counter will be updated.
 """,
 "COUNTER_IS": "<b>{}</b> is set to <code>{}</code>.",
 "COUNTER_SET": "<b>{}</b> set to <code>{}</code>.",
@@ -281,7 +278,7 @@ Gives info about Umbreon's rank 1 in Great League.
 Gives info about Medicham's rank 1 in Great League with a maximum level of 51.
 
 <code>/pogo talonflame 15/15/14 ultra</code>
-Gives info about Talonflame's rank with those IVs (attack/defense/stamina) in Ultra league League.
+Gives info about Talonflame's rank with those IVs (attack/defense/stamina) in Ultra League.
 
 <code>/pogo registeel 1 raid</code>
 Gives info about Registeel's rank 1 with Raid IVs in Great League.
@@ -302,7 +299,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 "POGO_ENSURE_DATA_IS_CORRECT": "Invalid data: ensure everything is correct. Send <code>/pogo help</code> to get usage details.",
 "POGO_MAX_CP_LT_10": "Maximum CPs cannot be less than <code>10</code>.",
 "POGO_MAX_LVL_LT_0": "Maximum level cannot be less than <code>0</code>.",
-"POGO_MIN_IV_MT_15": "Minimum IVs cannot be more than <code>15</code>.",
+"POGO_MIN_IV_MT_15": "Minimum IVs cannot be greater than <code>15</code>.",
 "POGO_NOT_RECOGNIZED": "<code>{}</code> is not a recognized keyword.",
 
 # Other commands
@@ -317,25 +314,26 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 	"translate": "Translate <code>text</code> from <code>from_lang</code> to <code>to_lang</code>.\n<code>from_lang</code> and <code>to_lang</code> must be either \"auto\" or a valid language identifier (such as <i>en</i>, <i>it</i>, <i>de</i>...).\nUsing the alias <code>/tr</code>, the result is shown directly and not verbosely.\n<code>text</code> may be omitted if replying to a message.",
 	"tts": "Text to speech, turn <code>text</code> into speech and get an <code>mp3</code> file.\n<code>text</code> may be omitted if replying to a message.",
 	"qr": "Create a QR code from <code>text</code>.\nTo decode a QR code reply to a photo containing it omitting <code>text</code>.",
+	"wordfor": "Get the word defining <code>definition</code> through Reverse Dictionary.",
 	"encode": "Encode text from <code>x</code> to <code>y</code>.\nAccepted values for x and y:\n- text, txt, t\n- binary, bin, b\n- base64, b64\n<code>text</code> may be omitted if replying to a message.",
-	"pokemon": "Get data about <code>name</code> of <code>category</code>.\nSend /pokemon to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
+	"pokemon": "Get data about <code>name</code> of <code>category</code>.\nSend <code>/pokemon</code> to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
 	"pogo": "Get data about Pokémon GO stuff. <code>/pogo help</code> for details.",
 	"score": "Create and edit scores on the current chat. <code>/score help</code> for details.",
 	"counter": "Create and edit counters on the current chat. <code>/counter help</code> for details.",
 	"random": "Generate a random number from <code>x</code> (default is 0) to <code>y</code> (default is 100).",
 	"pickrandom": "Replying to a message written on multiple lines with this command, one or more lines (<code>limit</code>, default is 1) will be picked up randomly.",
-	"scramble": "Scramble <code>text</code>'s content.\n<code>text</code> may be omitted if replying to a message.",
+	"scramble": "Scramble <code>text</code>.\n<code>text</code> may be omitted if replying to a message.",
 	"imdumb": "Make <code>text</code> written like if you were dumb. <code>text</code> may be omitted if replying to a message.",
 	"say": "Make the bot say <code>text</code>.",
 	"len": "Get <code>text</code>'s length.\n<code>text</code> may be omitted if replying to a message.",
 	"count": "Count the messages in a chat.\nIf replying to a message, the count starts from there.",
-	"info": "Get info about an user by replying to their message.",
+	"info": "Get info about an user by replying to their message.\nIf not replying to a message and <code>username</code> and <code>id</code> are omitted, info about the current chat will be shown.",
 	"repeat": "Make the bot parse a message again by replying to it.",
-	"hey": "Contact privately an administrator of the bot.",
+	"hey": "Contact an administrator of the bot.",
 },
 "QUERY_COMMANDS": {
 	"translate": """Translate "text" from "from_lang" to "to_lang".""",
-	"info": """Get info about an user on Telegram.""",
+	"info": """Get info about an user/channel/group on Telegram.""",
 	"imdumb": """Write messages like if you were stupid.""",
 	"encode": """Convert "text" from "x" encoding to "y" encoding.""",
 	"pokemon": """Search "name" as a "category" at PokeAPI.""",
