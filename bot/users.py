@@ -113,7 +113,15 @@ class Users:
 	def lang_code(self, uid):
 		lang = self.get(uid, "lang")
 		# uses user's language code (provided by pyrogram) if the language is "auto"
-		return self.bot.get_users(self.get_id(uid)).language_code if lang == "auto" else lang
+		if lang != "auto":
+			return lang
+		user = None
+		uid = self.get_id(uid)
+		try:
+			user = self.bot.get_users(user) if uid > 0 else None
+		except:
+			log.warning(f"User {uid} not found, using English")
+		return user.language_code if user else "en"
 
 	def lang_dict(self, uid):
 		return langs.get(self.get(uid, "lang"))
