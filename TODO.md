@@ -4,11 +4,7 @@
   
   - [x] add support for both dot `.` and slash `/` as separators for stats
   
-  - [ ] ~~help with buttons~~
-  
   - [ ] `/pogo` lets you choose data with buttons
-  
-  - [x] unify `rank` and `iv` and update help
   
   - [ ] pokedex:
     
@@ -28,7 +24,9 @@
   
   - [x] callback handler
   
-  - [ ] actually override settings when `override` is true
+  - [ ] actually override settings when `override` is true (and remove override in groups or make it like "ignore users' override" which is quite chaotic evil)
+  
+  - [ ] add `auto-translate` option
 
 - [ ] support for multiple languages
   
@@ -49,12 +47,6 @@
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   
   - [ ] enable chat forward: every message sent is forwarded (`hey_admins.parse()` will check if forward is enabled in `self.usr`)
-  
-  - [x] enable media forward from admin's chats (done by using `copy_message()`)
-  
-  - [x] set support chat
-  
-  - [x] warn other support chats who replied
 
 - [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
   
@@ -65,7 +57,7 @@
   - [x] revise commands' help dictionary
   
   - [x] put aliases and commands name into the commands object themselves
-  
-    - [x] make `commands/__init__.py` automatically detect commands and add them to the cmds map
     
-    - [ ] make `commands/__init__.py` automatically detect commands and add them to the cmds map
+    - [x] make `commands/__init__.py` automatically detect commands and add them to the cmds map
+
+- [ ] new command: timezone
