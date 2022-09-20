@@ -6,23 +6,49 @@ from custom.misc import can_delete, sender_is_admin
 import html, random
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
+# /msgi
 class CmdMsgInfo(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "msgi"
+
 	def run(self, LANG, bot, m):
 		m.reply_text("<code>" + html.escape(str(m.reply_to_message or m)) + "</code>")
 
+# /count
 class CmdCount(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "count"
+
 	def run(self, LANG, bot, m):
 		m.reply_text(str(m.id - m.reply_to_message.id if m.reply_to_message else m.id))
 
+# /len
 class CmdLength(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "len"
+		self.args = ["[text]"]
+
 	def run(self, LANG, bot, m):
 		m.reply_text(str(len(" ".join((m.text or m.caption).split(" ")[1:]) or ("" if m.reply_to_message is None else (m.reply_to_message.text or m.reply_to_message.caption)))))
 
+# /ping
 class CmdPing(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "ping"
+
 	def run(self, LANG, bot, m):
 		m.reply_text("Pong")
 
+# /delall
 class CmdPurge(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "delall"
+
 	def run(self, LANG, bot, m):
 		if not sender_is_admin(m):
 			m = m.reply_text(LANG("NO"))
@@ -34,7 +60,13 @@ class CmdPurge(Command):
 		elif can_delete(m):
 			bot.delete_messages(m.chat.id, range(m.reply_to_message.id if m.reply_to_message else m.id, m.id + 1))
 
+# /say
 class CmdSay(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "say"
+		self.args = ["text"]
+
 	def run(self, LANG, bot, m):
 		text = m.text or m.caption
 		i = text.find(" ")
@@ -47,13 +79,23 @@ class CmdSay(Command):
 			else:
 				bot.send_message(m.chat.id, text)
 
+# /tpb
 class CmdTPB(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "tpb"
+
 	def run(self, LANG, bot, m):
 		m.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
 
+# /imdumb
 class CmdImDumb(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.name = "imdumb"
+		self.args = ["[text]"]
+		self.inline_args = ["text"]
+		self.examples = ["im super smort"]
 		self.cache_time = 1
 
 	def function(self, t):

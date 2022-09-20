@@ -60,10 +60,12 @@
   
   - [ ] `.send chat_id message` command
 
-- [ ] lang
+- [x] lang
   
-  - [ ] revise commands' help dictionary
+  - [x] revise commands' help dictionary
   
-  - [ ] put aliases and commands name into the commands object themselves
+  - [x] put aliases and commands name into the commands object themselves
+  
+    - [x] make `commands/__init__.py` automatically detect commands and add them to the cmds map
     
     - [ ] make `commands/__init__.py` automatically detect commands and add them to the cmds map

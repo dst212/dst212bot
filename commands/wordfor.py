@@ -7,6 +7,13 @@ CREDITS_WEBSITE = "https://reversedictionary.org"
 CREDITS = f'\n\n<i>From <a href="{CREDITS_WEBSITE}">Reverse Dictionary</a></i>.'
 
 class CmdWordFor(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "wordfor"
+		self.args = ["definition"]
+		self.inline_args = ["definition"]
+		self.examples = ["the fear of high places"]
+
 	def function(self, LANG, definition: str, limit: int=1):
 		res = requests.get(API + "related?term=" + urllib.parse.quote(definition, safe=""))
 		if res.status_code != 200:

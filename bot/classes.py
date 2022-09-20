@@ -14,7 +14,14 @@ class Command:
 	def __init__(self, data):
 		self.usr = data["users"]
 		self.cfg = data["config"]
+		self.cmds = data["commands"]
+
 		self.cache_time = 300
+		# self.name = ""
+		self.args = []
+		self.aliases = []
+		self.examples = []
+		self.inline_args = []
 
 	def run(self, LANG, bot, m):
 		# LANG = lambda s : self.usr.lang(m, s)

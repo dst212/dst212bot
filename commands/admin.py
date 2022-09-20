@@ -5,6 +5,10 @@ log = logging.getLogger(__name__)
 import os, sys, json
 
 class CmdAdmin(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "admin"
+
 	def run(self, LANG, bot, m) -> None:
 		out = ""
 		args = (m.text or m.caption).split(" ")
@@ -33,6 +37,10 @@ class CmdAdmin(Command):
 		m.reply_text(out or LANG('INVALID_SYNTAX'))
 
 class CmdReboot(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "reboot"
+
 	def run(self, LANG, bot, m):
 		if self.cfg.is_admin(m):
 			m.reply_text(LANG('RESTARTING_BOT'))

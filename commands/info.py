@@ -4,6 +4,14 @@ from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, Us
 from pyrogram.enums import UserStatus, ChatType
 
 class CmdInfo(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "info"
+		self.args = ["[username/id]"]
+		self.inline_args = ["username/id"]
+		self.aliases = ["i"]
+		self.examples = ["@dst212bot", "448025569"]
+
 	def function(self, LANG, item) -> str:
 		if type(item) == User:
 			text = f"{LANG('INFO_FOR_TITLE').format(html.escape(item.first_name))}\n\n"

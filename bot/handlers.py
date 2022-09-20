@@ -12,6 +12,11 @@ class Handlers:
 		self.usr = users
 		self.cmds = commands
 		self.cmds.map["repeat"] = self
+		self.name = "repeat"
+		self.args = []
+		self.aliases = []
+		self.examples = []
+		self.inline_args = []
 
 	def run(self, LANG, bot, m): # repeat command
 		if m.reply_to_message:
@@ -25,14 +30,14 @@ class Handlers:
 	def handle_update(self, bot, m):
 		if self.cfg.is_blocked(m):
 			#ignore the message but parse it
-			self.cmds.counter.parse_message(m)
+			self.cmds.map["counter"].parse_message(m)
 			return
 		text = m.text or m.caption
 		if text:
 			# make emojis valid
 			text = text.encode("utf-8").decode("utf-8")
 		# allow commands only from non-anonymous users, if the message is not send from helpers in a support chat
-		if not self.cmds.hey_admins.parse(bot, m) and m.from_user and text and text[0] == "/":
+		if not self.cmds.map["hey"].parse(bot, m) and m.from_user and text and text[0] == "/":
 			LANG = Lang(self.usr.lang_code(m), self.cfg).string
 			try:
 				# run command
@@ -54,7 +59,7 @@ class Handlers:
 						log.error(f"[{a}] {e}")
 				m.reply_text(LANG('AN_ERROR_OCCURRED_WHILE_PERFORMING'))
 		else:
-			self.cmds.counter.parse_message(m)
+			self.cmds.map["counter"].parse_message(m)
 
 	def handle_callback(self, bot, callback):
 		if self.cfg.is_blocked(callback): return # ignore the query
@@ -76,11 +81,14 @@ class Handlers:
 		cmd = query.args[0] if query.args else "h"
 		results = []
 		if cmd in ("h", "help"):
-			for k, v in LANG('QUERY_COMMANDS').items():
+			for command, description in LANG('QUERY_COMMANDS').items():
+				cmd = self.cmds.map[command]
+				example = f"""\n\n{LANG('EXAMPLE')}:\n{cmd.name} {cmd.examples[0]}""" if len(cmd.examples) > 0 else ""
+				syntax = f"""{cmd.name} {" ".join(cmd.inline_args)}"""
 				results += [InlineQueryResultArticle(
-					title = v["syntax"],
-					input_message_content = InputTextMessageContent(f"""/{v["syntax"]}\n\n{v["description"]}\n\n{LANG('EXAMPLE')}:\n/{v["example"]}"""),
-					description = v["description"],
+					title = syntax,
+					input_message_content = InputTextMessageContent(f"""{syntax}\n\n{description}{example}"""),
+					description = description,
 				)]
 		elif self.cmds.map.get(cmd):
 			results = self.cmds.map[cmd].inline(LANG, bot, query)

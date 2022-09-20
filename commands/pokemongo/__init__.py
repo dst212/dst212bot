@@ -4,6 +4,12 @@ import re
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 class CmdPoGo(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "pogo"
+		self.args = ["arguments"]
+		self.inline_args = ["arguments"]
+
 	def function(self, LANG, args: list[str]):
 		title = None
 		if len(args) > 1:

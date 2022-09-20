@@ -6,6 +6,14 @@ from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 translator = Translator()
 
 class CmdTranslate(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "translate"
+		self.args = ["from_lang", "to_lang", "[text]"]
+		self.inline_args = ["from_lang", "to_lang", "text"]
+		self.aliases = ["tr"]
+		self.examples = ["auto it hello darkness my old friend", "en ja hello"]
+
 	def function(self, text, d, s) -> str:
 		#pass the user and use their default language
 		if d in ("auto", "") and s in ("auto", ""):
@@ -35,7 +43,7 @@ class CmdTranslate(Command):
 				elif len(args) > 1:
 					d = args[1]
 				t = self.function(text, d, s)
-				if args[0] in ["/translate", "translate"]:
+				if args[0] in ["/"+self.name, self.name]:
 					out = (
 						f"""<b>{t.src}</b> → <b>{t.dest}</b>\n\n""" +
 						f"""<b>Source:</b>\n{html.escape(t.origin)}\n\n""" +

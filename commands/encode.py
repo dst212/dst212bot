@@ -6,6 +6,11 @@ from pyrogram.enums import ParseMode
 class CmdEncode(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.name = "encode"
+		self.args = ["x", "y", "[text]"]
+		self.inline_args = ["x", "y", "text"]
+		self.aliases = ["e"]
+		self.examples = ["text binary henlo uorld", "b64 t Q2lhbw=="]
 		self.encodings = {
 			"binary": ("b", "bin", "binary"),
 			"base64": ("b64", "base64"),

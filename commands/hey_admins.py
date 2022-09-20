@@ -8,6 +8,11 @@ import requests, html
 from pyrogram.enums import ChatType
 
 class CmdHey(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "hey"
+		self.args = ["[text]"]
+
 	def parse(self, bot, m) -> bool:
 		if (
 			m.from_user and

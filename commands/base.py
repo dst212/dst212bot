@@ -11,41 +11,62 @@ def command_entry(LANG, k, v):
 		"\n" + v["desc"]
 	) if v else LANG('NO_ENTRY_FOR').format(k)
 
-def help_buttons(LANG, bot, chat, m, cmds):
-	# TODO: pass message and edit __usr.lang
-	if len(cmds) < 1:
-		callback = f"help {chat} {m} "
-		buttons = []
-		row = []
-		for k, _ in LANG('COMMANDS').items():
-			row += [InlineKeyboardButton(k, callback + k)]
-			if len(row) > 2:
-				buttons += [row]
-				row = []
-		buttons += [row]
-		bot.edit_message_text(chat, m, 
-			f"<b>{LANG('HELP')}</b>" + "\n\n" + LANG('CHOOSE_A_BUTTON') + "\n\n" + LANG('INLINE_MODE_NOTICE'),
-			reply_markup=InlineKeyboardMarkup(buttons)
-		)
-	else:
-		bot.edit_message_text(chat, m,
-			command_entry(LANG, cmds[0], LANG('COMMANDS').get(cmds[0])) + "\n\n" + LANG('INLINE_MODE_NOTICE'),
-			reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help {chat} {m} /")]])
-		)
-
+# /start
 class CmdStart(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "start"
+		self.args = ["[command]"]
+
 	def run(self, LANG, bot, m):
 		m.reply_text(LANG('WELCOME_MESSAGE').format(m.from_user.first_name))
 
+# /help
 class CmdHelp(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "help"
+		self.args = ["[command]"]
+
+	def help_buttons(self, LANG, bot, chat, m, cmds):
+		if len(cmds) < 1:
+			callback = f"help {chat} {m} "
+			buttons = []
+			row = []
+			for k, _ in LANG('COMMANDS').items():
+				row += [InlineKeyboardButton(k, callback + k)]
+				if len(row) > 2:
+					buttons += [row]
+					row = []
+			buttons += [row]
+			bot.edit_message_text(chat, m, 
+				f"<b>{LANG('HELP')}</b>" + "\n\n" + LANG('CHOOSE_A_BUTTON') + "\n\n" + LANG('INLINE_MODE_NOTICE'),
+				reply_markup=InlineKeyboardMarkup(buttons)
+			)
+		else:
+			cmd = self.cmds.get(cmds[0])
+			bot.edit_message_text(chat, m,
+				command_entry(LANG, cmd.name, {
+					"args": cmd.args,
+					"aliases": cmd.aliases,
+					"desc": LANG('COMMANDS').get(cmd.name)
+				}) + "\n\n" + LANG('INLINE_MODE_NOTICE'),
+				reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help {chat} {m} /")]])
+			)
+
 	def run(self, LANG, bot, m):
-		m = bot.send_message(m.chat.id, LANG('LOADING'))
-		help_buttons(LANG, bot, m.chat.id, m.id, (m.text or m.caption).split(" ")[1:])
+		msg = bot.send_message(m.chat.id, LANG('LOADING'))
+		self.help_buttons(LANG, bot, msg.chat.id, msg.id, (m.text or m.caption).split(" ")[1:])
 
 	def callback(self, LANG, bot, c):
 		if len(c.args) > 3:
-			help_buttons(LANG, bot, int(c.args[1]), int(c.args[2]), [] if c.args[3] == "/" else [c.args[3]])
+			self.help_buttons(LANG, bot, int(c.args[1]), int(c.args[2]), [] if c.args[3] == "/" else [c.args[3]])
 
+# /credits
 class CmdCredits(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "credits"
+
 	def run(self, LANG, bot, m):
 		m.reply_text(LANG('CREDITS_MESSAGE'))

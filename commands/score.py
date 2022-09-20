@@ -4,6 +4,8 @@ import json, html, os, re
 class CmdScore(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.name = "score"
+		self.args = ["command", "arguments"]
 		self.base_dir = "data/score/"
 
 	def sort(self, data):

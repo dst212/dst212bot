@@ -9,6 +9,8 @@ translator = Translator()
 class CmdTTS(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.name = "tts"
+		self.args = ["[text]"]
 		self.base_dir = "data/cache/audio/"
 
 	def run(self, LANG, bot, message) -> None:

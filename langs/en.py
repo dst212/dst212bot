@@ -313,106 +313,33 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 ################
 
 "COMMANDS": {
-	"help": {
-		"args": ["[command]"],
-		"desc": "Get info about <code>command</code>.\nOmit <code>command</code> to get a list of available commands.",
-	},
-	"translate": {
-		"args": ["from_lang", "to_lang", "[text]"],
-		"aliases": "tr",
-		"desc": "Translate <code>text</code> from <code>from_lang</code> to <code>to_lang</code>.\n<code>from_lang</code> and <code>to_lang</code> must be either \"auto\" or a valid language identifier (such as <i>en</i>, <i>it</i>, <i>de</i>...).\nUsing the alias <code>/tr</code>, the result is shown directly and not verbosely.\n<code>text</code> may be omitted if replying to a message.",
-	},
-	"tts": {
-		"args": ["[text]"],
-		"desc": "Text to speech, turn <code>text</code> into speech and get an <code>mp3</code> file.\n<code>text</code> may be omitted if replying to a message.",
-	},
-	"qr": {
-		"args": ["[text]"],
-		"desc": "Create a QR code from <code>text</code>.\nTo decode a QR code reply to a photo containing it omitting <code>text</code>.",
-	},
-	"encode": {
-		"args": ["x", "y"],
-		"aliases": ["e"],
-		"desc": "Encode text from <code>x</code> to <code>y</code>.\nAccepted values for x and y:\n- text, txt, t\n- binary, bin, b\n- base64, b64\n<code>text</code> may be omitted if replying to a message.",
-		"examples" : ["text binary henlo uorld", "b64 t Q2lhbw=="],
-	},
-	"pokemon": {
-		"args": ["category", "name"],
-		"aliases": ["p"],
-		"desc": "Get data about <code>name</code> of <code>category</code>.\nSend /pokemon to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
-		"examples" : ["pokemon eevee", "move quick attack"],
-	},
-	"pogo": {
-		"args": ["arguments"],
-		"desc": "Get data about Pokémon GO stuff. <code>/pogo help</code> for details.",
-	},
-	"score": {
-		"args": ["command", "arguments"],
-		"desc": "Create and edit scores on the current chat. <code>/score help</code> for details.",
-	},
-	"counter": {
-		"args": ["command", "arguments"],
-		"desc": "Create and edit counters on the current chat. <code>/counter help</code> for details.",
-	},
-	"random": {
-		"args": ["[x]", "[y]"],
-		"aliases": ["r"],
-		"desc": "Generate a random number from <code>x</code> (default is 0) to <code>y</code> (default is 100).",
-	},
-	"pickrandom": {
-		"args": ["[limit]"],
-		"aliases": ["pr"],
-		"desc": "Replying to a message written on multiple lines with this command, one or more lines (<code>limit</code>, default is 1) will be picked up randomly.",
-	},
-	"scramble": {
-		"args": ["[text]"],
-		"desc": "Scramble <code>text</code>'s content.\n<code>text</code> may be omitted if replying to a message.",
-	},
-	"len": {
-		"args": ["[text]"],
-		"desc": "Get <code>text</code>'s length.\n<code>text</code> may be omitted if replying to a message.",
-	},
-	"count": {
-		"args": [],
-		"desc": "Count the messages in a chat.\nIf replying to a message, the count starts from there.",
-	},
-	"info": {
-		"args": ["[username/id]"],
-		"aliases": ["i"],
-		"desc": "Get info about an user by replying to their message.",
-	},
+	"help": "Get info about <code>command</code>.\nOmit <code>command</code> to get a list of available commands.",
+	"translate": "Translate <code>text</code> from <code>from_lang</code> to <code>to_lang</code>.\n<code>from_lang</code> and <code>to_lang</code> must be either \"auto\" or a valid language identifier (such as <i>en</i>, <i>it</i>, <i>de</i>...).\nUsing the alias <code>/tr</code>, the result is shown directly and not verbosely.\n<code>text</code> may be omitted if replying to a message.",
+	"tts": "Text to speech, turn <code>text</code> into speech and get an <code>mp3</code> file.\n<code>text</code> may be omitted if replying to a message.",
+	"qr": "Create a QR code from <code>text</code>.\nTo decode a QR code reply to a photo containing it omitting <code>text</code>.",
+	"encode": "Encode text from <code>x</code> to <code>y</code>.\nAccepted values for x and y:\n- text, txt, t\n- binary, bin, b\n- base64, b64\n<code>text</code> may be omitted if replying to a message.",
+	"pokemon": "Get data about <code>name</code> of <code>category</code>.\nSend /pokemon to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
+	"pogo": "Get data about Pokémon GO stuff. <code>/pogo help</code> for details.",
+	"score": "Create and edit scores on the current chat. <code>/score help</code> for details.",
+	"counter": "Create and edit counters on the current chat. <code>/counter help</code> for details.",
+	"random": "Generate a random number from <code>x</code> (default is 0) to <code>y</code> (default is 100).",
+	"pickrandom": "Replying to a message written on multiple lines with this command, one or more lines (<code>limit</code>, default is 1) will be picked up randomly.",
+	"scramble": "Scramble <code>text</code>'s content.\n<code>text</code> may be omitted if replying to a message.",
+	"imdumb": "Make <code>text</code> written like if you were dumb. <code>text</code> may be omitted if replying to a message.",
+	"say": "Make the bot say <code>text</code>.",
+	"len": "Get <code>text</code>'s length.\n<code>text</code> may be omitted if replying to a message.",
+	"count": "Count the messages in a chat.\nIf replying to a message, the count starts from there.",
+	"info": "Get info about an user by replying to their message.",
+	"repeat": "Make the bot parse a message again by replying to it.",
+	"hey": "Contact privately an administrator of the bot.",
 },
 "QUERY_COMMANDS": {
-	"translate": {
-		"syntax": "translate from_lang to_lang text",
-		"description": """Translate "text" from "from_lang" to "to_lang".""",
-		"example": "translate auto it hello darkness my old friend",
-	},
-	"info": {
-		"syntax": "info username/id",
-		"description": """Get info about an user on Telegram""",
-		"example": "info @dst212bot",
-	},
-	"imdubm": {
-		"syntax": "imdumb text",
-		"description": """Write messages like you were stupid""",
-		"example": "imdumb im super smort",
-	},
-	"encode": {
-		"syntax": "encode x y text",
-		"description": """Convert "text" from "x" encoding to "y" encoding.""",
-		"example": "encode text base64 henlo world",
-	},
-	"pokemon": {
-		"syntax": "pokemon category name",
-		"description": """Search "name" as a "category" at PokeAPI.""",
-		"example": "pokemon pokemon eevee",
-	},
-	"wordfor": {
-		"syntax": "wordfor definition",
-		"description": """Get the word for "definition" through the Reverse Dictionary.""",
-		"example": "wordfor the fear of high places",
-	},
+	"translate": """Translate "text" from "from_lang" to "to_lang".""",
+	"info": """Get info about an user on Telegram.""",
+	"imdumb": """Write messages like if you were stupid.""",
+	"encode": """Convert "text" from "x" encoding to "y" encoding.""",
+	"pokemon": """Search "name" as a "category" at PokeAPI.""",
+	"wordfor": """Get the word for "definition" through the Reverse Dictionary.""",
 },
 "QUERY": {
 	"help": {

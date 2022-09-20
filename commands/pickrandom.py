@@ -2,6 +2,12 @@ from bot.classes import Command
 import random
 
 class CmdPickRandom(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "pickrandom"
+		self.args = ["[limit]"]
+		self.aliases = ["pr"]
+
 	def function(self, items: list, limit=1):
 		out = ""
 		if limit > len(items):

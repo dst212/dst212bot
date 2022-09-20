@@ -2,6 +2,12 @@ from bot.classes import Command
 import random
 
 class CmdRand(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "random"
+		self.args = ["[x]", "[y]"]
+		self.aliases = ["r"]
+
 	def function(self, args: list) -> int:
 		min_num = 0
 		max_num = 100

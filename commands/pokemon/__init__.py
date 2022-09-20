@@ -8,6 +8,14 @@ from pyrogram.enums import ParseMode
 from custom.find_matches import find_most_accurate
 
 class CmdPokemon(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "pokemon"
+		self.args = ["category", "name"]
+		self.inline_args = ["category", "name"]
+		self.aliases = ["p"]
+		self.examples = ["pokemon eevee", "move quick attack"]
+
 	def function(self, LANG, args):
 		os.makedirs(BASE_DIR, exist_ok=True)
 		if len(args) <= 1:

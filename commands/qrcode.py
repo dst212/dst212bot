@@ -3,6 +3,11 @@ import base64, cv2, uuid, os, io, tempfile
 import pyqrcode
 
 class CmdQRCode(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "qr"
+		self.args = ["[text]"]
+
 	def function(self, text) -> bytes: #get qrcode from string
 		return io.BytesIO(base64.b64decode(pyqrcode.create(text, encoding="utf-8").png_as_base64_str(scale=6)))
 

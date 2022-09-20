@@ -5,6 +5,10 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
 
 class CmdSettings(Command):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.name = "settings"
+
 	def gen_markup(self, LANG, m):
 		callback = f"settings {m.chat.id} "
 		lang = self.usr.get(m.chat.id, "lang")

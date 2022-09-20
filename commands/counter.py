@@ -7,6 +7,8 @@ import json, html, os, re, threading
 class CmdCounter(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+		self.name = "counter"
+		self.args = ["command", "arguments"]
 		self.base_dir = "./data/counter/"
 		self.groups = {}
 		self.mutex = threading.Lock()
