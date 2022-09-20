@@ -118,8 +118,8 @@ class Users:
 		user = None
 		uid = self.get_id(uid)
 		try:
-			user = self.bot.get_users(user) if uid > 0 else None
-		except:
+			user = self.bot.get_users(uid) if uid > 0 else None
+		except Exception as e:
 			log.warning(f"User {uid} not found, using English")
 		return user.language_code if user else "en"
 
