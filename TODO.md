@@ -2,15 +2,15 @@
 
 - [ ] `/pogo`
   
-  - [x] add support for both dot `.` and slash `/` as separators for stats
-  
   - [ ] `/pogo` lets you choose data with buttons
   
   - [ ] pokedex:
     
-    - [x] rename all of the Deoxys without "Forme" in their name (done also for other mons with "Forme" in their name)
-    
     - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
+  
+  - [ ] add buttons to the output message to browse previous and following ranks
+  
+  - [ ] save ranks in json files (instead of re-computing them every time)
 
 - [ ] `/pokemon`
   
@@ -18,21 +18,15 @@
   
   - [ ] turn é into e and lowerize input (category)
 
-- [x] `/settings`
+- [ ] `/settings`
   
-  - [x] per-user settings
-  
-  - [x] callback handler
+  - [ ] `/settings get` to get the json file containing the user/group's settings
   
   - [ ] actually override settings when `override` is true (and remove override in groups or make it like "ignore users' override" which is quite chaotic evil)
   
   - [ ] add `auto-translate` option
 
 - [ ] support for multiple languages
-  
-  - [x] **IMPORTANT**: the lang will be passed to the `inline()` function and to the `run()` function and shared among the classes' methods as parameter (ugly as fuck but I don't know what else to do)
-  
-  - [x] "auto" should rely on `User.language_code` or "en"
   
   - [ ] adding missing strings:
     
@@ -41,8 +35,6 @@
     - [ ] score.py
   
   - [ ] `/translate` (sync with settings)
-  
-  - [x] import language files automatically when created into `langs/`
 
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   
@@ -52,12 +44,8 @@
   
   - [ ] `.send chat_id message` command
 
-- [x] lang
-  
-  - [x] revise commands' help dictionary
-  
-  - [x] put aliases and commands name into the commands object themselves
-    
-    - [x] make `commands/__init__.py` automatically detect commands and add them to the cmds map
+- [ ] new command: `/timezone`
 
-- [ ] new command: timezone
+- [ ] `/msgi` sends a json file if the text is too large
+
+- [ ] `/wordfor` add buttons to browse previous and following definitions
