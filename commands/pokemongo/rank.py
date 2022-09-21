@@ -1,6 +1,6 @@
 #!/bin/env python3
 from math import floor
-import json, re, html
+import os, json, re, html, threading
 from custom.find_matches import find_most_accurate
 
 CPM = [0.09399999678, 0.1351374321, 0.1663978696, 0.1926509132, 0.2157324702, 0.2365726514, 0.2557200491, 0.2735303721, 0.2902498841, 0.3060573814, 0.3210875988, 0.335445032, 0.3492126763, 0.3624577366, 0.3752355874, 0.3875924077, 0.3995672762, 0.4111935532, 0.4225000143, 0.4329264205, 0.4431075454, 0.4530599482, 0.4627983868, 0.4723360853, 0.481684953, 0.4908558072, 0.499858439, 0.508701749, 0.5173939466, 0.5259425161, 0.5343543291, 0.5426357538, 0.5507926941, 0.5588305845, 0.5667545199, 0.5745691281, 0.5822789073, 0.5898879079, 0.5974000096, 0.6048236487, 0.6121572852, 0.619404108, 0.6265671253, 0.6336491787, 0.6406529546, 0.6475809714, 0.6544356346, 0.6612192658, 0.6679340005, 0.6745818856, 0.6811649203, 0.6876849013, 0.6941436529, 0.700542901, 0.7068842053, 0.7131690749, 0.7193990946, 0.7255755869, 0.7317000031, 0.7347410386, 0.7377694845, 0.7407855797, 0.7437894344, 0.7467811972, 0.749761045, 0.7527290997, 0.7556855083, 0.7586303702, 0.7615638375, 0.7644860496, 0.7673971653, 0.7702972937, 0.7731865048, 0.7760649471, 0.7789327502, 0.7817900508, 0.7846369743, 0.7874736085, 0.7903000116, 0.792803968, 0.7953000069, 0.7978038984, 0.8003000021, 0.8028038719, 0.8052999973, 0.8078038508, 0.8102999926, 0.8128038352, 0.8152999878, 0.8178038066, 0.820299983, 0.8228037786, 0.8252999783, 0.8278037509, 0.8302999735, 0.8328037534, 0.8353000283, 0.8378037559, 0.8403000236, 0.842803729, 0.8453000188, 0.8478037024, 0.850300014, 0.852803676, 0.8553000093, 0.8578036499, 0.8603000045, 0.862803624, 0.8652999997]
@@ -35,7 +35,7 @@ def level(atk: int, dfn: int, hp: int, max_cp: int, max_lvl: float):
 def product(lvl: float, atk: int, dfn: int, hp: int):
 	return CPM2[lvl]*atk*dfn*floor(CPM[lvl]*hp)
 
-def get_rank_list(pkm: dict, min_iv: int, max_cp: int, max_lvl: float) -> list[list[int]]:
+def get_rank_list(pkm: dict, min_iv: int, max_cp: int, max_lvl: int) -> list[list[int]]:
 	products = []
 	for a_iv in range(min_iv, 16):
 		for d_iv in range(min_iv, 16):
@@ -91,9 +91,31 @@ def fix_name(LANG, pkm: str, pokedex: dict) -> (str, str, bool):
 	return out, pkm, flag
 
 def get_rank():
+	mutex = threading.Lock()
+	base_dir = "./data/cache/pogo/"
+
 	pokedex = {}
 	with open("commands/pokemongo/pokedex.json", "r") as f:
 		pokedex = json.load(f)
+
+	def load(pkm: dict, min_iv: int, max_cp: int, max_lvl: int) -> list[list[int]]:
+		os.makedirs(base_dir, exist_ok=True)
+		ranks = None
+		filename = f"""{base_dir}{pkm["name"]}-{min_iv}-{max_cp}-{max_lvl}.json"""
+		try:
+			mutex.acquire()
+			if os.path.exists(filename):
+				with open(filename, "r") as f:
+					ranks = json.load(f)
+			else:
+				ranks = get_rank_list(pkm, min_iv, max_cp, max_lvl)
+				with open(filename, "w") as f:
+					json.dump(ranks, f)
+		except Exception as e:
+			raise e
+		finally:
+			mutex.release()
+		return ranks
 
 	def f(LANG, args: list[str]) -> (str, str):
 		max_cp, min_iv, max_lvl = 1500, 0, 50.0
@@ -195,7 +217,7 @@ def get_rank():
 		elif min_iv > 15:
 			return LANG('ERROR'), LANG('POGO_MIN_IV_MT_15')
 
-		p = get_rank_list(pkm, min_iv, max_cp, actual_lvl(max_lvl))
+		p = load(pkm, min_iv, max_cp, actual_lvl(max_lvl))
 
 		if iv is not None:
 			i, rank = 0, 0

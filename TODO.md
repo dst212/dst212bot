@@ -10,7 +10,7 @@
   
   - [ ] add buttons to the output message to browse previous and following ranks
   
-  - [ ] save ranks in json files (instead of re-computing them every time)
+  - [x] save ranks in json files (instead of re-computing them every time)
 
 - [ ] `/pokemon`
   
