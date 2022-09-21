@@ -8,6 +8,7 @@ class CmdSettings(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "settings"
+		self.aliases = ["s"]
 
 	def gen_markup(self, LANG, m):
 		callback = f"{self.name} "
