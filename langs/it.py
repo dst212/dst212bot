@@ -6,7 +6,10 @@ strings = {
 "IM_SMORT": "SoNo InTeLlIgEnTe!!!!!!",
 
 # specific messages
-"WELCOME_MESSAGE": "Benvenutə, {}.\nPer vedere i comandi disponibili, invia /help.",
+"WELCOME_MESSAGE": "Benvenutə, {}.\nPer vedere i comandi disponibili, invia /help.\nPer personalizzare le tue preferenze, invia /settings.",
+"HI_THERE_ADMIN": "Ehilà {}, al tuo servizio.",
+"HI_THERE_USER": "Ehilà {}, puoi avviarmi in privato, ti aspetterò lì :)",
+"LETS_START": "Iniziamo!",
 "CREDITS_MESSAGE": f"""
 <b>Crediti</b>
 
@@ -35,6 +38,7 @@ https://dst212.github.io/
 "SYNTAX": "Sintassi",
 "HELP": "Aiuto",
 "BACK": "Indietro",
+"CLOSE": "Chiudi",
 "UNKNOWN": "Sconosciuto",
 "AVAILABLE_CATEGORIES": "Categorie disponibili",
 

@@ -1,6 +1,8 @@
 from bot.classes import Command
 import logging
 log = logging.getLogger(__name__)
+import langs
+from pyrogram.enums import ChatType
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -18,8 +20,28 @@ class CmdStart(Command):
 		self.name = "start"
 		self.args = ["[command]"]
 
+	def welcome_message(self, LANG, user):
+		return (LANG('HI_THERE_ADMIN') if self.cfg.is_admin(user.id) else LANG('WELCOME_MESSAGE')).format(user.first_name)
+	
+	def markup(self, LANG, uid):
+		lang = self.usr.get(uid, "lang")
+		return InlineKeyboardMarkup([
+			[InlineKeyboardButton(f"""🌐 Language: {langs.flag(lang)}{langs.formal_name(lang)}""", f"settings start")]
+		])
+
 	def run(self, LANG, bot, m):
-		m.reply_text(LANG('WELCOME_MESSAGE').format(m.from_user.first_name))
+		if m.chat.type == ChatType.PRIVATE:
+			m.reply_text(
+				self.welcome_message(LANG, m.from_user),
+				reply_markup=self.markup(LANG, m.chat.id)
+			)
+		else:
+			m.reply_text(
+				LANG('HI_THERE_USER').format(m.from_user.first_name),
+				reply_markup=InlineKeyboardMarkup([
+					[InlineKeyboardButton(LANG('PRESS_START'), url=f"https://t.me/" + bot.get_users("me").username + "?start=start")]
+				])
+			)
 
 # /help
 class CmdHelp(Command):
