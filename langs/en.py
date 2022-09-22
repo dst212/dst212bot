@@ -9,7 +9,7 @@ strings = {
 "WELCOME_MESSAGE": "Welcome, {}.\nTo get a list of available commands send /help.\nTo customize your preferences send /settings.",
 "HI_THERE_ADMIN": "Hi there {}, at your service.",
 "HI_THERE_USER": "Hi there {}, you can start me privately, I'll wait for you there :)",
-"PRESS_START": "Let's start!",
+"LETS_START": "Let's start!",
 "CREDITS_MESSAGE": f"""
 <b>Credits</b>
 

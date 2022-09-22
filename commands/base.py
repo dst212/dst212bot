@@ -39,7 +39,7 @@ class CmdStart(Command):
 			m.reply_text(
 				LANG('HI_THERE_USER').format(m.from_user.first_name),
 				reply_markup=InlineKeyboardMarkup([
-					[InlineKeyboardButton(LANG('PRESS_START'), url=f"https://t.me/" + bot.get_users("me").username + "?start=start")]
+					[InlineKeyboardButton(LANG('LETS_START'), url=f"https://t.me/" + bot.get_users("me").username + "?start=start")]
 				])
 			)
 
