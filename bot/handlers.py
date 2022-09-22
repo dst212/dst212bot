@@ -21,13 +21,13 @@ class Handlers:
 	def run(self, LANG, bot, m): # repeat command
 		if m.reply_to_message:
 			if self.cfg.is_admin(m) or (m.from_user and m.reply_to_message.from_user and m.from_user.id == m.reply_to_message.from_user.id):
-				self.handle_update(bot, m.reply_to_message)
+				self.message(bot, m.reply_to_message)
 			else:
 				m.reply_text(LANG('YOU_HAVE_NO_PERMISSIONS'))
 		else:
 			m.reply_text("Repeat what?")
 
-	def handle_update(self, bot, m):
+	def message(self, bot, m):
 		if self.cfg.is_blocked(m):
 			#ignore the message but parse it
 			self.cmds.map["counter"].parse_message(m)
@@ -61,7 +61,7 @@ class Handlers:
 		else:
 			self.cmds.map["counter"].parse_message(m)
 
-	def handle_callback(self, bot, callback):
+	def callback(self, bot, callback):
 		if self.cfg.is_blocked(callback): return # ignore the query
 		try:
 			LANG = Lang(self.usr.lang_code(callback), self.cfg).string
@@ -72,8 +72,9 @@ class Handlers:
 		except Exception as e:
 			traceback.print_exc()
 			self.cfg.log(f"An exception occurred to someone ({callback.from_user.mention() if callback.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(callback.data)}</code>")
+			bot.answer_callback_query(query.callback.id, LANG('AN_ERROR_OCCURRED_WHILE_PERFORMING'), show_alert = True)
 
-	def inlinequery(self, bot, inline):
+	def inline(self, bot, inline):
 		if self.cfg.is_blocked(inline): return # ignore the query
 		LANG = Lang(self.usr.lang_code(inline), self.cfg).string
 		cache_time = 300

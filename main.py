@@ -42,9 +42,9 @@ def main():
 	bot.start()
 	log.info("Bot started.")
 
-	bot.add_handler(MessageHandler(handlers.handle_update))
-	bot.add_handler(InlineQueryHandler(handlers.inlinequery))
-	bot.add_handler(CallbackQueryHandler(handlers.handle_callback))
+	bot.add_handler(MessageHandler(handlers.message))
+	bot.add_handler(InlineQueryHandler(handlers.inline))
+	bot.add_handler(CallbackQueryHandler(handlers.callback))
 
 	config.log("Bot started.")
 

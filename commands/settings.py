@@ -66,7 +66,7 @@ class CmdSettings(Command):
 				except:
 					pass
 		else:
-			bot.answer_callback_query(c.callback.id, LANG('MUST_BE_ADMIN'), show_alert=True)
+			c.callback.answer(LANG('MUST_BE_ADMIN'), show_alert=True)
 
 	def run(self, LANG, bot, m):
 		if sender_is_admin(m):
