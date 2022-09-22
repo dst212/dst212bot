@@ -71,5 +71,5 @@ class CmdPoGo(Command):
 	def callback(self, LANG, bot, c):
 		# c.callback.edit_message_text(LANG('LOADING'))
 		title, out, config = self.function(LANG, c.args)
-		original = c.callback.message.reply_markup.inline_keyboard[0][0].callback_data.split(" ")[2]
+		original = c.callback.message.reply_markup.inline_keyboard[0][0].callback_data.split(" ")[-4]
 		c.callback.edit_message_text(f"<b>{title}</b>\n\n" + out if title else out, reply_markup=self.markup(config, original))
