@@ -101,7 +101,7 @@ def get_rank():
 	def load(pkm: dict, min_iv: int, max_cp: int, max_lvl: int) -> list[list[int]]:
 		os.makedirs(base_dir, exist_ok=True)
 		ranks = None
-		filename = f"""{base_dir}{pkm["name"]}-{min_iv}-{max_cp}-{max_lvl}.json"""
+		filename = f"""{base_dir}{pkm["name"]}-{max_cp}-{min_iv}-{max_lvl}.json"""
 		try:
 			mutex.acquire()
 			if os.path.exists(filename):
@@ -117,7 +117,7 @@ def get_rank():
 			mutex.release()
 		return ranks
 
-	def f(LANG, args: list[str]) -> (str, str):
+	def f(LANG, args: list[str]) -> (str, str, list):
 		max_cp, min_iv, max_lvl = 1500, 0, 50.0
 		rank, iv = None, None
 
@@ -136,13 +136,13 @@ def get_rank():
 				iv = [int(i) for i in re.split("[\/\.]", args[1])]
 				# IVs are invalid
 				if len(iv) != 3 or True in (i < 0 or i > 15 for i in iv):
-					return LANG('ERROR'), LANG('POGO_IV_MUST_BE_BETWEEN')
+					return LANG('ERROR'), LANG('POGO_IV_MUST_BE_BETWEEN'), None
 
 		# getting pokemon name
 		out, pkm, err = fix_name(LANG, args[0], pokedex)
 		# pokemon name not found
 		if err:
-			return LANG('NO_RESULTS_FOR').format(f"<i>{pkm}</i>"), out
+			return LANG('NO_RESULTS_FOR').format(f"<i>{pkm}</i>"), out, None
 		pkm = pokedex[pkm]
 
 		# parsing other arguments, the algorithm won't check redundant arguments
@@ -199,23 +199,23 @@ def get_rank():
 					if count == 0:
 						max_cp = int(arg)
 					elif count == 1:
-						x = int(arg)
+						x = float(arg)
 						# if it's less than 16, then let it be a min_iv, else max_lvl
 						if x < 16:
-							min_iv = x
+							min_iv = int(x)
 						else:
 							max_lvl = x
 					else:
-						max_lvl = int(arg)
+						max_lvl = float(arg)
 				except ValueError:
-					return LANG('ERROR'), LANG('POGO_NOT_RECOGNIZED').format(html.escape(arg))
+					return LANG('ERROR'), LANG('POGO_NOT_RECOGNIZED').format(html.escape(arg)), None
 			count += 1
 		if max_cp < 10:
-			return LANG('ERROR'), LANG('POGO_MAX_CP_LT_10')
+			return LANG('ERROR'), LANG('POGO_MAX_CP_LT_10'), None
 		elif max_lvl < 0:
-			return LANG('ERROR'), LANG('POGO_MAX_LVL_LT_0')
+			return LANG('ERROR'), LANG('POGO_MAX_LVL_LT_0'), None
 		elif min_iv > 15:
-			return LANG('ERROR'), LANG('POGO_MIN_IV_MT_15')
+			return LANG('ERROR'), LANG('POGO_MIN_IV_MT_15'), None
 
 		p = load(pkm, min_iv, max_cp, actual_lvl(max_lvl))
 
@@ -225,6 +225,7 @@ def get_rank():
 			for v in p:
 				if v[1] == iv[0] and v[2] == iv[1] and v[3] == iv[2]:
 					title, tmp = pokemon_output(pkm, v, p[0][0], rank, max_cp, min_iv, max_lvl, i=i)
+					rank = i
 					break
 				i += 1
 				# if the product is the same of the previous one, the rank doesn't change
@@ -233,9 +234,9 @@ def get_rank():
 		else: # rank is not None
 			max_rank = pow(16-min_iv, 3)
 			if not 0 <= rank < max_rank:
-				return LANG('ERROR'), LANG('POGO_RANK_MUST_BE_BETWEEN').format(max_rank)
+				return LANG('ERROR'), LANG('POGO_RANK_MUST_BE_BETWEEN').format(max_rank), None
 			title, tmp = pokemon_output(pkm, p[rank], p[0][0], rank, max_cp, min_iv, max_lvl)
-		return title, out + tmp
+		return title, out + tmp, [pkm["name"], rank + 1, max_cp, min_iv, max_lvl]
 
 	return f
 get_rank = get_rank()

@@ -2,13 +2,13 @@
 
 - [ ] `/pogo`
   
-  - [ ] `/pogo` lets you choose data with buttons
+  - [ ] ~~`/pogo` lets you choose data with buttons~~
   
   - [ ] pokedex:
     
     - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
   
-  - [ ] add buttons to the output message to browse previous and following ranks
+  - [x] add buttons to the output message to browse previous and following ranks
   
   - [x] save ranks in json files (instead of re-computing them every time)
 
