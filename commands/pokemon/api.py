@@ -22,20 +22,21 @@ def api_list() -> dict:
 	return api
 
 def get_api(key) -> dict:
-	api = {}
-	os.makedirs(BASE_DIR + key, exist_ok=True)
-	file_path = BASE_DIR + key + "/list.json"
-	if not os.path.exists(file_path):
-		log.info(f"{file_path} doesn't exist.")
-		with open(file_path, "w") as f:
-			api = {}
-			for item in json.loads(requests.get(API + key + "?limit=9999").text)["results"]:
-				api[item["name"]] = item["url"]
-			json.dump(api, f)
-			log.info(f"Saved {file_path}.")
-	else:
-		with open(file_path) as f:
-			api = json.load(f)
+	api = None
+	if key:
+		os.makedirs(BASE_DIR + key, exist_ok=True)
+		file_path = BASE_DIR + key + "/list.json"
+		if not os.path.exists(file_path):
+			log.info(f"{file_path} doesn't exist.")
+			with open(file_path, "w") as f:
+				api = {}
+				for item in json.loads(requests.get(API + key + "?limit=9999").text)["results"]:
+					api[item["name"]] = item["url"]
+				json.dump(api, f)
+				log.info(f"Saved {file_path}.")
+		else:
+			with open(file_path) as f:
+				api = json.load(f)
 	return api
 
 def get_item(item, category) -> dict:

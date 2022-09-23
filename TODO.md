@@ -12,11 +12,11 @@
   
   - [x] save ranks in json files (instead of re-computing them every time)
 
-- [ ] `/pokemon`
+- [x] `/pokemon`
   
-  - [ ] full search
+  - [x] full search
   
-  - [ ] turn é into e and lowerize input (category)
+  - [x] turn é into e and lowerize input (category)
 
 - [ ] `/settings`
   

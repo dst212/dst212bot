@@ -320,7 +320,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 	"qr": "Create a QR code from <code>text</code>.\nTo decode a QR code reply to a photo containing it omitting <code>text</code>.",
 	"wordfor": "Get the word defining <code>definition</code> through Reverse Dictionary.",
 	"encode": "Encode text from <code>x</code> to <code>y</code>.\nAccepted values for x and y:\n- text, txt, t\n- binary, bin, b\n- base64, b64\n<code>text</code> may be omitted if replying to a message.",
-	"pokemon": "Get data about <code>name</code> of <code>category</code>.\nSend <code>/pokemon</code> to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
+	"pokemon": "Get data about <code>name</code> of <code>category</code>.\nYou may directly look for an item without specifying any category (for example <code>/pokemon ditto</code> is the same as <code>/pokemon pokemon ditto</code>).\nSend <code>/pokemon</code> to get a list of availble categories through the bot.",#provided categories by the PokeAPI.\nNot every category is available through the bot.",
 	"pogo": "Get data about Pokémon GO stuff. <code>/pogo help</code> for details.",
 	"score": "Create and edit scores on the current chat. <code>/score help</code> for details.",
 	"counter": "Create and edit counters on the current chat. <code>/counter help</code> for details.",

@@ -321,7 +321,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 	"qr": "Crea un codice QR da <code>text</code>.\nPer decodificare un codice QR, rispondere ad una foto che lo contiene omettendo <code>text</code>.",
 	"wordfor": "Ottieni la parola che definisce <code>definition</code>, attraverso Reverse Dictionary (solo inglese).",
 	"encode": "Codifica del testo da <code>x</code> a <code>y</code>.\nValori accetti per x e y:\n- text, txt, t\n- binary, bin, b\n- base64, b64\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
-	"pokemon": "Ottieni dati su <code>name</code> della categoria <code>category</code>.\nInviare <code>/pokemon</code> per ottenere una lista di categorie disponibili dal bot.",
+	"pokemon": "Ottieni dati su <code>name</code> della categoria <code>category</code>.\nPuoi cercare direttamente un elemento senza specificare una categoria (per esempio <code>/pokemon ditto</code> equivale a <code>/pokemon pokemon ditto</code>).\nInviare <code>/pokemon</code> per ottenere una lista di categorie disponibili dal bot.",
 	"pogo": "Ottieni dati su roba di Pokémon GO. <code>/pogo help</code> per ulteriori dettagli.",
 	"score": "Crea e gestisci gli score nella chat corrente. <code>/score help</code> per ulteriori dettagli.",
 	"counter": "Crea e gestisci i contatori nella chat corrente. <code>/counter help</code> per ulteriori dettagli.",
