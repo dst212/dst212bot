@@ -1,6 +1,7 @@
 from bot.classes import Command
-import commands.pokemongo.rank as rank
-import re
+from . import rank
+from .fetch_pokedex import main as fetch_pokedex
+import re, os, json
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardMarkup, InlineKeyboardButton
 
 class CmdPoGo(Command):
@@ -9,6 +10,15 @@ class CmdPoGo(Command):
 		self.name = "pogo"
 		self.args = ["arguments"]
 		self.inline_args = ["arguments"]
+		self.base_dir = f"./data/cache/{self.name}/"
+		pokedex_file = f"{self.base_dir}pokedex.json"
+
+		self.pokedex = {}
+		if os.path.exists(pokedex_file):
+			with open(pokedex_file, "r") as f:
+				self.pokedex = json.load(f)
+		else:
+			self.pokedex = fetch_pokedex(pokedex_file)
 
 	#buttons below the message to see other ranks
 	def rank_buttons(self, rank, min_iv):
@@ -48,7 +58,7 @@ class CmdPoGo(Command):
 			if args[1] in ("h", "help"):
 				out = LANG('POGO_HELP')
 			else:
-				title, out, config = rank.get_rank(LANG, args[1:])
+				title, out, config = rank.get_rank(self, LANG, args[1:])
 		else:
 			out = LANG('POGO_HELP')
 		return title, out or LANG('POGO_INVALID_USAGE'), config

@@ -1,17 +1,18 @@
 #!/bin/env python3
-import json, requests
+import json, requests, logging
 from bs4 import BeautifulSoup as bs
+log = logging.getLogger(__name__)
 
-def main():
+def main(filename="pokedex.json"):
 	links = ("https://pokemondb.net/go/pokedex", "https://pokemondb.net/go/unavailable")
 	pokedex = {}
 	i = 0
 	for link in links:
-		print(f"Fetching {link}...")
+		log.info(f"Fetching {link}...")
 		res = requests.get(link)
-		print("Parsing...")
+		log.info("Parsing...")
 		table = bs(res.content, "html.parser").find(id="pokedex").find("tbody")
-		print("Extracting...")
+		log.info("Extracting...")
 		for tr in table.find_all("tr"):
 			td = tr.find_all("td")
 			if len(td) > 0:
@@ -35,11 +36,12 @@ def main():
 					"hp":		int(td[5].get_text()),
 				}
 			pokedex[mon["name"].lower()] = mon
-			print(mon)
+			log.debug(mon)
 			i += 1
-	print(f"Fetched data for {i} Pokémons, saving...")
-	with open("pokedex.json", "w") as f:
+	log.info(f"Fetched data for {i} Pokémons, saving to {filename}...")
+	with open(filename, "w") as f:
 		json.dump(pokedex, f, separators=(",",":"))
+	return pokedex
 
 if __name__ == "__main__":
 	main()

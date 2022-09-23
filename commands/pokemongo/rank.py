@@ -92,16 +92,11 @@ def fix_name(LANG, pkm: str, pokedex: dict) -> (str, str, bool):
 
 def get_rank():
 	mutex = threading.Lock()
-	base_dir = "./data/cache/pogo/"
 
-	pokedex = {}
-	with open("commands/pokemongo/pokedex.json", "r") as f:
-		pokedex = json.load(f)
-
-	def load(pkm: dict, min_iv: int, max_cp: int, max_lvl: int) -> list[list[int]]:
-		os.makedirs(base_dir, exist_ok=True)
+	def load(self, pkm: dict, min_iv: int, max_cp: int, max_lvl: int) -> list[list[int]]:
+		os.makedirs(self.base_dir, exist_ok=True)
 		ranks = None
-		filename = f"""{base_dir}{pkm["name"]}-{max_cp}-{min_iv}-{max_lvl}.json"""
+		filename = f"""{self.base_dir}{pkm["name"]}-{max_cp}-{min_iv}-{max_lvl}.json"""
 		try:
 			mutex.acquire()
 			if os.path.exists(filename):
@@ -117,7 +112,7 @@ def get_rank():
 			mutex.release()
 		return ranks
 
-	def f(LANG, args: list[str]) -> (str, str, list):
+	def f(self, LANG, args: list[str]) -> (str, str, list):
 		max_cp, min_iv, max_lvl = 1500, 0, 50.0
 		rank, iv = None, None
 
@@ -139,11 +134,11 @@ def get_rank():
 					return LANG('ERROR'), LANG('POGO_IV_MUST_BE_BETWEEN'), None
 
 		# getting pokemon name
-		out, pkm, err = fix_name(LANG, args[0], pokedex)
+		out, pkm, err = fix_name(LANG, args[0], self.pokedex)
 		# pokemon name not found
 		if err:
 			return LANG('NO_RESULTS_FOR').format(f"<i>{pkm}</i>"), out, None
-		pkm = pokedex[pkm]
+		pkm = self.pokedex[pkm]
 
 		# parsing other arguments, the algorithm won't check redundant arguments
 		count = 0
@@ -217,7 +212,7 @@ def get_rank():
 		elif min_iv > 15:
 			return LANG('ERROR'), LANG('POGO_MIN_IV_MT_15'), None
 
-		p = load(pkm, min_iv, max_cp, actual_lvl(max_lvl))
+		p = load(self, pkm, min_iv, max_cp, actual_lvl(max_lvl))
 
 		if iv is not None:
 			i, rank = 0, 0

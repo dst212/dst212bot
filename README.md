@@ -82,7 +82,7 @@ Note that `log` chats won't receive `/hey`'s feedback.
 
 ## Other notes
 
-The script located at [`commands/pokemongo/fetch-pokedex.py`](commands/pokemongo/fetch-pokedex.py) updates the [`pokedex.json`](commands/pokemongo/pokedex.json) file from [pokemondb.net](https://pokemondb.net/go/pokedex). It's not included anywhere in the bot modules.
+The script located at [`commands/pokemongo/fetch_pokedex.py`](commands/pokemongo/fetch_pokedex.py) fetches the Pokémon Go pokédex from [pokemondb.net](https://pokemondb.net/go/pokedex) and saves it to `data/cache/pogo/pokedex.json` upon the first start. It can be run manually (this way it creates the file into the running directory).
 
 The [TODO list](TODO.md) is just there to make the project look professional (even though it isn't) and it serves as a common TODO list. You may want to check it out and you may suggest new features too (any constructive criticism is welcome, you can yell at me through any of my contacts available [here](https://dst212.github.io/?page=info#contacts-list)).
 
