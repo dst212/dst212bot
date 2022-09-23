@@ -49,25 +49,18 @@ class CmdPokemon(Command):
 			if text == "":
 				text = print_data(LANG, item, category)
 		else:
-			text, title = LANG('IT_DOESNT_EXIST').format(args[1]), LANG('CATEGORY_DOESNT_EXIST')
+			text, title = LANG('IT_DOESNT_EXIST').format(category), LANG('CATEGORY_DOESNT_EXIST')
 		return text, "🔎 " + title
 
 	def function(self, LANG, args):
 		os.makedirs(BASE_DIR, exist_ok=True)
 		if len(args) <= 1:
 			return "- " + "\n- ".join(self.available), "Pokémon - " + LANG('AVAILABLE_CATEGORIES')
-		elif len(args) > 2: # command category item[...]
-			category = args[1]
-			query = args[2:]
-			return self.get(LANG, query, category)
-		else: # command category
-			if api_list().get(args[1]):
-			# 	r = ""
-			# 	for k, _ in get_api(args[1]).items():
-			# 		r += "\n" + k
-			# 	return r, LANG('RESULTS')
-			# 	# or
-				return LANG('PROVIDE_SEARCH_QUERY'), ""
+		else:
+			if args[1] in self.available:
+				if len(args) <= 2:
+					return LANG('PROVIDE_SEARCH_QUERY'), ""
+				return self.get(LANG, args[2:], args[1])
 			return self.get(LANG, args[1:])
 
 	def run(self, LANG, bot, m):
