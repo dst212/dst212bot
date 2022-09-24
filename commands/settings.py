@@ -69,10 +69,14 @@ class CmdSettings(Command):
 			c.callback.answer(LANG('MUST_BE_ADMIN'), show_alert=True)
 
 	def run(self, LANG, bot, m):
+		args = (m.text or m.caption).split(" ")
 		if sender_is_admin(m):
-			if can_delete(m):
-				m.delete()
-			bot.send_message(m.chat.id, LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(LANG, m))
+			if len(args) > 1 and args[1] == "get":
+				m.reply_document(f"{self.usr.base_dir}{m.chat.id}", file_name=f"{m.chat.id}.json")
+			else:
+				if can_delete(m):
+					m.delete()
+				bot.send_message(m.chat.id, LANG('SETTINGS_FOR_THIS_CHAT'), reply_markup=self.gen_markup(LANG, m))
 		else:
 			m.reply_text(LANG('MUST_BE_ADMIN'))
 			# TODO: auto delete messages? nah

@@ -316,6 +316,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 
 "COMMANDS": {
 	"help": "Info su <code>command</code>.\nOmettere <code>command</code> per ottenere una lista di comandi disponibili.",
+	"settings": "Cambia le preferenze per la chat corrente.\nInvia <code>/settings get</code> per ottenere un file json contenente le impostazioni (eventuale debugging). Non c'è alcun modo per effettuare l'opposto (si deve cambiare le impostazioni manualmente, <s><code>/settings set</code></s> non esiste).",
 	"translate": "Traduci <code>text</code> da <code>from_lang</code> a <code>to_lang</code>.\n<code>from_lang</code> e <code>to_lang</code> devono essere \"auto\" o un identificatore di lingua valido (come <i>en</i>, <i>it</i>, <i>de</i>...).\nUsando l'alias <code>/tr</code>, il risultato sarà mostrato direttamente senza dettagli.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"tts": "Text to speech, rendi <code>text</code> del testo parlato e ottieni un file <code>mp3</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"qr": "Crea un codice QR da <code>text</code>.\nPer decodificare un codice QR, rispondere ad una foto che lo contiene omettendo <code>text</code>.",

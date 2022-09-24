@@ -20,7 +20,7 @@
 
 - [ ] `/settings`
   
-  - [ ] `/settings get` to get the json file containing the user/group's settings
+  - [x] `/settings get` to get the json file containing the user/group's settings
   
   - [ ] actually override settings when `override` is true (and remove override in groups or make it like "ignore users' override" which is quite chaotic evil)
   
