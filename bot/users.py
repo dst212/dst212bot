@@ -94,6 +94,13 @@ class Users:
 			log.info(f"Loaded settings for {uid}: {user}")
 		else:
 			user = self.usr[uid]
+		# add the option if it wasn't written yet, then save it
+		if item:
+			if not self.values.get(item):
+				return None
+			elif user.get(item) is None:
+				user[item] = self.values[item].default
+				self.save(uid, user)
 		return (user.get(item) if item else user) if user else None
 
 	# modify users' settings
