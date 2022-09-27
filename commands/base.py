@@ -22,9 +22,9 @@ class CmdStart(Command):
 
 	def welcome_message(self, LANG, user):
 		return (LANG('HI_THERE_ADMIN') if self.cfg.is_admin(user.id) else LANG('WELCOME_MESSAGE')).format(user.first_name)
-	
+
 	def markup(self, LANG, uid):
-		lang = self.usr.get(uid, "lang")
+		lang = self.usr.lang_code(uid)
 		return InlineKeyboardMarkup([
 			[InlineKeyboardButton(f"""🌐 Language: {langs.flag(lang)}{langs.formal_name(lang)}""", f"settings start")]
 		])
