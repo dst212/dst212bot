@@ -97,6 +97,7 @@ https://dst212.github.io/
 # settings
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",
 "SETTINGS_OVERRIDE": "Override groups' settings",
+"SETTINGS_AUTO-TR": "Auto-translate messages",
 "SETTINGS_SYNC-TR": "Sync language with /translate",
 "SETTINGS_SELECT_VALUE": "Select a new value for <code>{}</code>. Current value is <code>{}</code>.",
 "MUST_BE_ADMIN": "You must be admin to perform this action.",

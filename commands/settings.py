@@ -10,15 +10,22 @@ class CmdSettings(Command):
 		self.name = "settings"
 		self.aliases = ["s"]
 
+	def bool_button(self, LANG, m, callback, option):
+		return InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, option) else "❌"} {LANG('SETTINGS_' + option.upper())}""", callback + option)
+
 	def gen_markup(self, LANG, m):
 		callback = f"{self.name} "
-		lang = self.usr.get(m.chat.id, "lang")
-		return InlineKeyboardMarkup([
+		lang = self.usr.lang_code(m.chat.id)
+		buttons = [
 			[InlineKeyboardButton(LANG('CLOSE'), callback + "close")],
 			[InlineKeyboardButton(f"""🌐 Language: {langs.flag(lang)}{langs.formal_name(lang)}""", callback + "lang")],
-			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "override") else "❌"} {LANG('SETTINGS_OVERRIDE')}""", callback + "override")],
-			[InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, "sync-tr") else "❌"} {LANG('SETTINGS_SYNC-TR')}""", callback + "sync-tr")],
-		])
+		]
+		if m.chat.type == ChatType.PRIVATE:
+			buttons.append([self.bool_button(LANG, m, callback, "override")])
+		else:
+			buttons.append([self.bool_button(LANG, m, callback, "auto-tr")])
+		buttons.append([self.bool_button(LANG, m, callback, "sync-tr")])
+		return InlineKeyboardMarkup(buttons)
 
 	def callback(self, LANG, bot, c):
 		m = c.callback.message

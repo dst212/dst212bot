@@ -27,10 +27,15 @@ class Handlers:
 		else:
 			m.reply_text("Repeat what?")
 
+	def parse_message(self, bot, m):
+		if self.usr.get(m.chat.id, "auto-tr"):
+			self.cmds.map["translate"].translate_message(m)
+		self.cmds.map["counter"].parse_message(m)
+			
 	def message(self, bot, m):
 		if self.cfg.is_blocked(m):
 			#ignore the message but parse it
-			self.cmds.map["counter"].parse_message(m)
+			self.parse_message(bot, m)
 			return
 		text = m.text or m.caption
 		if text:
@@ -59,7 +64,7 @@ class Handlers:
 						log.error(f"[{a}] {e}")
 				m.reply_text(LANG('AN_ERROR_OCCURRED_WHILE_PERFORMING'))
 		else:
-			self.cmds.map["counter"].parse_message(m)
+			self.parse_message(bot, m)
 
 	def callback(self, bot, callback):
 		if self.cfg.is_blocked(callback): return # ignore the query

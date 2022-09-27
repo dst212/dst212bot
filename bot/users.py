@@ -30,6 +30,7 @@ class Users:
 		self.values = {
 			"lang": Option(str, "auto", options=["auto"] + langs.available()),
 			"sync-tr": Option(bool, False),
+			"auto-tr": Option(bool, False),
 			"override": Option(bool, False),
 		}
 		self.default = {k: v.default for k, v in self.values.items()}

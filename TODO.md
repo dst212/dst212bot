@@ -22,9 +22,15 @@
   
   - [x] `/settings get` to get the json file containing the user/group's settings
   
-  - [ ] actually override settings when `override` is true (and remove override in groups or make it like "ignore users' override" which is quite chaotic evil)
+  - [x] actually override settings when `override` is true (and remove override in groups ~~or make it like "ignore users' override" which is quite chaotic evil~~)
   
-  - [ ] add `auto-translate` option
+  - [x] add `auto-translate` option
+    
+    - [ ] make it possible to choose destination language
+  
+  - [ ] add `help` subcommand explaining options
+  
+  - [ ] add `set` subcommand
 
 - [ ] support for multiple languages
   

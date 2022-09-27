@@ -14,7 +14,16 @@ class CmdTranslate(Command):
 		self.aliases = ["tr"]
 		self.examples = ["auto it hello darkness my old friend", "en ja hello"]
 
-	def function(self, text, d, s) -> str:
+	def translate_message(self, m):
+		text = m.text or m.caption
+		dest = self.usr.lang_code(m.chat.id)
+		src = translator.detect(text).lang
+		if type(src) == list and dest not in src:
+			src = src[0]
+		if type(src) != list and dest != src:
+			m.reply_text("[<code>AUTO-TR</code>] " + html.escape(translator.translate(text, src=src, dest=dest).text))
+
+	def function(self, text, d, s):
 		#pass the user and use their default language
 		if d in ("auto", "") and s in ("auto", ""):
 			translation = translator.translate(text)
