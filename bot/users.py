@@ -25,7 +25,7 @@ class Users:
 	def __init__(self, bot):
 		self.base_dir = "./data/users/"
 		self.bot = bot
-		self.usr = {}
+		self.chat = {}
 		self.mutex = threading.Lock()
 		self.values = {
 			"lang": Option(str, "auto", options=["auto"] + langs.available()),
@@ -62,7 +62,7 @@ class Users:
 		finally:
 			self.mutex.release()
 
-	def do_override(self, m):
+	def do_override(self, m) -> bool:
 		# it's safe to call directly self.get() here
 		# it handles the creation of the user's settings if they don't exist
 		return m.from_user and self.get(m.from_user.id, "override")
@@ -79,21 +79,21 @@ class Users:
 			return uid.id
 		return uid
 
-	# get users' serrings or values
+	# get chat's settings or values
 	def get(self, uid, item=None):
 		user = None
 		uid = self.get_id(uid)
-		if not self.usr.get(uid):
+		if not self.chat.get(uid):
 			log.info(f"Loading settings for {uid}...")
 			user = self.load(uid)
 			if not user:
 				log.info(f"{uid} not found in files, creating...")
 				user = self.default.copy()
 				self.save(uid, user)
-			self.usr[uid] = user
+			self.chat[uid] = user
 			log.info(f"Loaded settings for {uid}: {user}")
 		else:
-			user = self.usr[uid]
+			user = self.chat[uid]
 		# add the option if it wasn't written yet, then save it
 		if item:
 			if not self.values.get(item):
@@ -103,17 +103,17 @@ class Users:
 				self.save(uid, user)
 		return (user.get(item) if item else user) if user else None
 
-	# modify users' settings
+	# modify chat's settings
 	def set(self, uid, item, value):
 		uid = self.get_id(uid)
 		i = self.values.get(item)
-		if self.usr.get(uid) and i:
+		if self.chat.get(uid) and i:
 			if i.is_valid(value):
-				self.usr[uid][item] = i.type(value)
-				self.save(uid, self.usr[uid])
+				self.chat[uid][item] = i.type(value)
+				self.save(uid, self.chat[uid])
 				return True
 			else:
-				raise ValueError(f"Type mismatch: {type(self.usr[uid][item])} and {type(value)} ({value})")
+				raise ValueError(f"Type mismatch: {type(self.chat[uid][item])} and {type(value)} ({value})")
 		return False
 
 	# messages and queries can (and should) be passed as uid, they will be parsed later on in get_id()
