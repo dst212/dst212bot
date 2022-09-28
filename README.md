@@ -1,7 +1,7 @@
 # dst212bot
 
 Try this bot out at [dst212bot.t.me](https://dst212bot.t.me).
-Updates at [dst212botchangelog.t.me](https://dst212botchangelog.t.me).
+Updates at [dst212botnews.t.me](https://dst212botnews.t.me).
 
 Note that this is just a random project which offers commands I often need when I'm using Telegram. Also, I don't like the snek, but `pyrogram` is cool.
 
