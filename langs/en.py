@@ -16,6 +16,8 @@ strings = {
 Bot written in Python by @dst212.
 https://dst212.github.io/
 
+News channel: @dst212botnews
+
 <b>Libraries</b>
 - <code>pyrogram</code>: Telegram client
 - <code>opencv-python</code>: QR code detection and decoding
@@ -139,7 +141,7 @@ https://dst212.github.io/
 # score
 "SCORE_HELP": f"""
 <code>/score</code> - Manage scores on the current chat.
-A score is a set of items for which is kept a integer value.
+A score is a set of items for which is kept a integer value each.
 
 <b>Usage:</b>
 
@@ -277,19 +279,19 @@ or
 
 <b>Examples:</b>
 <code>/pogo umbreon</code>
-Gives info about Umbreon's rank 1 in Great League.
+Info about Umbreon's rank 1 in Great League.
 
 <code>/pogo medicham 1 bb</code>
-Gives info about Medicham's rank 1 in Great League with a maximum level of 51.
+Info about Medicham's rank 1 in Great League with a maximum level of 51.
 
 <code>/pogo talonflame 15/15/14 ultra</code>
-Gives info about Talonflame's rank with those IVs (attack/defense/stamina) in Ultra League.
+Info about Talonflame's rank with those IVs (attack/defense/stamina) in Ultra League.
 
 <code>/pogo registeel 1 raid</code>
-Gives info about Registeel's rank 1 with Raid IVs in Great League.
+Info about Registeel's rank 1 with Raid IVs in Great League.
 
 <code>/pogo nidoqueen 15/15/15 ulc</code>
-Gives info about Nidoqueen's rank with those IVs in Ultra League Classic.
+Info about Nidoqueen's rank with those IVs in Ultra League Classic.
 
 In inline mode, commands are the same:
  <code>@dst212bot pogo umbreon</code>

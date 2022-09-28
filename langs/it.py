@@ -16,6 +16,8 @@ strings = {
 Bot scritto in Python da @dst212.
 https://dst212.github.io/
 
+Canale delle notizie: @dst212botnews
+
 <b>Librerie</b>
 - <code>pyrogram</code>: client Telegram
 - <code>opencv-python</code>: rilevamento e lettura codici QR
@@ -46,8 +48,8 @@ https://dst212.github.io/
 "TRANSLATION_TITLE": "Traduttore",
 
 # notices
-"INLINE_MODE_NOTICE": "Nella modalità inline, scrivere i comandi senza la slash <code>/</code> e inserire sempre il testo di input.",
-"CHOOSE_A_BUTTON": "Premere un pulsante per avere informazioni su quel comando.",
+"INLINE_MODE_NOTICE": "Nella modalità inline, scrivi i comandi senza la slash <code>/</code> e inserisci sempre il testo di input.",
+"CHOOSE_A_BUTTON": "Premi un pulsante per avere informazioni sul comando corrispondente.",
 "DOWNLOADING": "Scaricamento...",
 "LOADING": "Caricamento...",
 "RESTARTING_BOT": "Riavviando il bot...",
@@ -63,15 +65,15 @@ https://dst212.github.io/
 "NO_RESULTS": "Nessun risultato.",
 "NO_RESULTS_FOR": "Nessun risultato per {}.",
 "DOESNT_EXIST": "{} non esiste.",
-"INVALID_SYNTAX": "Sintassi invalida.",
-"INVALID_USAGE": "Utilizzo invalido.",
-"PROVIDE_TEXT": "Fornire del testo rispondendo ad un messaggio o scrivendolo accanto al comando.",
-"PROVIDE_SEARCH_QUERY": "Fornire una stringa di ricerca.",
+"INVALID_SYNTAX": "Sintassi non valida.",
+"INVALID_USAGE": "Utilizzo non valido.",
+"PROVIDE_TEXT": "Fornisci del testo rispondendo ad un messaggio o scrivendolo accanto al comando.",
+"PROVIDE_SEARCH_QUERY": "Fornisci una stringa di ricerca.",
 "COULDNT_FIND_SECTION": "Impossibile trovare la sezione {}.",
 "ERROR_WHILE_CREATING_FILE": "Errore nella creazione del file.",
 "NOT_AVAILABLE_AT_THIS_TIME": "Non disponibile al momento.",
 "IS_NOT_AVAILABLE_AT_THIS_TIME": "{} non è al momento disponibile.",
-"PICK_RANDOM_REPLY_TO_A_MESSAGE": "Per usare questo comando, Rispondere ad un messaggio con più di una riga.\nIl bot ne sceglierà una (o più).\n<code>/help pickrandom</code> per ulteriori informazioni.",
+"PICK_RANDOM_REPLY_TO_A_MESSAGE": "Per usare questo comando, rispondi ad un messaggio con più di una riga.\nIl bot ne sceglierà una (o più).\n<code>/help pickrandom</code> per ulteriori informazioni.",
 "IS_INVALID_USING": "<code>{}</code> non è un valore valido, verrà usato <code>{}</code>.",
 "NO_ENTRY_FOR": "Nessuna voce per {}.",
 "NO_PERMISSIONS": "Non hai i permessi per effettuare questa operazione.",
@@ -81,8 +83,8 @@ https://dst212.github.io/
 "INVALID_COMMAND": "<code>{}</code> non è un comando valido.",
 "UNNEEDED_ARGUMENT": "Ci sono argomenti non necessari.",
 "WEBSITE_UNAVAILABLE": "Sito non disponibile.",
-"PROVIDE_DECODING_ENCODING_TEXT": "Fornire un formato di decodifica e codifica e del testo da analizzare.",
-"PROVIDE_USERNAME_OR_ID": "Fornire un username o un id valido.",
+"PROVIDE_DECODING_ENCODING_TEXT": "Fornisci un formato di decodifica e codifica e del testo da analizzare.",
+"PROVIDE_USERNAME_OR_ID": "Fornisci un username o un id valido.",
 "YOU_SHOULD_KNOW": "Dovresti saperlo...",
 
 # generic info
@@ -139,7 +141,7 @@ https://dst212.github.io/
 # score
 "SCORE_HELP": f"""
 <code>/score</code> - Gestisci gli score nella chat corrente.
-Uno score è un insieme di elementi per i quali è registrato un numero intero.
+Uno score è un insieme di elementi per i quali è registrato un numero intero ciascuno.
 
 <b>Utilizzo:</b>
 
@@ -180,8 +182,8 @@ Sostituisce gli elementi di uno score esistente con quelli specificati.
 Questo torna utile per copiare o unire score diversi, o per creare più elementi al volo in un nuovo score.
 """,
 "SCORE_INVALID_NAME": "Nome score non valido: deve essere alfanumerico (trattini <code>-</code> e underscore <code>_</code> sono consentiti).",
-"SCORE_PROVIDE_NAME": "Fornire un nome valido per lo score.",
-"SCORE_PROVIDE_ITEM_NAME": "Fornire un nome valido per l'elemento'.",
+"SCORE_PROVIDE_NAME": "Fornisci un nome valido per lo score.",
+"SCORE_PROVIDE_ITEM_NAME": "Fornisci un nome valido per l'elemento'.",
 "SCORE_DOESNT_EXIST": "Lo score <b>{}</b> non esiste.",
 "SCORE_CREATED_SUCCESSFULLY": "Lo score <b>{}</b> è stato creato con successo.",
 "SCORE_ALREADY_EXISTS": "Lo score <b>{}</b> è già esistente.",
@@ -202,7 +204,7 @@ Questo torna utile per copiare o unire score diversi, o per creare più elementi
 # counter
 "COUNTER_HELP": f"""
 <code>/counter</code> - Gestisci i contatori nella chat corrente.
-Un contatore mantiene un valore che può essere incrementato manualmente o autoamticamente quanto qualcuno scrive qualcosa.
+Un contatore registra un valore che può essere incrementato manualmente o autoamticamente quanto qualcuno scrive qualcosa.
 
 <b>Usage:</b>
 
@@ -244,7 +246,7 @@ Se un messaggio inviato contiene il filtro, il contatore sarà aggiornato.
 "COUNTER_DISPLAY_SET": "<b>{}</b> sarà visualizzato come <b>{}</b>.",
 "COUNTER_AUTO_HAS": "<b>{}</b> ora ha i seguenti filtri:\n<i>{}</i>",
 "COUNTER_WORD_NOT_FOUND": "<i>{}</i> non è tra i filtri:\n<i>{}</i>",
-"COUNTER_PROVIDE_NAME": "Fornire un valore valido per il contatore.\nSolo lettere, cifre, trattini e underscore (<code>-</code> e <code>_</code>) sono ammessi.",
+"COUNTER_PROVIDE_NAME": "Fornisci un valore valido per il contatore.\nSolo lettere, cifre, trattini e underscore (<code>-</code> e <code>_</code>) sono ammessi.",
 "COUNTER_NO_TRIGGERS": "Nessun filtro impostato.",
 "COUNTER_ONLY_NUMBERS": "Si può solo impostare numeri.",
 
@@ -316,10 +318,10 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 ################
 
 "COMMANDS": {
-	"help": "Info su <code>command</code>.\nOmettere <code>command</code> per ottenere una lista di comandi disponibili.",
-	"settings": "Cambia le preferenze per la chat corrente.\nInvia <code>/settings get</code> per ottenere un file json contenente le impostazioni (eventuale debugging). Non c'è alcun modo per effettuare l'opposto (si deve cambiare le impostazioni manualmente, <s><code>/settings set</code></s> non esiste).",
+	"help": "Info sul comando <code>command</code>.\nOmetti <code>command</code> per ottenere una lista di comandi disponibili.",
+	"settings": "Cambia le preferenze per la chat corrente.\nInvia <code>/settings get</code> per ricevere un file json contenente le impostazioni (eventuale debugging). Non c'è alcun modo per effettuare l'opposto (si deve cambiare le impostazioni manualmente, <s><code>/settings set</code></s> non esiste).",
 	"translate": "Traduci <code>text</code> da <code>from_lang</code> a <code>to_lang</code>.\n<code>from_lang</code> e <code>to_lang</code> devono essere \"auto\" o un identificatore di lingua valido (come <i>en</i>, <i>it</i>, <i>de</i>...).\nUsando l'alias <code>/tr</code>, il risultato sarà mostrato direttamente senza dettagli.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
-	"tts": "Text to speech, rendi <code>text</code> del testo parlato e ottieni un file <code>mp3</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
+	"tts": "Text to speech, rendi <code>text</code> del testo parlato e ricevi un file <code>mp3</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"qr": "Crea un codice QR da <code>text</code>.\nPer decodificare un codice QR, rispondere ad una foto che lo contiene omettendo <code>text</code>.",
 	"wordfor": "Ottieni la parola che definisce <code>definition</code>, attraverso Reverse Dictionary (solo inglese).",
 	"encode": "Codifica del testo da <code>x</code> a <code>y</code>.\nValori accetti per x e y:\n- text, txt, t\n- binary, bin, b\n- base64, b64\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
@@ -342,7 +344,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 	"translate": """Traduci "text" da "from_lang" a "to_lang".""",
 	"info": """Ottieni info su un utente/canale/gruppo su Telegram.""",
 	"imdumb": """Scrivi messaggi come se fossi stupido.""",
-	"encode": """Converte "text" dalla codifica "x" alla codifica "y".""",
+	"encode": """Converti "text" dalla codifica "x" alla codifica "y".""",
 	"pokemon": """Cerca "name" nella categoria "category" su PokeAPI.""",
 	"wordfor": """Ottieni la parola per "definition" attraverso Reverse Dictionary (solo inglese).""",
 },
