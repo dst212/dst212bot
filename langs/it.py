@@ -279,7 +279,7 @@ o
 <code>/pogo umbreon</code>
 Info sul rank 1 di Umbreon's nella Lega Mega.
 
-<code>/pogo medicham bb</code>
+<code>/pogo medicham 1 bb</code>
 Info sul rank 1 di Medicham nella Lega Mega con livello massimo 51.
 
 <code>/pogo talonflame 15/15/14 ultra</code>

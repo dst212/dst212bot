@@ -279,7 +279,7 @@ or
 <code>/pogo umbreon</code>
 Gives info about Umbreon's rank 1 in Great League.
 
-<code>/pogo medicham bb</code>
+<code>/pogo medicham 1 bb</code>
 Gives info about Medicham's rank 1 in Great League with a maximum level of 51.
 
 <code>/pogo talonflame 15/15/14 ultra</code>
