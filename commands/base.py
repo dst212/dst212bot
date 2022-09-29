@@ -44,9 +44,9 @@ class CmdHelp(Command):
 		self.name = "help"
 		self.args = ["[command]"]
 
-	def help_buttons(self, LANG, bot, chat, m, cmds):
+	def help_buttons(self, LANG, bot, m, cmds):
 		if len(cmds) < 1:
-			callback = f"help {chat} {m} "
+			callback = f"help "
 			buttons = []
 			row = []
 			for k, _ in LANG('COMMANDS').items():
@@ -55,24 +55,23 @@ class CmdHelp(Command):
 					buttons += [row]
 					row = []
 			buttons += [row]
-			bot.edit_message_text(chat, m, 
+			m.edit_text( 
 				f"<b>{LANG('HELP')}</b>" + "\n\n" + LANG('CHOOSE_A_BUTTON') + "\n\n" + LANG('INLINE_MODE_NOTICE'),
 				reply_markup=InlineKeyboardMarkup(buttons)
 			)
 		else:
 			cmd = self.cmds.get(cmds[0])
-			bot.edit_message_text(chat, m,
+			m.edit_text(
 				command_entry(LANG, cmd, entry=cmds[0]),
-				reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help {chat} {m} /")]])
+				reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help /")]])
 			)
 
 	def run(self, LANG, bot, m):
 		msg = bot.send_message(m.chat.id, LANG('LOADING'))
-		self.help_buttons(LANG, bot, msg.chat.id, msg.id, (m.text or m.caption).split(" ")[1:])
+		self.help_buttons(LANG, bot, msg, (m.text or m.caption).split(" ")[1:])
 
 	def callback(self, LANG, bot, c):
-		if len(c.args) > 3:
-			self.help_buttons(LANG, bot, int(c.args[1]), int(c.args[2]), [] if c.args[3] == "/" else [c.args[3]])
+		self.help_buttons(LANG, bot, c.callback.message, [] if len(c.args) < 2 or c.args[1] == "/" else [c.args[1]])
 
 # /credits
 class CmdCredits(Command):
