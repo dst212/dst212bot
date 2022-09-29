@@ -55,3 +55,13 @@
 - [ ] `/msgi` sends a json file if the text is too large
 
 - [ ] `/wordfor` add buttons to browse previous and following definitions
+
+- [ ] `/games`? Maybe some stuff like Snake, 2048, Atari Breakout and Tetris
+
+
+
+# Known bugs
+
+- [ ] `/pogo`
+  
+  - [ ] `ultra friend` not recognized as keyword (due to the ultra league)
