@@ -104,6 +104,21 @@ News channel: @dst212botnews
 "SETTINGS_SYNC-TR": "Sync language with /translate",
 "SETTINGS_SELECT_VALUE": "Select a new value for <code>{}</code>. Current value is <code>{}</code>.",
 "MUST_BE_ADMIN": "You must be admin to perform this action.",
+"SETTINGS_HELP": f"""
+<b>Commands:</b>
+
+<code>/settings</code>
+Open settings menu.
+
+<code>/settings get</code>
+Receive a <code>json</code> file containing current chat's settings.
+
+<b>Options:</b>
+- <code>lang</code> (language): the language the bot will use replying to you.
+- <code>override</code> (override groups' settings, private): when on, the bot ignores groups' language and uses the language set privately.
+- <code>auto-tr</code> (auto translate, groups only): when on, the bot translates messages sent by group's users if necessary.
+""",
+
 
 # QRCode
 "QR_CODE_EMPTY": "The content was either empty or OpenCV didn't catch it.",

@@ -24,7 +24,8 @@ class CmdSettings(Command):
 			buttons.append([self.bool_button(LANG, m, callback, "override")])
 		else:
 			buttons.append([self.bool_button(LANG, m, callback, "auto-tr")])
-		buttons.append([self.bool_button(LANG, m, callback, "sync-tr")])
+		# let's keep sync-tr on by default forever
+		# buttons.append([self.bool_button(LANG, m, callback, "sync-tr")])
 		return InlineKeyboardMarkup(buttons)
 
 	def callback(self, LANG, bot, c):
@@ -78,8 +79,15 @@ class CmdSettings(Command):
 	def run(self, LANG, bot, m):
 		args = (m.text or m.caption).split(" ")
 		if sender_is_admin(m):
-			if len(args) > 1 and args[1] == "get":
-				m.reply_document(f"{self.usr.base_dir}{m.chat.id}", file_name=f"{m.chat.id}.json")
+			if len(args) > 1:
+				if args[1] == "get":
+					m.reply_document(f"{self.usr.base_dir}{m.chat.id}", file_name=f"{m.chat.id}.json")
+				elif args[1] == "help":
+					m.reply_text(LANG('SETTINGS_HELP'))
+				elif args[1] == "set":
+					m.reply_text(LANG('NOT_AVAILABLE_AT_THIS_TIME'))
+				else:
+					m.reply_text(LANG('INVALID_USAGE'))
 			else:
 				if can_delete(m):
 					m.delete()

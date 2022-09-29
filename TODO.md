@@ -28,7 +28,7 @@
     
     - [ ] make it possible to choose destination language
   
-  - [ ] add `help` subcommand explaining options
+  - [x] add `help` subcommand explaining options
   
   - [ ] add `set` subcommand
 
