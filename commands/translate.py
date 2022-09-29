@@ -1,5 +1,5 @@
 from bot.classes import Command
-import html
+from custom.misc import command_entry
 from googletrans import Translator
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
@@ -54,15 +54,14 @@ class CmdTranslate(Command):
 				t = self.function(text, d, s)
 				if args[0] in ["/"+self.name, self.name]:
 					out = (
-						f"""<b>{t.src}</b> → <b>{t.dest}</b>\n\n""" +
-						f"""<b>Source:</b>\n{html.escape(t.origin)}\n\n""" +
-						f"""<b>Result:</b>\n{html.escape(t.text)}""" #\n\n""" +
-						# (f"""<b>Pronunciation:</b> {html.escape(t.pronunciation)}""" if t.pronunciation else "")
+						f"<b>{t.src}</b> → <b>{t.dest}</b>\n\n" +
+						f"<b>{LANG('SOURCE_TEXT')}:</b>\n{html.escape(t.origin)}\n\n" +
+						f"<b>{LANG('RESULT')}:</b>\n{html.escape(t.text)}"
 					)
 				else:
 					out = html.escape(t.text)
 		except ValueError as e:
-			out = "Error: " + str(e)
+			out = f"{LANG('ERROR')}: {e}"
 		
 		message.reply_text(out)
 
