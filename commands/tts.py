@@ -4,8 +4,6 @@ from googletrans import Translator
 from gtts import gTTS
 from hashlib import md5
 
-translator = Translator()
-
 class CmdTTS(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -13,9 +11,11 @@ class CmdTTS(Command):
 		self.args = ["[text]"]
 		self.base_dir = "data/cache/audio/"
 
-	def run(self, LANG, bot, message) -> None:
+		self.translator = Translator()
+
+	def run(self, LANG, bot, m) -> None:
 		os.makedirs(self.base_dir, exist_ok=True)
-		m_text = message.text or message.caption
+		m_text = m.text or m.caption
 		text = ""
 		lang = ""
 		#get text to turn into speech
@@ -25,13 +25,13 @@ class CmdTTS(Command):
 		else:
 			i = len(m_text)
 		if not text:
-			if message.reply_to_message:
-				text = message.reply_to_message.text or message.reply_to_message.caption
+			if m.reply_to_message:
+				text = m.reply_to_message.text or m.reply_to_message.caption
 			else:
-				message.reply_text(LANG('PROVIDE_TEXT'))
+				m.reply_text(LANG('PROVIDE_TEXT'))
 				return
 		#start doing stuff
-		msg = message.reply_text("Processing...")
+		msg = m.reply_text("Processing...")
 		j = m_text[:i].find("-")
 		lang = m_text[j+1:i] if j != -1 else translator.detect(text).lang
 		if type(lang) == list:

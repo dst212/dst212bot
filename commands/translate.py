@@ -1,9 +1,7 @@
 from bot.classes import Command
 from custom.misc import command_entry
-from googletrans import Translator
+import googletrans, html
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
-
-translator = Translator()
 
 class CmdTranslate(Command):
 	def __init__(self, *args, **kwargs):
@@ -14,14 +12,16 @@ class CmdTranslate(Command):
 		self.aliases = ["tr"]
 		self.examples = ["auto it hello darkness my old friend", "en ja hello"]
 
+		self.translator = googletrans.Translator()
+
 	def translate_message(self, m):
 		text = m.text or m.caption
 		dest = self.usr.lang_code(m.chat.id)
-		src = translator.detect(text).lang
+		src = self.translator.detect(text).lang
 		if type(src) == list and dest not in src:
 			src = src[0]
 		if type(src) != list and dest != src:
-			m.reply_text("[<code>AUTO-TR</code>] " + html.escape(translator.translate(text, src=src, dest=dest).text))
+			m.reply_text("[<code>AUTO-TR</code>] " + html.escape(self.translator.translate(text, src=src, dest=dest).text))
 
 	def function(self, text, d, s):
 		#pass the user and use their default language
@@ -35,17 +35,17 @@ class CmdTranslate(Command):
 			translation = translator.translate(text, dest=d, src=s)
 		return translation
 
-	def run(self, LANG, bot, message):
-		args = (message.text or message.caption).split(" ")
+	def run(self, LANG, bot, m):
+		args = (m.text or m.caption).split(" ")
 		out = ""
 		try:
 			d, s = "", ""
 			text = " ".join(args[3:])
-			if message.reply_to_message is None and (len(args) < 4 or text == ""):
-				out = "/translate - Translate a message or some text into another language.\n\nUsage:\n<code>/translate from_language to_language text</code>\n\nExamples:\n<code>/translate auto it Hello Darkness my old friend</code>\n<code>/translate fr en phoque</code>"
+			if m.reply_to_message is None and (len(args) < 4 or text == ""):
+				out = command_entry(LANG, self)
 			else:
 				if text == "":
-					text = message.reply_to_message.text or message.reply_to_message.caption
+					text = m.reply_to_message.text or m.reply_to_message.caption
 				if len(args) > 2:
 					s = args[1]
 					d = args[2]
@@ -63,7 +63,7 @@ class CmdTranslate(Command):
 		except ValueError as e:
 			out = f"{LANG('ERROR')}: {e}"
 		
-		message.reply_text(out)
+		m.reply_text(out)
 
 	def inline(self, LANG, bot, q):
 		if len(q.args) > 3:
