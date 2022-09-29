@@ -58,10 +58,10 @@
 
 - [ ] `/games`? Maybe some stuff like Snake, 2048, Atari Breakout and Tetris
 
-
-
 # Known bugs
 
 - [ ] `/pogo`
   
   - [ ] `ultra friend` not recognized as keyword (due to the ultra league)
+
+- [ ] `/help &amp;` and similar uses of `&` don't get escaped
