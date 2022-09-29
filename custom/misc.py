@@ -35,3 +35,10 @@ def format_user(item) -> str:
 	elif type(item) == User:
 		return f"""{item.mention(" @" + item.username if item.username else html.escape(item.first_name))} [<code>{item.id}</code>]"""
 	return f"Unknown ({item})"
+
+def command_entry(LANG, k, v):
+	return (
+		f"""<code>/{k} {" ".join(item for item in v["args"])}</code>\n""" +
+		(LANG('ALIASES') + ": <code>/" + ("</code>, <code>/".join(item for item in v["aliases"])) + "</code>\n" if v.get("aliases") else "") +
+		"\n" + v["desc"]
+	) if v else LANG('NO_ENTRY_FOR').format(k)

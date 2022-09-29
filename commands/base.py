@@ -2,16 +2,10 @@ from bot.classes import Command
 import logging
 log = logging.getLogger(__name__)
 import langs
+from custom.misc import command_entry
 from pyrogram.enums import ChatType
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-def command_entry(LANG, k, v):
-	return (
-		f"""<code>/{k} {" ".join(item for item in v["args"])}</code>\n""" +
-		(LANG('ALIASES') + ": <code>/" + ("</code>, <code>/".join(item for item in v["aliases"])) + "</code>\n" if v.get("aliases") else "") +
-		"\n" + v["desc"]
-	) if v else LANG('NO_ENTRY_FOR').format(k)
 
 # /start
 class CmdStart(Command):
