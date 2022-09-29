@@ -75,6 +75,7 @@ Canale delle notizie: @dst212botnews
 "IS_NOT_AVAILABLE_AT_THIS_TIME": "{} non è al momento disponibile.",
 "PICK_RANDOM_REPLY_TO_A_MESSAGE": "Per usare questo comando, rispondi ad un messaggio con più di una riga.\nIl bot ne sceglierà una (o più).\n<code>/help pickrandom</code> per ulteriori informazioni.",
 "IS_INVALID_USING": "<code>{}</code> non è un valore valido, verrà usato <code>{}</code>.",
+"NO_ENTRY": "Nessuna voce.",
 "NO_ENTRY_FOR": "Nessuna voce per {}.",
 "NO_PERMISSIONS": "Non hai i permessi per effettuare questa operazione.",
 "LANGUAGE_IS_NOT_SUPPORTED": "La lingua <code>{}</code> non è supportata.",

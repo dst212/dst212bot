@@ -62,11 +62,7 @@ class CmdHelp(Command):
 		else:
 			cmd = self.cmds.get(cmds[0])
 			bot.edit_message_text(chat, m,
-				command_entry(LANG, cmd.name, {
-					"args": cmd.args,
-					"aliases": cmd.aliases,
-					"desc": LANG('COMMANDS').get(cmd.name)
-				}) + "\n\n" + LANG('INLINE_MODE_NOTICE'),
+				command_entry(LANG, cmd, entry=cmds[0]),
 				reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), f"help {chat} {m} /")]])
 			)
 

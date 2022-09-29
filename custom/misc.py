@@ -1,3 +1,4 @@
+from bot.classes import Command
 import html
 from pyrogram.types import Message, User, Chat, CallbackQuery
 from pyrogram.enums import ChatType
@@ -36,9 +37,9 @@ def format_user(item) -> str:
 		return f"""{item.mention(" @" + item.username if item.username else html.escape(item.first_name))} [<code>{item.id}</code>]"""
 	return f"Unknown ({item})"
 
-def command_entry(LANG, k, v):
+def command_entry(LANG, cmd: Command, entry=None, inline_notice=True):
 	return (
-		f"""<code>/{k} {" ".join(item for item in v["args"])}</code>\n""" +
-		(LANG('ALIASES') + ": <code>/" + ("</code>, <code>/".join(item for item in v["aliases"])) + "</code>\n" if v.get("aliases") else "") +
-		"\n" + v["desc"]
-	) if v else LANG('NO_ENTRY_FOR').format(k)
+		f"""<code>/{cmd.name} {" ".join(cmd.args)}</code>\n""" +
+		(LANG('ALIASES') + ": <code>/" + ("</code>, <code>/".join(cmd.aliases)) + "</code>\n" if cmd.aliases else "") + "\n" +
+		LANG('COMMANDS').get(cmd.name) + ("\n\n" + LANG('INLINE_MODE_NOTICE') if inline_notice else "")
+	) if cmd else LANG('NO_ENTRY_FOR').format(entry) if entry else LANG('NO_ENTRY')
