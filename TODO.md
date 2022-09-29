@@ -40,7 +40,7 @@
     
     - [ ] score.py
   
-  - [ ] `/translate` (sync with settings)
+  - [x] `/translate` (sync with settings)
 
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   

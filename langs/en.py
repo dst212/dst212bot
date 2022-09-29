@@ -35,6 +35,7 @@ News channel: @dst212botnews
 "ERROR": "Error",
 "EXAMPLE": "Example",
 "ALIASES": "Aliases",
+"RESULT": "Result",
 "RESULTS": "Results",
 "USAGE": "Usage",
 "SYNTAX": "Syntax",
@@ -43,9 +44,6 @@ News channel: @dst212botnews
 "CLOSE": "Close",
 "UNKNOWN": "Unknown",
 "AVAILABLE_CATEGORIES": "Available categories",
-
-# titles
-"TRANSLATION_TITLE": "Translation",
 
 # notices
 "INLINE_MODE_NOTICE": "In inline-mode, just write the commands without the slash <code>/</code> and always provide an input text.",
@@ -119,6 +117,9 @@ Receive a <code>json</code> file containing current chat's settings.
 - <code>auto-tr</code> (auto translate, groups only): when on, the bot translates messages sent by group's users if necessary.
 """,
 
+# translate
+"TRANSLATION_TITLE": "Translation",
+"SOURCE_TEXT": "Source text",
 
 # QRCode
 "QR_CODE_EMPTY": "The content was either empty or OpenCV didn't catch it.",

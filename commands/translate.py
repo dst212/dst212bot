@@ -23,17 +23,10 @@ class CmdTranslate(Command):
 		if type(src) != list and dest != src:
 			m.reply_text("[<code>AUTO-TR</code>] " + html.escape(self.translator.translate(text, src=src, dest=dest).text))
 
-	def function(self, text, d, s):
-		#pass the user and use their default language
-		if d in ("auto", "") and s in ("auto", ""):
-			translation = translator.translate(text)
-		elif d in ("auto", "") and s not in ("auto", ""):
-			translation = translator.translate(text, src=s)
-		elif d not in ("auto", "") and s in ("auto", ""):
-			translation = translator.translate(text, dest=d)
-		else:
-			translation = translator.translate(text, dest=d, src=s)
-		return translation
+	def function(self, m, text, d, s):
+		if d in ("auto", ""):
+			d = self.usr.lang_code(m)
+		return self.translator.translate(text, dest=d, s=None if s in ("auto", "") else s)
 
 	def run(self, LANG, bot, m):
 		args = (m.text or m.caption).split(" ")
@@ -51,7 +44,7 @@ class CmdTranslate(Command):
 					d = args[2]
 				elif len(args) > 1:
 					d = args[1]
-				t = self.function(text, d, s)
+				t = self.function(m, text, d, s)
 				if args[0] in ["/"+self.name, self.name]:
 					out = (
 						f"<b>{t.src}</b> → <b>{t.dest}</b>\n\n" +
@@ -68,7 +61,7 @@ class CmdTranslate(Command):
 	def inline(self, LANG, bot, q):
 		if len(q.args) > 3:
 			try:
-				t = self.function(" ".join(q.args[3:]), q.args[2], q.args[1]).text
+				t = self.function(q.inline, " ".join(q.args[3:]), q.args[2], q.args[1]).text
 				return [InlineQueryResultArticle(
 					id = "0",
 					title = LANG('TRANSLATION_TITLE'),
