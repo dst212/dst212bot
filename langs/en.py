@@ -325,6 +325,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 "POGO_MAX_LVL_LT_0": "Maximum level cannot be less than <code>0</code>.",
 "POGO_MIN_IV_MT_15": "Minimum IVs cannot be greater than <code>15</code>.",
 "POGO_NOT_RECOGNIZED": "<code>{}</code> is not a recognized keyword.",
+"POGO_THAT_IS_THE_ONE_THERE": "It's that one there.",
 
 # Other commands
 "SCRAMBLE_TEXT": "Scramble text",

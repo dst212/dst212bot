@@ -303,7 +303,6 @@ Info sul rank 1 di Medicham nella Lega Mega con livello massimo 51.
 
 <code>/pogo talonflame 15/15/14 ultra</code>
 Info sul rank di Talonflame con quegli IV (attacco/difesa/stamina) nella Lega Ultra. 
-Gives info about Talonflame's rank with those IVs (attack/defense/stamina) in Ultra League.
 
 <code>/pogo registeel 1 raid</code>
 Info sul rank 1 di Registeel con IV da Raid nella Lega Mega.
@@ -326,6 +325,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 "POGO_MAX_LVL_LT_0": "Il livello massimo non può esser meno di <code>0</code>.",
 "POGO_MIN_IV_MT_15": "Gli IV minimi non possono essere maggiori di <code>15</code>.",
 "POGO_NOT_RECOGNIZED": "<code>{}</code> non è riconosciuta come parola chiave.",
+"POGO_THAT_IS_THE_ONE_THERE": "È quello lì.",
 
 # Other commands
 "SCRAMBLE_TEXT": "Scombina il testo",

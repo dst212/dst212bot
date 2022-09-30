@@ -3,6 +3,7 @@ from . import rank
 from .fetch_pokedex import main as fetch_pokedex
 import re, os, json, threading
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors.exceptions.bad_request_400 import MessageNotModified
 
 class CmdPoGo(Command):
 	def __init__(self, *args, **kwargs):
@@ -87,4 +88,7 @@ class CmdPoGo(Command):
 		# c.callback.edit_message_text(LANG('LOADING'))
 		title, out, config = self.function(LANG, c.args)
 		original = c.callback.message.reply_markup.inline_keyboard[0][0].callback_data.split(" ")[-4]
-		c.callback.edit_message_text(f"<b>{title}</b>\n\n" + out if title else out, reply_markup=self.markup(config, original))
+		try:
+			c.callback.edit_message_text(f"<b>{title}</b>\n\n" + out if title else out, reply_markup=self.markup(config, original))
+		except MessageNotModified as e:
+			c.callback.answer(LANG('POGO_THAT_IS_THE_ONE_THERE'))
