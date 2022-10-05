@@ -29,7 +29,6 @@ class Users:
 		self.mutex = threading.Lock()
 		self.values = {
 			"lang": Option(str, "auto", options=["auto"] + langs.available()),
-			"sync-tr": Option(bool, False),
 			"auto-tr": Option(bool, False),
 			"override": Option(bool, False),
 		}
