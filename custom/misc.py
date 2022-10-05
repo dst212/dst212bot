@@ -41,5 +41,5 @@ def command_entry(LANG, cmd: Command, entry=None, inline_notice=True):
 	return (
 		f"""<code>/{cmd.name} {" ".join(cmd.args)}</code>\n""" +
 		(LANG('ALIASES') + ": <code>/" + ("</code>, <code>/".join(cmd.aliases)) + "</code>\n" if cmd.aliases else "") + "\n" +
-		LANG('COMMANDS').get(cmd.name) + ("\n\n" + LANG('INLINE_MODE_NOTICE') if inline_notice else "")
+		(LANG('COMMANDS').get(cmd.name) or "") + ("\n\n" + LANG('INLINE_MODE_NOTICE') if inline_notice else "")
 	) if cmd else LANG('NO_ENTRY_FOR').format(html.escape(entry)) if entry else LANG('NO_ENTRY')
