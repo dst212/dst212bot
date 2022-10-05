@@ -3,7 +3,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from custom.misc import can_delete, sender_is_admin
-import html, random
+import html, random, os
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 # /msgi
@@ -11,9 +11,22 @@ class CmdMsgInfo(Command):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "msgi"
+		self.base_dir = f"./data/cache/{self.name}/"
 
 	def run(self, LANG, bot, m):
-		m.reply_text("<code>" + html.escape(str(m.reply_to_message or m)) + "</code>")
+		args = (m.text or m.caption).split(" ")
+		if m.reply_to_message:
+			m = m.reply_to_message
+		output = str(m)
+		if len(output) < 4096 and len(args) > 1 and args[1] == "here":
+			m.reply_text("<code>" + html.escape(output) + "</code>")
+		else:
+			os.makedirs(self.base_dir, exist_ok=True)
+			filepath = f"{self.base_dir}/{m.chat.id}-{m.id}.json"
+			if not os.path.exists(filepath):
+				with open(filepath, "w") as f:
+					f.write(output)
+			m.reply_document(filepath)
 
 # /count
 class CmdCount(Command):

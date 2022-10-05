@@ -52,7 +52,7 @@
 
 - [ ] new command: `/timezone`
 
-- [ ] `/msgi` sends a json file if the text is too large
+- [x] `/msgi` sends a json file if the text is too large
 
 - [ ] `/wordfor` add buttons to browse previous and following definitions
 
