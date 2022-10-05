@@ -123,9 +123,12 @@ class Config:
 			out += "\nConfig updated."
 		return out
 
-	def log(self, text):
+	def log(self, text: str, forward: list[Message]=[], exclude: list=[]):
 		for a in self.get_log_chats():
-			try:
-				self.bot.send_message(a, text)
-			except Exception as e:
-				log.error(f"[{a}] {e}")
+			if a not in exclude:
+				try:
+					self.bot.send_message(a, text)
+					for m in forward:
+						m.forward(a)
+				except Exception as e:
+					log.error(f"[{a}] {e}")

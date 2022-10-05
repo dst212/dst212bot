@@ -56,12 +56,7 @@ class Handlers:
 			except Exception as e:
 				traceback.print_exc()
 				sender = (f"{m.from_user.mention()}, <code>{m.from_user.id}</code>" + (f" at <code>{m.chat.id}</code>" if m.chat.id != m.from_user.id else "")) if m.from_user else "Unknown"
-				for a in self.cfg.get_log_chats():
-					try:
-						bot.send_message(a, f"<code>#{m.chat.id}</code><code>#{m.id}#</code>\nAn exception occurred to someone ({sender}):\n\n<code>{html.escape(traceback.format_exc())}</code>\n\nMessage:")
-						bot.forward_messages(a, m.chat.id, m.id)
-					except Exception as e:
-						log.error(f"[{a}] {e}")
+				self.cfg.log(f"<code>#{m.chat.id}</code><code>#{m.id}#</code>\nAn exception occurred to someone ({sender}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nMessage:", forward=[m])
 				m.reply_text(LANG('AN_ERROR_OCCURRED_WHILE_PERFORMING'))
 		else:
 			self.parse_message(bot, m)
