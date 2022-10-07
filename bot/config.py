@@ -93,35 +93,33 @@ class Config:
 			out += [format_user(res) if res else f"[<code>{i}</code>] (dead)"]
 		return ", ".join(out)
 
-	def add_items(self, group, ids) -> str:
+	def add_items(self, LANG, group, ids) -> str:
 		if group not in self.cfg or group == "admin":
-			return "<code>{group}</code> is not a valid group."
+			return LANG('CONFIG_IS_NOT_A_VALID_GROUP').format(group)
 		out = ""
 		for item in self.get_users_groups(ids):
-			out += format_user(item)
 			if item.id in self.cfg[group]:
-				out += f" already in <code>{group}</code>.\n"
+				out = LANG('CONFIG_ALREADY_IN').format(format_user(item), group) + "\n"
 			else:
 				self.cfg[group] += [item.id]
-				out += f" added to <code>{group}</code>.\n"
+				out = LANG('CONFIG_ADDED_TO').format(format_user(item), group) + "\n"
 		with open(self.base_dir + group + ".json", "w") as f:
 			json.dump(self.cfg[group], f)
-			out += "\nConfig updated."
+			out = (out or LANG('NOTHING_CHANGED')) + "\n" + LANG('CONFIG_UPDATED')
 		return out
-	def rem_items(self, group, ids) -> str:
+	def rem_items(self, LANG, group, ids) -> str:
 		if group not in self.cfg or group == "admin":
-			return "<code>{group}</code> is not a valid group."
+			return LANG('CONFIG_IS_NOT_A_VALID_GROUP').format(group)
 		out = ""
 		for item in self.get_users_groups(ids):
-			out += format_user(item)
 			if item.id in self.cfg[group]:
 				self.cfg[group].remove(item.id)
-				out += f" removed from <code>{group}</code>.\n"
+				out = LANG('CONFIG_REMOVED_FROM').format(format_user(item), group) + "\n"
 			else:
-				out += f" is not in <code>{group}</code>.\n"
+				out = LANG('CONFIG_NOT_IN').format(format_user(item), group) + "\n"
 		with open(self.base_dir + group + ".json", "w") as f:
 			json.dump(self.cfg[group], f)
-			out += "\nConfig updated."
+			out = (out or LANG('NOTHING_CHANGED')) + "\n" + LANG('CONFIG_UPDATED')
 		return out
 
 	def log(self, text: str, forward: list[Message]=[], exclude: list=[]):

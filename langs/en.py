@@ -77,6 +77,7 @@ News channel: @dst212botnews
 "NO_ENTRY": "No entry.",
 "NO_ENTRY_FOR": "No entry for {}.",
 "NO_PERMISSIONS": "You have no permissions to perform this operation.",
+"NOTHING_CHANGED": "Nothing changed.",
 "LANGUAGE_IS_NOT_SUPPORTED": "Language <code>{}</code> not supported.",
 "USING_LANGUAGE": "Using language <code>{}</code>.",
 
@@ -104,6 +105,14 @@ News channel: @dst212botnews
 "ADMIN_ITEMS_IN": "Items in <code>{}</code>:\n",
 "ADMIN_NO_ITEMS_IN": "No items in <code>{}</code>.",
 "ADMIN_NOT_JOINED_OR_INVALID": "The bot hasn't joined that group or the group ID is not valid.",
+
+# config
+"CONFIG_IS_NOT_A_VALID_GROUP": "<code>{}</code> is not a valid group.",
+"CONFIG_ALREADY_IN": "{} already in <code>{}</code>.",
+"CONFIG_ADDED_TO": "{} added to <code>{}</code>.",
+"CONFIG_REMOVED_FROM": "{} removed from <code>{}</code>.",
+"CONFIG_NOT_IN": "{} not in <code>{}</code>.",
+"CONFIG_UPDATED": "Config updated.",
 
 # settings
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",

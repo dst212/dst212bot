@@ -35,10 +35,10 @@ class CmdAdmin(Command):
 				outm.edit_text(out)
 			elif len(args) > 2 and args[1] in ("add", "new"):
 				items = args[3:] or [m.reply_to_message.id if m.reply_to_message else m.chat.id]
-				m.reply_text(self.cfg.add_items(args[2], items))
+				m.reply_text(self.cfg.add_items(LANG, args[2], items))
 			elif len(args) > 2 and args[1] in ("rem", "del", "remove", "delete"):
 				items = args[3:] or [m.reply_to_message.id if m.reply_to_message else m.chat.id]
-				m.reply_text(self.cfg.rem_items(args[2], items))
+				m.reply_text(self.cfg.rem_items(LANG, args[2], items))
 			elif len(args) > 2 and args[1] in ("send",):
 				reply_id = None
 				chat = re.split("[\.\#]", args[2])
