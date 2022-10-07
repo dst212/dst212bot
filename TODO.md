@@ -7,7 +7,7 @@
   - [ ] pokedex:
     
     - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
-  
+
 - [ ] `/settings`
   
   - [x] add `auto-translate` option
@@ -30,7 +30,7 @@
 
 - [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
   
-  - [ ] `.send chat_id message` command
+  - [x] `.send chat_id message` command
 
 - [ ] new command: `/timezone`
 

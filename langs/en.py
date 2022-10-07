@@ -37,6 +37,7 @@ News channel: @dst212botnews
 "ALIASES": "Aliases",
 "RESULT": "Result",
 "RESULTS": "Results",
+"TOTAL": "Total",
 "USAGE": "Usage",
 "SYNTAX": "Syntax",
 "HELP": "Help",
@@ -95,11 +96,19 @@ News channel: @dst212botnews
 "IT_DOESNT_EXIST": "The category {} doesn't exist.",
 "DID_YOU_MEAN": "Did you mean {}?",
 
+# admin command
+"ADMIN_REPLY_ID_MUST_BE_INTEGER": "The message's ID to reply to must be integer.",
+"ADMIN_SENT_MESSAGE": "{} sent this message to {}.",
+"ADMIN_BROADCAST_MESSAGE": "{} spammed the message above ({}/{} delivered).",
+"ADMIN_RESTARTING": "[<code>{}</code>] Restarting...",
+"ADMIN_ITEMS_IN": "Items in <code>{}</code>:\n",
+"ADMIN_NO_ITEMS_IN": "No items in <code>{}</code>.",
+"ADMIN_NOT_JOINED_OR_INVALID": "The bot hasn't joined that group or the group ID is not valid.",
+
 # settings
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",
 "SETTINGS_OVERRIDE": "Override groups' settings",
 "SETTINGS_AUTO-TR": "Auto-translate messages",
-"SETTINGS_SYNC-TR": "Sync language with /translate",
 "SETTINGS_SELECT_VALUE": "Select a new value for <code>{}</code>. Current value is <code>{}</code>.",
 "MUST_BE_ADMIN": "You must be admin to perform this action.",
 "SETTINGS_HELP": f"""
