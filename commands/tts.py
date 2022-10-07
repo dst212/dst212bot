@@ -33,7 +33,7 @@ class CmdTTS(Command):
 		#start doing stuff
 		msg = m.reply_text("Processing...")
 		j = m_text[:i].find("-")
-		lang = m_text[j+1:i] if j != -1 else translator.detect(text).lang
+		lang = m_text[j+1:i] if j != -1 else self.translator.detect(text).lang
 		if type(lang) == list:
 			lang = lang[0]
 		filepath = f"{self.base_dir}{md5(text.encode()).hexdigest()}.{lang}.mp3"
