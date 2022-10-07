@@ -85,6 +85,7 @@ class Config:
 	def list_all(self, l) -> str:
 		out = []
 		for i in l:
+			res = None
 			try: res = self.bot.get_users(i)
 			except:
 				try: res = self.bot.get_chat(i)
