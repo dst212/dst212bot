@@ -5,6 +5,7 @@ log = logging.getLogger(__name__)
 import os, json, datetime, threading
 
 from pyrogram.types import Chat, User, Message, CallbackQuery, InlineQuery
+from pyrogram.enums import ChatType
 
 class Option:
 	def __init__(self, t: type, default, minimum=None, maximum=None, options: list=[]):
@@ -115,6 +116,50 @@ class Users:
 			else:
 				raise ValueError(f"Type mismatch: {type(self.chat[uid][item])} and {type(value)} ({value})")
 		return False
+
+	# retrieve all chats' ids for which settings were saved
+	def get_all_chats():
+		chats = []
+		for i in os.listdir(self.basr_dir):
+			try:
+				chats.append(int(i))
+			except:
+				pass
+		return chats
+
+	# retrieve active chats list
+	def get_active_chats_list(self):
+		chats = []
+		for i in os.listdir(self.base_dir):
+			try:
+				i = self.bot.get_chat(int(i))
+				if type(i) == Chat:
+					chats.append(i)
+			except:
+				pass
+		return chats
+
+	# retrieve active chats grouped in objects
+	def get_active_chats(self):
+		chats = {}
+		count = 0
+		for i in os.listdir(self.base_dir):
+			try:
+				i = self.bot.get_chat(int(i))
+				if type(i) == Chat:
+					if not chats.get(i.type.name):
+						chats[i.type.name] = {}
+					chats[i.type.name][i.id] = i
+					count += 1
+			except:
+				pass
+		# this is actually useless as one could simply do something like
+		# len(chats["BOT"]) which is also shorter to type than chats["BOT"]["count"] 
+		# for v in chats.values():
+		# 	v["count"] = len(v)
+		# 	count += len(v) # obviously if this is on, count += 1 (some lines above) must be removed
+		chats["count"] = count
+		return chats
 
 	# messages and queries can (and should) be passed as uid, they will be parsed later on in get_id()
 	def lang_code(self, uid):
