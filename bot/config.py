@@ -10,32 +10,35 @@ class Config:
 	def __init__(self, bot, users):
 		self.bot = bot
 		self.usr = users
-		self.base_dir = "./data/config/"
-		self.cfg = {
+		self.file = "data/config.json"
+		self.default = {
 			"admin": [],		# can do admin stuff except adding or removing other admins
 			"log": [],			# will get info about the bot operations (boot up, shutdown, errors)
-			"helper": [],		# can use /reply
-			"support": [],		# can see /hey reports, must be helper to reply
+			"support": [],		# can see /hey reports
+			"helper": [],		# can reply to /hey reports (also admin can do that whether they're helper or not)
 			"blocked": [],		# users/chats which can't use the bot
 		}
-		self.refresh_data()
+		self.cfg = self.default.copy()
+		self.reload()
 
-	def refresh_data(self) -> None:
-		os.makedirs(self.base_dir, exist_ok=True)
-		for k in self.cfg:
-			file = self.base_dir + k + ".json"
-			if os.path.exists(file):
-				try:
-					with open(file, "r") as f:
-						self.cfg[k] = json.load(f)
-				except:
-					os.rename(file, file + "." + datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".corrupted")
-					log.error("Couldn't read " + file + ", renamed.")
-			if not self.cfg.get(k):
-				with open(file, "w") as f:
-					json.dump(self.cfg[k], f)
+	def reload(self) -> None:
+		if os.path.exists(self.file):
+			obj = {}
+			try:
+				with open(self.file, "r") as f:
+					obj = json.load(f)
+			except e:
+				log.error(e)
+				os.rename(self.file, self.file + "." + datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".corrupted")
+				log.error(f"Couldn't correctly read and parse {self.file}, renamed.")
+			# add loaded groups to current config
+			for k, v in obj.items():
+				self.cfg[k] = v
+		else:
+			with open(self.file, "w") as f:
+				json.dump(self.cfg, f, indent=2)
 		if len(self.cfg["admin"]) == 0:
-			log.warning("Please, manually set one or more admin for the bot in " + self.base_dir + "admin.json")
+			log.warning(f"No admins listed in {self.file}, add one or more. See https://github.com/dst212/dst212bot/blob/main/README.md#configuration for further details.")
 
 	def get(self, what) -> list:
 		return self.cfg.get(what) or []

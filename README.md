@@ -57,28 +57,31 @@ $ ./main.py
 
 ## Configuration
 
-The bot's configuration can be edited while the bot is running through the `/admin` command. The bot won't have admin the first time it's started, though.
+The bot's configuration can be edited while the bot is running through the `/admin` command. The bot won't have any admin the first time it's started, though.
 
-You can add admins adding their Telegram IDs (retrievable with `/info`) to the JSON file created at `data/config/admins.json`:
+You can add a Telegram user ID (retrievable with `/info`) to the JSON file created at `data/config.json` to make them admin, like this:
 
 ```json
-[448025569, 1390873424]
+{
+  "admin":   [448025569, 1390873424],
+  "log":     [],
+  "helper":  [],
+  "support": [],
+  "blocked": []
+}
 ```
 
-Then restart the bot (killing it or `CTRL-C`-ing it or whatever you want). Note that admins can restart the bot using the `/reboot` command. This wont work the first time as nobody is an admin unless the configuration file is manually edited.
+Then restart the bot (killing it or `CTRL-C`-ing it or whatever you want). Note that admins can restart the bot using the `/reboot` command. This won't work the first time as nobody is an admin unless the configuration file is manually created before.
 
-You may want to edit other things manually. The config's tree looks like this:
+You may want to edit other things manually:
 
-```
-config/
-├── admin.json
-├── blocked.json  # blocked chats (users or groups who won't be able to use the bot)
-├── helper.json   # users who can reply to feedback sent with /hey
-├── log.json      # chats logging bot events (when the bot starts or stops, errors...)
-└── support.json  # chats receiving feedback sent with /hey
-```
+- `blocked`: blocked chats (users or groups who won't be able to use the bot);
 
-Note that `log` chats won't receive `/hey`'s feedback.
+- `helper`: users who can reply to feedback sent with /hey (also users in `admin` can do that);
+
+- `log`: chats logging bot events (when the bot starts or stops, errors... but not /hey feedback);
+
+- `support`: chats receiving feedback sent with /hey.
 
 ## Other notes
 
