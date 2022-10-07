@@ -19,6 +19,9 @@ class CmdAdmin(Command):
 					raise Warning("This is a test.")
 				elif args[2] in ("missing", "string"):
 					m.reply_text(LANG('string which doesn\'t exist'))
+			elif len(args) > 1 and args[1] in ("reload", "refresh"):
+				self.cfg.reload()
+				m.reply_text(LANG('CONFIG_RELOADED'))
 			elif len(args) > 2 and args[1] in ("list",):
 				out = ""
 				outm = m.reply_text(LANG('LOADING'))

@@ -113,6 +113,7 @@ News channel: @dst212botnews
 "CONFIG_REMOVED_FROM": "{} removed from <code>{}</code>.",
 "CONFIG_NOT_IN": "{} not in <code>{}</code>.",
 "CONFIG_UPDATED": "Config updated.",
+"CONFIG_RELOADED": "Config reloaded.",
 
 # settings
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",
