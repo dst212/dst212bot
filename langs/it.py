@@ -84,13 +84,11 @@ Canale delle notizie: @dst212botnews
 "INVALID_COMMAND": "<code>{}</code> non è un comando valido.",
 "UNNEEDED_ARGUMENT": "Ci sono argomenti non necessari.",
 "WEBSITE_UNAVAILABLE": "Sito non disponibile.",
-"PROVIDE_DECODING_ENCODING_TEXT": "Fornisci un formato di decodifica e codifica e del testo da analizzare.",
 "PROVIDE_USERNAME_OR_ID": "Fornisci un username o un id valido.",
 "YOU_SHOULD_KNOW": "Dovresti saperlo...",
 
 # generic info
 "RESULTS_FOR": "Risultati per {}",
-"ENCODE_FROM_TO": "Codifica {}da {} a {}",
 "TRANSLATE_FROM_TO": "Traduci {}da {} a {}",
 "FILE_SAVED": "Salvato {}.",
 "CATEGORY_DOESNT_EXIST": "La categoria specificata non esiste.",
@@ -135,6 +133,14 @@ Ricevi un file <code>json</code> con le impostazioni della chat corrente.
 - <code>override</code> (sovrascrivi impostazioni gruppi, privata): se attiva, il bot ignora la lingua dei gruppi e usa la lingua impostata privatamente.
 - <code>auto-tr</code> (auto translate, solo gruppi): se attiva, il bot traduce i messaggi inviati dagli utenti del gruppo, se necessario.
 """,
+
+# encode
+"ENCODE_FROM_TO": "Codifica {}da {} a {}",
+"ENCODE_ERROR": "È avvenuto un errore. Assicurati che il testo fornito sia cofidicato correttamente.",
+"ENCODE_PROVIDED_ISNT": "La codifica del testo fornito non è <code>{}</code>.",
+"ENCODE_IS_NOT_VALID": "<code>{}</code> non è una codifica valida.",
+"ENCODE_ARE_NOT_VALID": "<code>{}</code> e <code>{}</code> non sono codifiche valide.",
+"PROVIDE_DECODING_ENCODING_TEXT": "Fornisci un formato di decodifica e codifica e del testo da analizzare.",
 
 # translate
 "TRANSLATION_TITLE": "Traduttore",

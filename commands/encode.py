@@ -53,18 +53,18 @@ class CmdEncode(Command):
 						elif enc == "base64":	out = self.text2base64(out)
 						ok = True
 					except binascii.Error as e:
-						out = "The provided text's encoding wasn't <code>base64</code>."
+						out = LANG('ENCODE_PROVIDED_ISNT').format("base64")
 					except ValueError as e:
-						out = "The provided text's encoding wasn't <code>binary</code>."
+						out = LANG('ENCODE_PROVIDED_ISNT').format("binary")
 					except Exception as e:
-						out = f"An error occurred, spot any encoding oddity in your message."
+						out = LANG('ENCODE_ERROR')
 						print(traceback.format_exc())
 			elif not dec and enc:
-				out = f"<code>{html.escape(args[1])}</code> is not a valid encoding."
+				out = LANG('ENCODE_IS_NOT_VALID').format(html.escape(args[1]))
 			elif not enc and dec:
-				out = f"<code>{html.escape(args[2])}</code> is not a valid encoding."
+				out = LANG('ENCODE_IS_NOT_VALID').format(html.escape(args[2]))
 			else:
-				out = f"<code>{html.escape(args[1])}</code> and <code>{html.escape(args[2])}</code> are not valid encodings."
+				out = LANG('ENCODE_ARE_NOT_VALID').format(html.escape(args[1]), html.escape(args[2]))
 		return out, ok
 
 	def run(self, LANG, bot, m):

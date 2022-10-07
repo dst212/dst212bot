@@ -84,13 +84,11 @@ News channel: @dst212botnews
 "INVALID_COMMAND": "<code>{}</code> is not a valid command.",
 "UNNEEDED_ARGUMENT": "Unneded arguments.",
 "WEBSITE_UNAVAILABLE": "Website unavailable.",
-"PROVIDE_DECODING_ENCODING_TEXT": "Provide a decoding format, an encoding format and a text to parse.",
 "PROVIDE_USERNAME_OR_ID": "Provide a valid username or id.",
 "YOU_SHOULD_KNOW": "You should know it...",
 
 # generic info
 "RESULTS_FOR": "Result for {}",
-"ENCODE_FROM_TO": "Encode {}from {} to {}",
 "TRANSLATE_FROM_TO": "Translate {}from {} to {}",
 "FILE_SAVED": "Saved {}.",
 "CATEGORY_DOESNT_EXIST": "The specified category doesn't exist.",
@@ -135,6 +133,14 @@ Receive a <code>json</code> file containing current chat's settings.
 - <code>override</code> (override groups' settings, private): when on, the bot ignores groups' language and uses the language set privately.
 - <code>auto-tr</code> (auto translate, groups only): when on, the bot translates messages sent by group's users if necessary.
 """,
+
+# encode
+"ENCODE_FROM_TO": "Encode {}from {} to {}",
+"ENCODE_ERROR": "An error occurred, ensure the input text is correctly encoded.",
+"ENCODE_PROVIDED_ISNT": "The provided text's encoding isn't <code>{}</code>.",
+"ENCODE_IS_NOT_VALID": "<code>{}</code> is not a valid encoding.",
+"ENCODE_ARE_NOT_VALID": "<code>{}</code> and <code>{}</code> are not valid encodings.",
+"PROVIDE_DECODING_ENCODING_TEXT": "Provide a decoding format, an encoding format and a text to parse.",
 
 # translate
 "TRANSLATION_TITLE": "Translation",
