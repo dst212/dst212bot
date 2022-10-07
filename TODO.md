@@ -16,14 +16,6 @@
   
   - [ ] add `set` subcommand
 
-- [ ] support for multiple languages
-  
-  - [ ] adding missing strings:
-    
-    - [ ] encode.py
-    
-    - [ ] score.py
-
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   
   - [ ] enable chat forward: every message sent is forwarded (`hey_admins.parse()` will check if forward is enabled in `self.usr`)

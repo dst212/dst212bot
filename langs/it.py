@@ -223,6 +223,9 @@ item4 :value4
 Sostituisce gli elementi di uno score esistente con quelli specificati.
 Questo torna utile per copiare o unire score diversi, o per creare più elementi al volo in un nuovo score.
 """,
+"SCORE_HELP_ADD": "<code>/score add score_name item_name [value=1]</code>\n\nAumenta di <code>value</code> l'elemento <code>item_name</code> dello score <code>score_name</code>.\nSi possono usare valori negativi al posto di <code>value</code>.",
+"SCORE_HELP_SET": "<code>/score set score_name item_name [value=1]</code>\n\nImposta a <code>value</code> l'elemento <code>item_name</code> dello score <code>score_name</code>.",
+"SCORE_HELP_SETRAW": "<code>/score setraw score_name\nitem1 : value\nitem2 : value\nitem3 : value</code>\n\nPer ogni nuova riga, crea un elemento e vi assegna il valore specificato.",
 "SCORE_INVALID_NAME": "Nome score non valido: deve essere alfanumerico (trattini <code>-</code> e underscore <code>_</code> sono consentiti).",
 "SCORE_PROVIDE_NAME": "Fornisci un nome valido per lo score.",
 "SCORE_PROVIDE_ITEM_NAME": "Fornisci un nome valido per l'elemento'.",

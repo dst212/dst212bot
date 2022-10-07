@@ -203,7 +203,7 @@ class CmdScore(Command):
 				self.score_display(LANG, m, args[2], " ".join(args[3:]))
 			elif args[1] in ("add",):
 				if len(args) <= 3:
-					m.reply(LANG('USAGE') + ":\n<code>/score add score_name item_name [value=1]</code>\n\nIncrement by <code>value</code> the item <code>item_name</code> of <code>score_name</code>.\nYou may use negative values as <code>value</code>.")
+					m.reply(LANG('USAGE') + ":\n" + LANG('SCORE_HELP_ADD'))
 					return
 				try:
 					self.score_add(LANG, m, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
@@ -211,7 +211,7 @@ class CmdScore(Command):
 					m.reply(LANG('SCORE_ONLY_NUMBERS'))
 			elif args[1] in ("set",):
 				if len(args) <= 3:
-					m.reply(LANG('USAGE') + ":\n<code>/score set score_name item_name [value=1]</code>\n\nSet to <code>value</code> the item <code>item_name</code> of <code>score_name</code>.")
+					m.reply(LANG('USAGE') + ":\n" + LANG('SCORE_HELP_SET'))
 					return
 				try:
 					self.score_set(LANG, m, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
@@ -220,7 +220,7 @@ class CmdScore(Command):
 			elif args[1] in ("setraw",):
 				i = args[2].find("\n") if len(args) > 2 else -1
 				if i == -1:
-					m.reply(LANG('USAGE') + ":\n<code>/score setraw score_name\nitem1 : value\nitem2 : value\nitem3 : value</code>\n\nFor each new line, create a item and assign the specified value to it.")
+					m.reply(LANG('USAGE') + ":\n" + LANG('SCORE_HELP_SETRAW'))
 					return
 				score = args[2][:i]
 				items = {}

@@ -223,6 +223,9 @@ item4 :value4
 Replace the items for an existing score with the specified ones.
 This is useful to clone or merge different scores, or create more items on the fly on a new score.
 """,
+"SCORE_HELP_ADD": "<code>/score add score_name item_name [value=1]</code>\n\nIncrement by <code>value</code> the item <code>item_name</code> of <code>score_name</code>.\nYou may use negative values as <code>value</code>.",
+"SCORE_HELP_SET": "<code>/score set score_name item_name [value=1]</code>\n\nSet to <code>value</code> the item <code>item_name</code> of <code>score_name</code>.",
+"SCORE_HELP_SETRAW": "<code>/score setraw score_name\nitem1 : value\nitem2 : value\nitem3 : value</code>\n\nFor each new line, create a item and assign the specified value to it.",
 "SCORE_INVALID_NAME": "Invalid score name: must be alphanumeric (dashes <code>-</code> and unsersocres <code>_</code> are allowed).",
 "SCORE_PROVIDE_NAME": "Provide a valid name for the score.",
 "SCORE_PROVIDE_ITEM_NAME": "Provide a valid name for the item.",
