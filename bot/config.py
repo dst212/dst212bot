@@ -46,7 +46,7 @@ class Config:
 	def get_support_chats(self) -> list:
 		return self.cfg["support"]
 	def get_helpers(self) -> list:
-		return self.cfg["support"]
+		return self.cfg["helper"]
 	def get_blocked(self) -> list:
 		return self.cfg["blocked"]
 
