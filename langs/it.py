@@ -59,6 +59,7 @@ Canale delle notizie: @dst212botnews
 "LOL_NO_THANKS": "Lol no grazie.",
 "WE_ALL_KNOW_THAT": "Lo sappiamo tutti.",
 "REPEAT_WHAT": "Ripetere cosa?",
+"MY_JOB_HERE_IS_DONE": "Il mio lavoro qui è finito.\n\n*swoosh*",
 "AN_ERROR_OCCURRED": "È avvenuto un errore.",
 "ERROR_OCCURRED": "È avvenuto un errore.",
 "AN_ERROR_OCCURRED_WHILE_PERFORMING": "È avvenuto un errore durante l'esecuzione di questa operazione.\nContatta @dst212 per ulteriori informazioni.",
@@ -110,6 +111,9 @@ Canale delle notizie: @dst212botnews
 "ADMIN_LEFT": "Abbandonato {}.",
 "ADMIN_IS_PRIVATE_CHAT": "{} è una chat privata.",
 "ADMIN_SENT_THIS_COMMAND": "{} ha inviato questo comando:",
+"ADMIN_I_AM_NOT_A_MEMBER": "Non sono un membro di {}.",
+"ADMIN_I_CANT_WRITE_IN": "Non posso scrivere in {}!",
+"ADMIN_I_COULDNT_SAY_BYEBYE": "Non ho potuto salutare {} :(",
 
 # config
 "CONFIG_IS_NOT_A_VALID_GROUP": "<code>{}</code> non è un gruppo valido.",

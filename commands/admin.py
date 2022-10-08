@@ -1,10 +1,12 @@
 from bot.classes import Command
 from custom.misc import format_user
-import logging, re, os, sys, html
+from langs import Lang
+import logging, re, os, sys, html, traceback
 log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat
-from pyrogram.enums import ChatType
+from pyrogram.enums import ChatType, ChatMemberStatus
+from pyrogram.errors import Forbidden
 
 class CmdAdmin(Command):
 	def __init__(self, *args, **kwargs):
@@ -69,6 +71,7 @@ class CmdAdmin(Command):
 		outm.edit_text(out)
 
 	def send(self, LANG, bot, m, args):
+		out = ""
 		reply_id = None
 		chat = re.split("[\.\#]", args[2])
 		try: chat, reply_id = bot.get_chat(int(chat[0]) if chat[0].isnumeric() else chat[0]), chat[1] if len(chat) > 1 else None
@@ -91,6 +94,8 @@ class CmdAdmin(Command):
 						sent = bot.send_message(chat.id, text, reply_to_message_id=reply_id)
 					else:
 						out = LANG('PROVIDE_TEXT')
+			except Forbidden:
+				out = LANG('ADMIN_I_CANT_WRITE_IN').format(format_user(chat))
 			except Exception as e:
 				out = html.escape(str(e))
 			if sent:
@@ -125,8 +130,22 @@ class CmdAdmin(Command):
 				except Exception as e:
 					log.warning(f"[{chat.id}] {e}")
 				i += 1
-			outm.delete()
 			self.cfg.log(LANG('ADMIN_BROADCAST_MESSAGE').format(format_user(m.from_user), count, len(chats)))
+			outm.delete()
+
+	def byebye(self, bot, chat, me):
+		use_chat_perm = not me.permissions and chat.permissions
+		if (use_chat_perm and chat.permissions.can_send_other_messages) or (me.permissions and me.permissions.can_send_other_messages):
+			my_job_is_done = "CAACAgQAAx0CWzSgSwACAu9jQbY6q1CWFVYmvd9oLvr9lTjDowADBAAC4VO0Gkg-S0vXzYliHgQ"
+			swoosh = "CAACAgQAAx0CWzSgSwACAvBjQbY8ekRMaHdcyGcZbTjcuEpQvwACAgQAAuFTtBrgVhKngYV6YB4E"
+			bot.send_sticker(chat.id, my_job_is_done)
+			bot.send_sticker(chat.id, swoosh)
+			return True
+		elif (use_chat_perm and chat.permissions.can_send_messages) or (me.permissions and me.permissions.can_send_messages):
+			LANG = Lang(self.usr.lang_code(chat.id), self.cfg).string
+			bot.send_message(chat.id, LANG('MY_JOB_HERE_IS_DONE'))
+			return True
+		return False
 
 	def leave(self, LANG, bot, m, args):
 		self.cfg.log(LANG('ADMIN_SENT_THIS_COMMAND').format(format_user(m.from_user)), exclude=[m.chat.id], forward=[m])
@@ -134,16 +153,29 @@ class CmdAdmin(Command):
 		for i in args[2:] or [m.chat]:
 			try:
 				chat = i if type(i) == Chat else bot.get_chat(i)
-				if chat.type != ChatType.PRIVATE:
-					chat.leave()
-					out += "Left {}.".format(format_user(chat))
-				else:
+				if chat.type == ChatType.PRIVATE:
 					out += LANG('ADMIN_IS_PRIVATE_CHAT').format(format_user(chat))
+				else:
+					try:
+						if not self.byebye(bot, chat, chat.get_member("me")):
+							out += LANG('ADMIN_I_COULDNT_SAY_BYEBYE').format(format_user(chat)) + "\n"
+						chat.leave()
+						out += LANG('ADMIN_LEFT').format(format_user(chat))
+					except:
+						out += LANG('ADMIN_I_AM_NOT_A_MEMBER').format(format_user(chat))
 			except Exception as e:
 				log.warning(f"[{i}] {e}")
+				traceback.print_exc()
 				out += LANG('NOT_RECOGNIZED').format(f"[<code>{html.escape(str(i))}</code>]")
 			out += "\n"
-		self.cfg.log(out or LANG('NOTHING_CHANGED'))
+		if not out:
+			out = LANG('NOTHING_CHANGED')
+		self.cfg.log(out, exclude=[m.chat.id])
+		# the chat removed may be this one, the fastest way to avoid this is a try-catc-, I mean, try-except
+		try:
+			m.reply_text(out)
+		except:
+			pass
 
 	def forget(self, LANG, bot, m, args):
 		self.cfg.log(LANG('ADMIN_SENT_THIS_COMMAND').format(format_user(m.from_user)), exclude=[m.chat.id], forward=[m])
@@ -158,7 +190,10 @@ class CmdAdmin(Command):
 			except:
 				out += LANG('NOT_RECOGNIZED').format(f"[<code>{html.escape(str(i))}</code>]")
 			out += "\n"
-		self.cfg.log(out or LANG('NOTHING_CHANGED'))
+		if not out:
+			out = LANG('NOTHING_CHANGED')
+		self.cfg.log(out, exclude=[m.chat.id])
+		m.reply_text(out)
 
 class CmdReboot(Command):
 	def __init__(self, *args, **kwargs):

@@ -58,7 +58,8 @@ News channel: @dst212botnews
 # generic warnings
 "LOL_NO_THANKS": "Lol no thanks.",
 "WE_ALL_KNOW_THAT": "We all know that.",
-"REPEAT_WHAT": "Ripetere cosa?",
+"REPEAT_WHAT": "Repeat what?",
+"MY_JOB_HERE_IS_DONE": "My job here is done.\n\n*swoosh*",
 "AN_ERROR_OCCURRED": "An error occurred.",
 "ERROR_OCCURRED": "An error occurred.",
 "AN_ERROR_OCCURRED_WHILE_PERFORMING": "An error occurred while performing this operation.\nContact @dst212 for further information.",
@@ -110,6 +111,9 @@ News channel: @dst212botnews
 "ADMIN_LEFT": "Left {}.",
 "ADMIN_IS_PRIVATE_CHAT": "{} is a private chat.",
 "ADMIN_SENT_THIS_COMMAND": "{} sent this command:",
+"ADMIN_I_AM_NOT_A_MEMBER": "I am not a member of {}.",
+"ADMIN_I_CANT_WRITE_IN": "I can't write in {}!",
+"ADMIN_I_COULDNT_SAY_BYEBYE": "I couldn't say bye bye to {} :(",
 
 # config
 "CONFIG_IS_NOT_A_VALID_GROUP": "<code>{}</code> is not a valid group.",
