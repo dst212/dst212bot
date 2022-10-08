@@ -10,9 +10,7 @@
 
 - [ ] `/settings`
   
-  - [x] add `auto-translate` option
-    
-    - [ ] make it possible to choose destination language
+  - [ ] make it possible to choose `auto-translate` destination language
   
   - [ ] add `set` subcommand
 
@@ -22,11 +20,9 @@
 
 - [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
   
-  - [x] `.send chat_id message` command
+  - [ ] make `spam` work when there's a lot of chats (catching FloodWait exception)
 
 - [ ] new command: `/timezone`
-
-- [x] `/msgi` sends a json file if the text is too large
 
 - [ ] `/wordfor` add buttons to browse previous and following definitions
 
