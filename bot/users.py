@@ -35,12 +35,12 @@ class Users:
 		}
 		self.default = {k: v.default for k, v in self.values.items()}
 
-	def save(self, uid: int, config: dict):
+	def save(self, uid: int, config: dict=None):
 		self.mutex.acquire()
 		try:
 			os.makedirs(self.base_dir, exist_ok=True)
 			with open(f"{self.base_dir}{uid}", "w") as f:
-				json.dump(config, f)
+				json.dump(config or self.default, f)
 		except Exception as e:
 			raise e
 		finally:
@@ -52,16 +52,33 @@ class Users:
 			file = f"{self.base_dir}{uid}"
 			if os.path.exists(file):
 				with open(file, "r") as f:
-					try:
-						return json.load(f)
-					except json:
-						os.rename(file, file + "." + datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".corrupted")
-						log.error("Couldn't read " + file + ", renamed.")
-			return None
+					return json.load(f)
+		except json:
+			os.rename(file, file + "." + datetime.datetime.now().strftime("%Y%m%d%H%M%S") + ".corrupted")
+			log.error("Couldn't read " + file + ", renamed.")
 		except Exception as e:
 			raise e
 		finally:
 			self.mutex.release()
+		return None
+
+	def forget(self, uid: int):
+		self.mutex.acquire()
+		try:
+			file = f"{self.base_dir}{uid}"
+			if os.path.exists(file):
+				log.info(f"Removing settings for {uid}...")
+				os.remove(file)
+				if self.chat.get(uid):
+					log.info(f"Removing {self.chat[uid]}...")
+					del self.chat[uid]
+				log.info(f"Successfully erased settings for {uid}.")
+				return True
+		except Exception as e:
+			raise e
+		finally:
+			self.mutex.release()
+		return False
 
 	def do_override(self, m) -> bool:
 		# it's safe to call directly self.get() here
