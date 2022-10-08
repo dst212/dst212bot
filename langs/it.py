@@ -58,6 +58,7 @@ Canale delle notizie: @dst212botnews
 # generic warnings
 "LOL_NO_THANKS": "Lol no grazie.",
 "WE_ALL_KNOW_THAT": "Lo sappiamo tutti.",
+"REPEAT_WHAT": "Ripetere cosa?",
 "AN_ERROR_OCCURRED": "È avvenuto un errore.",
 "ERROR_OCCURRED": "È avvenuto un errore.",
 "AN_ERROR_OCCURRED_WHILE_PERFORMING": "È avvenuto un errore durante l'esecuzione di questa operazione.\nContatta @dst212 per ulteriori informazioni.",
@@ -77,6 +78,7 @@ Canale delle notizie: @dst212botnews
 "NO_ENTRY": "Nessuna voce.",
 "NO_ENTRY_FOR": "Nessuna voce per {}.",
 "NO_PERMISSIONS": "Non hai i permessi per effettuare questa operazione.",
+"NOT_RECOGNIZED": "{} non riconosciuto.",
 "NOTHING_CHANGED": "Non è cambiato nulla.",
 "LANGUAGE_IS_NOT_SUPPORTED": "La lingua <code>{}</code> non è supportata.",
 "USING_LANGUAGE": "Verrà usata la lingua <code>{}</code>.",
@@ -98,11 +100,16 @@ Canale delle notizie: @dst212botnews
 # admin command
 "ADMIN_REPLY_ID_MUST_BE_INTEGER": "L'ID del messaggio deve essere un numero intero.",
 "ADMIN_SENT_MESSAGE": "{} ha inviato questo messaggio a {}",
-"ADMIN_BROADCAST_MESSAGE": "{} ha spammato il messaggio sopra ({}/{} delivered).",
+"ADMIN_BROADCAST_MESSAGE": "{} ha spammato il messaggio sopra ({}/{} inviati).",
 "ADMIN_RESTARTING": "[<code>{}</code>] Riavviando...",
 "ADMIN_ITEMS_IN": "Elementi in <code>{}</code>:\n",
 "ADMIN_NO_ITEMS_IN": "Nessun elemento in <code>{}</code>.",
 "ADMIN_NOT_JOINED_OR_INVALID": "Il bot non si è unito al gruppo o l'ID del gruppo non è valido.",
+"ADMIN_ERASED_SETTINGS_FOR": "Impostazioni eliminate per {}.",
+"ADMIN_NO_SETTINGS_TO_ERASE_FOR": "Non ci sono impostazioni da eliminare per {}.",
+"ADMIN_LEFT": "Abbandonato {}.",
+"ADMIN_IS_PRIVATE_CHAT": "{} è una chat privata.",
+"ADMIN_SENT_THIS_COMMAND": "{} ha inviato questo comando:",
 
 # config
 "CONFIG_IS_NOT_A_VALID_GROUP": "<code>{}</code> non è un gruppo valido.",

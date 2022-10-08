@@ -58,6 +58,7 @@ News channel: @dst212botnews
 # generic warnings
 "LOL_NO_THANKS": "Lol no thanks.",
 "WE_ALL_KNOW_THAT": "We all know that.",
+"REPEAT_WHAT": "Ripetere cosa?",
 "AN_ERROR_OCCURRED": "An error occurred.",
 "ERROR_OCCURRED": "An error occurred.",
 "AN_ERROR_OCCURRED_WHILE_PERFORMING": "An error occurred while performing this operation.\nContact @dst212 for further information.",
@@ -77,6 +78,7 @@ News channel: @dst212botnews
 "NO_ENTRY": "No entry.",
 "NO_ENTRY_FOR": "No entry for {}.",
 "NO_PERMISSIONS": "You have no permissions to perform this operation.",
+"NOT_RECOGNIZED": "{} not recognized.",
 "NOTHING_CHANGED": "Nothing changed.",
 "LANGUAGE_IS_NOT_SUPPORTED": "Language <code>{}</code> not supported.",
 "USING_LANGUAGE": "Using language <code>{}</code>.",
@@ -97,12 +99,17 @@ News channel: @dst212botnews
 
 # admin command
 "ADMIN_REPLY_ID_MUST_BE_INTEGER": "The message's ID to reply to must be integer.",
-"ADMIN_SENT_MESSAGE": "{} sent this message to {}.",
+"ADMIN_SENT_MESSAGE": "{} sent this message to {}",
 "ADMIN_BROADCAST_MESSAGE": "{} spammed the message above ({}/{} delivered).",
 "ADMIN_RESTARTING": "[<code>{}</code>] Restarting...",
 "ADMIN_ITEMS_IN": "Items in <code>{}</code>:\n",
 "ADMIN_NO_ITEMS_IN": "No items in <code>{}</code>.",
 "ADMIN_NOT_JOINED_OR_INVALID": "The bot hasn't joined that group or the group ID is not valid.",
+"ADMIN_ERASED_SETTINGS_FOR": "Settings erased for {}.",
+"ADMIN_NO_SETTINGS_TO_ERASE_FOR": "No settings to erase for {}.",
+"ADMIN_LEFT": "Left {}.",
+"ADMIN_IS_PRIVATE_CHAT": "{} is a private chat.",
+"ADMIN_SENT_THIS_COMMAND": "{} sent this command:",
 
 # config
 "CONFIG_IS_NOT_A_VALID_GROUP": "<code>{}</code> is not a valid group.",

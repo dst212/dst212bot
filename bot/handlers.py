@@ -3,7 +3,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from langs import Lang
-import traceback, html
+import traceback, html, base64, json
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 class Handlers:
@@ -26,9 +26,9 @@ class Handlers:
 			elif self.cfg.is_admin(m) or (m.from_user and m.from_user.id == m.reply_to_message.from_user.id):
 				self.message(bot, m.reply_to_message)
 			else:
-				m.reply_text(LANG('YOU_HAVE_NO_PERMISSIONS'))
+				m.reply_text(LANG('NO_PERMISSIONS'))
 		else:
-			m.reply_text("Repeat what?")
+			m.reply_text(LANG('REPEAT_WHAT'))
 
 	def parse_message(self, bot, m):
 		if self.usr.get(m.chat.id, "auto-tr"):
@@ -44,8 +44,8 @@ class Handlers:
 		if text:
 			# make emojis valid
 			text = text.encode("utf-8").decode("utf-8")
-		# allow commands only from non-anonymous users, if the message is not send from helpers in a support chat
-		if not self.cmds.map["hey"].parse(bot, m) and m.from_user and text and text[0] == "/":
+		# allow commands only from non-anonymous and non-bot users, if the message is not send from helpers in a support chat
+		if not self.cmds.map["hey"].parse(bot, m) and m.from_user and not m.from_user.is_bot and text and text[0] == "/":
 			LANG = Lang(self.usr.lang_code(m), self.cfg).string
 			try:
 				# run command
@@ -66,16 +66,20 @@ class Handlers:
 
 	def callback(self, bot, callback):
 		if self.cfg.is_blocked(callback): return # ignore the query
-		try:
-			LANG = Lang(self.usr.lang_code(callback), self.cfg).string
-			query = CallbackQuery(callback)
-			cmd = query.args[0]
-			if self.cmds.map.get(cmd):
-				self.cmds.map[cmd].callback(LANG, bot, query)
-		except Exception as e:
-			traceback.print_exc()
-			self.cfg.log(f"An exception occurred to someone ({callback.from_user.mention() if callback.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(callback.data)}</code>")
-			bot.answer_callback_query(query.callback.id, LANG('AN_ERROR_OCCURRED_WHILE_PERFORMING'), show_alert = True)
+		if callback.data:
+			try:
+				LANG = Lang(self.usr.lang_code(callback), self.cfg).string
+				query = CallbackQuery(callback)
+				cmd = query.args[0]
+				if self.cmds.map.get(cmd):
+					self.cmds.map[cmd].callback(LANG, bot, query)
+			except Exception as e:
+				traceback.print_exc()
+				self.cfg.log(f"An exception occurred to someone ({callback.from_user.mention() if callback.from_user else 'Unknown'}):\n\n<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(callback.data)}</code>")
+				callback.answer(LANG('AN_ERROR_OCCURRED_WHILE_PERFORMING'), show_alert = True)
+		elif callback.game_short_name:
+			payload = base64.b64encode(bytes(json.dumps({"u": callback.from_user.id, "i": callback.inline_message_id}), "utf-8")).decode()
+			callback.answer(url=f"https://dst.altervista.org/dst212bot/games/{callback.game_short_name}?{payload}")
 
 	def inline(self, bot, inline):
 		if self.cfg.is_blocked(inline): return # ignore the query
