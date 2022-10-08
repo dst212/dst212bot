@@ -15,7 +15,7 @@ class CmdSettings(Command):
 
 	def gen_markup(self, LANG, m):
 		callback = f"{self.name} "
-		lang = self.usr.lang_code(m.chat.id)
+		lang = self.usr.get(m.chat.id, "lang")
 		buttons = [
 			[InlineKeyboardButton(LANG('CLOSE'), callback + "close")],
 			[InlineKeyboardButton(f"""🌐 Language: {langs.flag(lang)}{langs.formal_name(lang)}""", callback + "lang")],
