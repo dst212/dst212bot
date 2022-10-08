@@ -1,9 +1,9 @@
-from bot.classes import CallbackQuery, InlineQuery
-import logging
+from bot.classes import CustomCallbackQuery, CustomInlineQuery
+from langs import Lang
+
+import base64, html, json, logging, traceback
 log = logging.getLogger(__name__)
 
-from langs import Lang
-import traceback, html, base64, json
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 class Handlers:
@@ -69,7 +69,7 @@ class Handlers:
 		if callback.data:
 			try:
 				LANG = Lang(self.usr.lang_code(callback), self.cfg).string
-				query = CallbackQuery(callback)
+				query = CustomCallbackQuery(callback)
 				cmd = query.args[0]
 				if self.cmds.map.get(cmd):
 					self.cmds.map[cmd].callback(LANG, bot, query)
@@ -85,7 +85,7 @@ class Handlers:
 		if self.cfg.is_blocked(inline): return # ignore the query
 		LANG = Lang(self.usr.lang_code(inline), self.cfg).string
 		cache_time = 300
-		query = InlineQuery(inline)
+		query = CustomInlineQuery(inline)
 		cmd = query.args[0] if query.args else "h"
 		results = []
 		if cmd in ("h", "help"):

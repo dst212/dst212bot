@@ -1,10 +1,11 @@
-import langs
-from bot.classes import Command
+from bot.classes import BaseCommand
 from custom.misc import sender_is_admin, can_delete
+import langs
+
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
 
-class CmdSettings(Command):
+class CmdSettings(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "settings"

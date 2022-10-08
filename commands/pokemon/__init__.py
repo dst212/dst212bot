@@ -1,4 +1,4 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
 from .api import api_list, get_api, get_item, BASE_DIR
 from .output import print_data
 
@@ -7,7 +7,7 @@ from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.enums import ParseMode
 from custom.find_matches import find_most_accurate
 
-class CmdPokemon(Command):
+class CmdPokemon(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "pokemon"

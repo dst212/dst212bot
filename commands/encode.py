@@ -1,9 +1,10 @@
-from bot.classes import Command
-from langs import en as LANG
-import base64, html, traceback, binascii
+from bot.classes import BaseCommand
+
+import base64, binascii, html, traceback
+
 from pyrogram.enums import ParseMode
 
-class CmdEncode(Command):
+class CmdEncode(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "encode"

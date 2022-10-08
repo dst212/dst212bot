@@ -1,12 +1,14 @@
-from bot.classes import Command
-import requests, json, html, urllib.parse
+from bot.classes import BaseCommand
+
+import html, json, requests, urllib.parse
+
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 API = "https://reversedictionary.org/api/"
 CREDITS_WEBSITE = "https://reversedictionary.org"
 CREDITS = f'\n\n<i>From <a href="{CREDITS_WEBSITE}">Reverse Dictionary</a></i>.'
 
-class CmdWordFor(Command):
+class CmdWordFor(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "wordfor"

@@ -1,9 +1,11 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
 from custom.misc import command_entry
+
 import googletrans, html
+
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
-class CmdTranslate(Command):
+class CmdTranslate(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "translate"

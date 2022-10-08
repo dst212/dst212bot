@@ -1,13 +1,13 @@
-from bot.classes import Command
-import logging
+from bot.classes import BaseCommand
+from custom.misc import can_delete, sender_is_admin
+
+import html, logging, os, random
 log = logging.getLogger(__name__)
 
-from custom.misc import can_delete, sender_is_admin
-import html, random, os
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 # /msgi
-class CmdMsgInfo(Command):
+class CmdMsgInfo(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "msgi"
@@ -29,7 +29,7 @@ class CmdMsgInfo(Command):
 			m.reply_document(filepath)
 
 # /count
-class CmdCount(Command):
+class CmdCount(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "count"
@@ -38,7 +38,7 @@ class CmdCount(Command):
 		m.reply_text(str(m.id - m.reply_to_message.id if m.reply_to_message else m.id))
 
 # /len
-class CmdLength(Command):
+class CmdLength(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "len"
@@ -48,7 +48,7 @@ class CmdLength(Command):
 		m.reply_text(str(len(" ".join((m.text or m.caption).split(" ")[1:]) or ("" if m.reply_to_message is None else (m.reply_to_message.text or m.reply_to_message.caption)))))
 
 # /ping
-class CmdPing(Command):
+class CmdPing(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "ping"
@@ -57,7 +57,7 @@ class CmdPing(Command):
 		m.reply_text("Pong")
 
 # /delall
-class CmdPurge(Command):
+class CmdPurge(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "delall"
@@ -74,7 +74,7 @@ class CmdPurge(Command):
 			bot.delete_messages(m.chat.id, range(m.reply_to_message.id if m.reply_to_message else m.id, m.id + 1))
 
 # /say
-class CmdSay(Command):
+class CmdSay(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "say"
@@ -93,7 +93,7 @@ class CmdSay(Command):
 				bot.send_message(m.chat.id, text)
 
 # /tpb
-class CmdTPB(Command):
+class CmdTPB(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "tpb"
@@ -102,7 +102,7 @@ class CmdTPB(Command):
 		m.reply_text("⛵️🛵🍆\n💪  | 🤳\n        |\n       /\\\n     /    \\")
 
 # /imdumb
-class CmdImDumb(Command):
+class CmdImDumb(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "imdumb"

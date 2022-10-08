@@ -1,11 +1,13 @@
-from bot.classes import Command
 from . import rank
 from .fetch_pokedex import main as fetch_pokedex
-import re, os, json, threading
-from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors.exceptions.bad_request_400 import MessageNotModified
+from bot.classes import BaseCommand
 
-class CmdPoGo(Command):
+import json, os, re, threading
+
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors import MessageNotModified
+
+class CmdPoGo(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "pogo"

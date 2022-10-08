@@ -1,14 +1,15 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
 from custom.misc import format_user
 from langs import Lang
-import logging, re, os, sys, html, traceback
+
+import html, logging, os, re, sys, traceback
 log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat
 from pyrogram.enums import ChatType, ChatMemberStatus
 from pyrogram.errors import Forbidden
 
-class CmdAdmin(Command):
+class CmdAdmin(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "admin"
@@ -195,7 +196,7 @@ class CmdAdmin(Command):
 		self.cfg.log(out, exclude=[m.chat.id])
 		m.reply_text(out)
 
-class CmdReboot(Command):
+class CmdReboot(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "reboot"

@@ -1,10 +1,12 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
+
 import html, os
+
 from googletrans import Translator
 from gtts import gTTS
 from hashlib import md5
 
-class CmdTTS(Command):
+class CmdTTS(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "tts"

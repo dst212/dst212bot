@@ -1,13 +1,12 @@
-from bot.classes import Command
-import logging
-log = logging.getLogger(__name__)
-
+from bot.classes import BaseCommand
 from custom.misc import get_message_media, format_user
 
-import requests, html
+import html, logging, requests
+log = logging.getLogger(__name__)
+
 from pyrogram.enums import ChatType
 
-class CmdHey(Command):
+class CmdHey(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "hey"

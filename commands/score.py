@@ -1,7 +1,8 @@
-from bot.classes import Command
-import json, html, os, re
+from bot.classes import BaseCommand
 
-class CmdScore(Command):
+import html, json, os, re
+
+class CmdScore(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "score"
@@ -241,4 +242,3 @@ class CmdScore(Command):
 				m.reply(LANG('INVALID_SYNTAX'))
 		else:
 			m.reply(LANG('SCORE_HELP'))
-				

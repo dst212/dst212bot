@@ -1,8 +1,7 @@
 import langs
-import logging
-log = logging.getLogger(__name__)
 
-import os, json, datetime, threading
+import datetime, json, logging, os, threading
+log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat, User, Message, CallbackQuery, InlineQuery
 from pyrogram.enums import ChatType

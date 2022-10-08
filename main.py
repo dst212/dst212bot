@@ -10,7 +10,7 @@ from bot.handlers import Handlers
 from bot.users import Users
 from commands import Commands
 
-import sys, time, socket
+import socket, sys, time
 
 from pyrogram import Client, idle
 from pyrogram.handlers import MessageHandler, InlineQueryHandler, CallbackQueryHandler

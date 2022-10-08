@@ -1,5 +1,7 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
+
 import html
+
 from pyrogram.types import Message, User, Chat, CallbackQuery
 from pyrogram.enums import ChatType
 
@@ -37,7 +39,7 @@ def format_user(item) -> str:
 		return f"""{item.mention(" @" + item.username if item.username else html.escape(item.first_name))} [<code>{item.id}</code>]"""
 	return f"Unknown ({item})"
 
-def command_entry(LANG, cmd: Command, entry=None, inline_notice=True):
+def command_entry(LANG, cmd: BaseCommand, entry=None, inline_notice=True):
 	return (
 		f"""<code>/{cmd.name} {" ".join(cmd.args)}</code>\n""" +
 		(LANG('ALIASES') + ": <code>/" + ("</code>, <code>/".join(cmd.aliases)) + "</code>\n" if cmd.aliases else "") + "\n" +

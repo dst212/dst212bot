@@ -1,9 +1,9 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
 import html, json
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, User, Chat, ChatPreview, InputMediaPhoto
 from pyrogram.enums import UserStatus, ChatType
 
-class CmdInfo(Command):
+class CmdInfo(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "info"

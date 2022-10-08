@@ -1,10 +1,9 @@
-from bot.classes import Command
-import logging
+from bot.classes import BaseCommand
+
+import html, json, logging, os, re, threading
 log = logging.getLogger(__name__)
 
-import json, html, os, re, threading
-
-class CmdCounter(Command):
+class CmdCounter(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "counter"

@@ -1,4 +1,4 @@
-import os, glob, importlib
+import glob, importlib, os
 
 def closure():
 	langs = {lang: importlib.import_module("."+lang, os.path.basename(__path__[0])) for lang in [os.path.basename(i)[:-3] for i in glob.glob(os.path.join(os.path.dirname(__file__), "[!_]*.py")) if os.path.isfile(i)]}

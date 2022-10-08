@@ -1,7 +1,8 @@
 #!/bin/env python3
-import json, requests, logging
-from bs4 import BeautifulSoup as bs
+import json, logging, requests
 log = logging.getLogger(__name__)
+
+from bs4 import BeautifulSoup as bs
 
 def main(filename="pokedex.json"):
 	links = ("https://pokemondb.net/go/pokedex", "https://pokemondb.net/go/unavailable")

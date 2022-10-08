@@ -1,16 +1,16 @@
-class CallbackQuery:
+class CustomCallbackQuery:
 	def __init__(self, callback):
 		self.callback = callback				# the object itself
 		self.text = callback.data				# the text of the query
 		self.args = callback.data.split(" ")	# the arguments splitted
 
-class InlineQuery:
+class CustomInlineQuery:
 	def __init__(self, inline):
 		self.inline = inline 				# the object itself
 		self.text = inline.query			# the text of the query
 		self.args = inline.query.split(" ")	# the arguments splitted
 
-class Command:
+class BaseCommand:
 	def __init__(self, data):
 		self.usr = data["users"]
 		self.cfg = data["config"]

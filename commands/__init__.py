@@ -1,6 +1,7 @@
-import logging, os, glob, importlib
+from bot.classes import BaseCommand
+
+import glob, importlib, logging, os
 log = logging.getLogger(__name__)
-from bot.classes import Command
 
 class Commands:
 	def __init__(self, bot, users, config):
@@ -16,7 +17,7 @@ class Commands:
 				i = os.path.basename(i)
 			else:
 				continue
-			for cmd in [v for _, v in importlib.import_module("." + i, os.path.basename(__path__[0])).__dict__.items() if v != Command and isinstance(v, type) and issubclass(v, Command)]:
+			for cmd in [v for _, v in importlib.import_module("." + i, os.path.basename(__path__[0])).__dict__.items() if v != BaseCommand and isinstance(v, type) and issubclass(v, BaseCommand)]:
 				inst = cmd(data)
 				if self.map.get(inst.name):
 					log.warning(f"Found duplicate command name: {inst.name} of {cmd}, skipping this")

@@ -1,14 +1,15 @@
-from bot.classes import Command
+from bot.classes import BaseCommand
+from custom.misc import command_entry
+import langs
+
 import logging
 log = logging.getLogger(__name__)
-import langs
-from custom.misc import command_entry
-from pyrogram.enums import ChatType
 
+from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # /start
-class CmdStart(Command):
+class CmdStart(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "start"
@@ -38,7 +39,7 @@ class CmdStart(Command):
 			)
 
 # /help
-class CmdHelp(Command):
+class CmdHelp(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "help"
@@ -74,7 +75,7 @@ class CmdHelp(Command):
 		self.help_buttons(LANG, bot, c.callback.message, [] if len(c.args) < 2 or c.args[1] == "/" else [c.args[1]])
 
 # /credits
-class CmdCredits(Command):
+class CmdCredits(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "credits"

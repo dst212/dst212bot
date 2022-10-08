@@ -1,7 +1,5 @@
-import os, requests, json#, shutil
-import logging
+import json, logging, os, requests
 log = logging.getLogger(__name__)
-
 
 API = "https://pokeapi.co/api/v2/"
 BASE_DIR = "data/cache/pokemon/"

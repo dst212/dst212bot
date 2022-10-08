@@ -1,8 +1,8 @@
-from bot.classes import Command
-import base64, cv2, uuid, os, io, tempfile
-import pyqrcode
+from bot.classes import BaseCommand
 
-class CmdQRCode(Command):
+import base64, cv2, io, os, pyqrcode, tempfile, uuid
+
+class CmdQRCode(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "qr"
