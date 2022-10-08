@@ -54,7 +54,7 @@ class CmdTTS(Command):
 					return
 		msg.edit_text("Uploading...")
 		with open(filepath, "rb") as f:
-			bot.send_audio(msg.chat.id, f, file_name=f"text-to-speech.{lang}.mp3", caption="Audio for text:\n<code>" + html.escape(text[:1000]) + "</code>")
+			bot.send_audio(msg.chat.id, f, reply_to_message_id=m.id, file_name=f"text-to-speech.{lang}.mp3", caption="Audio for text:\n<code>" + html.escape(text[:1000]) + "</code>")
 		msg.delete()
 
 	#TODO inlinequery
