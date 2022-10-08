@@ -20,7 +20,10 @@ class Handlers:
 
 	def run(self, LANG, bot, m): # repeat command
 		if m.reply_to_message:
-			if self.cfg.is_admin(m) or (m.from_user and m.reply_to_message.from_user and m.from_user.id == m.reply_to_message.from_user.id):
+			# do not parse messages from anonymous users or bots (and say just "No.")
+			if not m.reply_to_message.from_user or m.reply_to_message.from_user.is_bot:
+				m.reply_text(LANG('NO') + ".")
+			elif self.cfg.is_admin(m) or (m.from_user and m.from_user.id == m.reply_to_message.from_user.id):
 				self.message(bot, m.reply_to_message)
 			else:
 				m.reply_text(LANG('YOU_HAVE_NO_PERMISSIONS'))
