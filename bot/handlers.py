@@ -51,7 +51,7 @@ class Handlers:
 				i = cmd.find("-")
 				if i != -1: cmd = cmd[:i]
 				i = cmd.find("@")
-				if i != -1: cmd = cmd[:i] if bot.get_users("me").username == cmd[i+1:] else ""
+				if i != -1: cmd = cmd[:i] if self.cfg.me.username == cmd[i+1:] else ""
 				if self.cmds.map.get(cmd): self.cmds.map[cmd].run(LANG, bot, m)
 			except Exception as e:
 				traceback.print_exc()

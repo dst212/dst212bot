@@ -8,6 +8,7 @@ from pyrogram.types import User, Message
 
 class Config:
 	def __init__(self, bot, users):
+		self._me = None
 		self.bot = bot
 		self.usr = users
 		self.file = "data/config.json"
@@ -20,6 +21,12 @@ class Config:
 		}
 		self.cfg = self.default.copy()
 		self.reload()
+
+	@property
+	def me(self):
+		if not self._me:
+			self._me = self.bot.get_users("me")
+		return self._me
 
 	def reload(self) -> None:
 		if os.path.exists(self.file):
