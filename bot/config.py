@@ -1,6 +1,6 @@
 from custom.misc import format_user
 
-import datetime, json, logging, os
+import datetime, json, logging, os, psutil
 log = logging.getLogger(__name__)
 
 from pyrogram.types import User, Message
@@ -8,6 +8,7 @@ from pyrogram.types import User, Message
 class Config:
 	def __init__(self, bot, users):
 		self._me = None
+		self._p = psutil.Process()
 		self.bot = bot
 		self.usr = users
 		self.file = "data/config.json"
@@ -21,12 +22,17 @@ class Config:
 		self.cfg = self.default.copy()
 		self.reload()
 
+	# properties
 	@property
-	def me(self):
+	def me(self) -> User:
 		if not self._me:
 			self._me = self.bot.get_users("me")
 		return self._me
+	@property
+	def p(self) -> psutil.Process:
+		return self._p
 
+	# methods
 	def reload(self) -> None:
 		if os.path.exists(self.file):
 			obj = {}

@@ -1,8 +1,8 @@
 from bot.classes import BaseCommand
-from custom.misc import format_user
+from custom.misc import format_user, format_time
 from langs import Lang
 
-import html, logging, os, re, sys, traceback
+import html, logging, os, re, sys, time, traceback
 log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat
@@ -13,44 +13,61 @@ class CmdAdmin(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.name = "admin"
-		self.alias = "sudo"
+		self.aliases = ["sudo"]
+
+	def systeminfo(self, LANG, bot, m) -> str:
+		out = "<b>.•°• System information •°•.</b>\n\n"
+		# out += f"""Python path: <code>{html.escape(sys.executable)}</code>"""
+		out += f"""<i>Python version</i> : <code>{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro} ({sys.implementation._multiarch})</code>\n"""
+		out += f"""<i>Process</i> : <code>[</code><code>{self.cfg.p.pid}</code><code>] </code><code>{html.escape(" ".join(sys.argv))}</code>\n"""
+		out += f"""<i>Memory</i> : <code>{round(self.cfg.p.memory_full_info().uss/1048576, 3)}MiB</code>\n"""
+		out += "\n"
+		out += f"""<i>Uptime</i> : <code>{format_time(time.time() - self.cfg.p.create_time())}</code>\n"""
+		out += f"""<i>Running since {time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(self.cfg.p.create_time()))}.</i>"""
+		return out
 
 	def run(self, LANG, bot, m) -> None:
 		args = (m.text or m.caption).split(" ")
 		if self.cfg.is_admin(m):
-			# do some tests
-			if len(args) > 2 and args[1] in ("test",):
-				if args[2] in ("error", "explode"):
-					raise Warning("This is a test.")
-				elif args[2] in ("missing", "string"):
-					m.reply_text(LANG('string which doesn\'t exist'))
-			# reload config file
-			elif len(args) > 1 and args[1] in ("reload", "refresh"):
-				self.cfg.reload()
-				m.reply_text(LANG('CONFIG_RELOADED'))
-			# list chats/users in a specific group
-			elif len(args) > 2 and args[1] in ("list", "get"):
-				self.get(LANG, bot, m, args)
-			# add a chat/user to a group
-			elif len(args) > 2 and args[1] in ("add", "new"):
-				items = args[3:] or [m.reply_to_message.id if m.reply_to_message else m.chat.id]
-				m.reply_text(self.cfg.add_items(LANG, args[2], items))
-			# remove a chat/user from a group
-			elif len(args) > 2 and args[1] in ("rem", "del", "remove", "delete"):
-				items = args[3:] or [m.reply_to_message.id if m.reply_to_message else m.chat.id]
-				m.reply_text(self.cfg.rem_items(LANG, args[2], items))
-			# send a message to a specific chat
-			elif len(args) > 2 and args[1] in ("send",):
-				self.send(LANG, bot, m, args)
-			# broadcast a message wherever it's possible
-			elif len(args) > 1 and args[1] in ("broadcast", "spam"):
-				self.broadcast(LANG, bot, m, args)
-			# make the bot quit a group
-			elif len(args) > 1 and args[1] in ("leave", "quit"):
-				self.leave(LANG, bot, m, args)
-			# delete chat settings of someone
-			elif len(args) > 1 and args[1] in ("forget", "erase"):
-				self.forget(LANG, bot, m, args)
+			if len(args) > 1:
+				# reload config file
+				if args[1] in ("reload", "refresh"):
+					self.cfg.reload()
+					m.reply_text(LANG('CONFIG_RELOADED'))
+				# get system info
+				elif args[1] in ("systeminfo", "sys"):
+					m.reply_text(self.systeminfo(LANG, bot, m))
+				# do some tests
+				elif len(args) > 2 and args[1] in ("test",):
+					if args[2] in ("error", "explode"):
+						raise Warning("This is a test.")
+					elif args[2] in ("missing", "string"):
+						m.reply_text(LANG('string which doesn\'t exist'))
+				# make the bot quit a group
+				elif args[1] in ("leave", "quit"):
+					self.leave(LANG, bot, m, args)
+				# delete chat settings of someone
+				elif args[1] in ("forget", "erase"):
+					self.forget(LANG, bot, m, args)
+				# broadcast a message wherever it's possible
+				elif args[1] in ("broadcast", "spam"):
+					self.broadcast(LANG, bot, m, args)
+				# send a message to a specific chat
+				elif len(args) > 2 and args[1] in ("send",):
+					self.send(LANG, bot, m, args)
+				# list chats/users in a specific group
+				elif len(args) > 2 and args[1] in ("list", "get"):
+					self.get(LANG, bot, m, args)
+				# add a chat/user to a group
+				elif len(args) > 2 and args[1] in ("add", "new"):
+					items = args[3:] or [m.reply_to_message.id if m.reply_to_message else m.chat.id]
+					m.reply_text(self.cfg.add_items(LANG, args[2], items))
+				# remove a chat/user from a group
+				elif len(args) > 2 and args[1] in ("rem", "del", "remove", "delete"):
+					items = args[3:] or [m.reply_to_message.id if m.reply_to_message else m.chat.id]
+					m.reply_text(self.cfg.rem_items(LANG, args[2], items))
+				else:
+					m.reply_text(LANG('INVALID_SYNTAX'))
 			else:
 				m.reply_text(LANG('INVALID_SYNTAX'))
 		else:
