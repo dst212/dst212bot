@@ -1,7 +1,7 @@
 html5lib
 datetime
 opencv-python
-googletrans==3.1.0a0
+googletrans-py
 beautifulsoup4
 requests
 pandas
