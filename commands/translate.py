@@ -1,7 +1,8 @@
 from bot.classes import BaseCommand
 from custom.misc import command_entry
 
-import googletrans, html
+import googletrans, html, logging
+log = logging.getLogger(__name__)
 
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
@@ -15,20 +16,40 @@ class CmdTranslate(BaseCommand):
 		self.examples = ["auto it hello darkness my old friend", "en ja hello"]
 
 		self.translator = googletrans.Translator()
+		# what should not be translated
+		self.exclusions = ("ok", "lol", "lmao", "lmfao", "kek", "kekw", ) # TODO: add a file for this
+		self._max_length = 3900 #maximum length for translated messages output
 
 	def translate_message(self, m):
 		text = m.text or m.caption
-		dest = self.usr.lang_code(m.chat.id)
+		if not text or text.lower() in self.exclusions:
+			return
+		dest = self.usr.get(m.chat.id, "auto-tr")
+		if dest == "auto":
+			dest = self.usr.lang_code(m.chat.id)
 		src = self.translator.detect(text).lang
 		if type(src) == list and dest not in src:
-			src = src[0]
+			detected = src
+			src = detected.pop(0)
+			while src and src not in googletrans.LANGUAGES:
+				log.warning(f"Leaving {src}, unknown langauge.")
+				src = detected.pop(0) if len(detected) > 0 else None
+		elif type(src) == str and src not in googletrans.LANGUAGES:
+			log.warning(f"Leaving '{src}', unknown langauge.")
+			log.warning("Using auto detect of translate() which works if no src is provided.")
+			src = None
 		if type(src) != list and dest != src:
-			m.reply_text("[<code>AUTO-TR</code>] " + html.escape(self.translator.translate(text, src=src, dest=dest).text))
+			out = self.translator.translate(text, src=src or "auto", dest=dest)
+			if out.text == text:
+				return
+			first = m.reply_text(f"""[<code>AUTO-TR {googletrans.LANGUAGES.get(src) or "unknown"} ({out.src})</code>]\n""" + html.escape(out.text[:self._max_length]))
+			if len(out.text) > self._max_length:
+				first.reply_text(html.escape(out.text[self._max_length:]))
 
 	def function(self, m, text, d, s):
 		if d in ("auto", ""):
 			d = self.usr.lang_code(m)
-		return self.translator.translate(text, dest=d, s=None if s in ("auto", "") else s)
+		return self.translator.translate(text, dest=d, src=s or "auto")
 
 	def run(self, LANG, bot, m):
 		args = (m.text or m.caption).split(" ")

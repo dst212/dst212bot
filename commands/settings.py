@@ -12,6 +12,8 @@ class CmdSettings(BaseCommand):
 		self.name = "settings"
 		self.aliases = ["s"]
 
+	def button(self, LANG, m, callback, option_name: str):
+		return InlineKeyboardButton(f"""{LANG('SETTINGS_' + option_name.upper())}: {self.usr.get(m.chat.id, option_name)}""", callback + option_name)
 
 	def bool_button(self, LANG, m, callback, option_name: str):
 		return InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, option_name) else "❌"} {LANG('SETTINGS_' + option_name.upper())}""", callback + option_name)
@@ -39,7 +41,7 @@ class CmdSettings(BaseCommand):
 		if m.chat.type == ChatType.PRIVATE:
 			buttons.append([self.bool_button(LANG, m, callback, "override")])
 		else:
-			buttons.append([self.bool_button(LANG, m, callback, "auto-tr")])
+			buttons.append([self.button(LANG, m, callback, "auto-tr")]) 
 		# let's keep sync-tr on by default forever
 		# buttons.append([self.bool_button(LANG, m, callback, "sync-tr")])
 		return InlineKeyboardMarkup(buttons)

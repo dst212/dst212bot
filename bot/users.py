@@ -1,6 +1,6 @@
 import langs
 
-import datetime, json, logging, os, threading
+import datetime, googletrans, json, logging, os, threading
 log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat, User, Message, CallbackQuery, InlineQuery
@@ -29,7 +29,7 @@ class Users:
 		self.mutex = threading.Lock()
 		self.values = {
 			"lang": Option(str, "auto", options={i: f"{langs.flag(i)}{langs.formal_name(i)}" for i in ["auto"] + langs.available()}),
-			"auto-tr": Option(bool, False),
+			"auto-tr": Option(str, "off", options={k: v for i in [{"off": "OFF", "auto": "AUTO"}, {k: f"{k} ({v})" for k, v in googletrans.LANGUAGES.items()}] for k, v in i.items()}),
 			"override": Option(bool, False),
 		}
 		self.default = {k: v.default for k, v in self.values.items()}

@@ -31,7 +31,8 @@ class Handlers:
 			m.reply_text(LANG('REPEAT_WHAT'))
 
 	def parse_message(self, bot, m):
-		if self.usr.get(m.chat.id, "auto-tr"):
+		auto_tr = self.usr.get(m.chat.id, "auto-tr")
+		if type(auto_tr) != bool and auto_tr != "off":
 			self.cmds.map["translate"].translate_message(m)
 		self.cmds.map["counter"].parse_message(m)
 			
