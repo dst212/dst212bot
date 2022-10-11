@@ -22,8 +22,10 @@ Canale delle notizie: @dst212botnews
 - <code>pyrogram</code>: client Telegram
 - <code>opencv-python</code>: rilevamento e lettura codici QR
 - <code>pyqrcode</code>: generazione codici QR
-- <code>googletrans</code> (3.1.0a0): API per il traduttore
+- <code>googletrans-py</code>: API per il traduttore
 - <code>gtts</code>: API per il text-to-speech
+- <code>BeautifulSoup</code>: parser HTML
+- <code>psutil</code>: raccolta info processi
 
 <b>Risorse dati</b>
 - <i>Reverse Dictionary</i>: https://reversedictionary.org
