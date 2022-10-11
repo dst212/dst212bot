@@ -7,7 +7,7 @@ from pyrogram.types import Chat, User, Message, CallbackQuery, InlineQuery
 from pyrogram.enums import ChatType
 
 class Option:
-	def __init__(self, t: type, default, minimum=None, maximum=None, options: list=[]):
+	def __init__(self, t: type, default, minimum=None, maximum=None, options: dict={}):
 		self.type = t
 		self.default = default
 		self.min = minimum
@@ -28,7 +28,7 @@ class Users:
 		self.chat = {}
 		self.mutex = threading.Lock()
 		self.values = {
-			"lang": Option(str, "auto", options=["auto"] + langs.available()),
+			"lang": Option(str, "auto", options={i: f"{langs.flag(i)}{langs.formal_name(i)}" for i in ["auto"] + langs.available()}),
 			"auto-tr": Option(bool, False),
 			"override": Option(bool, False),
 		}

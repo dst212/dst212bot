@@ -4,6 +4,7 @@ import langs
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
+from pyrogram.errors import MessageNotModified
 
 class CmdSettings(BaseCommand):
 	def __init__(self, *args, **kwargs):
@@ -11,8 +12,22 @@ class CmdSettings(BaseCommand):
 		self.name = "settings"
 		self.aliases = ["s"]
 
-	def bool_button(self, LANG, m, callback, option):
-		return InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, option) else "❌"} {LANG('SETTINGS_' + option.upper())}""", callback + option)
+
+	def bool_button(self, LANG, m, callback, option_name: str):
+		return InlineKeyboardButton(f"""{"✅" if self.usr.get(m.chat.id, option_name) else "❌"} {LANG('SETTINGS_' + option_name.upper())}""", callback + option_name)
+
+	def list_buttons(self, LANG, m, callback, option, start: int=0, step: int=5, back_button: str=None, current_value=None):
+		last_page = len(option.options) - ((len(option.options) - 1) % step + 1)
+		return InlineKeyboardMarkup(
+			[[InlineKeyboardButton(LANG('BACK'), back_button or self.name)]] + [[ #first_row + [[
+				InlineKeyboardButton(f"""{"✅ " if i == current_value else ""}{option.options.get(i)}""", f"{callback} set {i}")
+			] for i in list(option.options.keys())[start:start+step]] + ([[
+				InlineKeyboardButton("⏪", f"{callback} page 0"),
+				InlineKeyboardButton("◀", f"{callback} page {max(start-step, 0)}"),
+				InlineKeyboardButton("▶", f"{callback} page {min(start+step, last_page)}"),
+				InlineKeyboardButton("⏩", f"{callback} page {last_page}"),
+			]] if last_page != 0 else [])
+		)
 
 	def gen_markup(self, LANG, m):
 		callback = f"{self.name} "
@@ -36,44 +51,55 @@ class CmdSettings(BaseCommand):
 		value = c.args[2] if len(c.args) > 2 else None
 		if sender_is_admin(c.callback):
 			text, markup = None, None
-			if item == "close":
+			# show main menu of settings
+			if item is None:
+				text = LANG('SETTINGS_FOR_THIS_CHAT')
+			# delete the settings message
+			elif item == "close":
 				m.delete()
+			# settings in the start message
 			elif item == "welcome" or (item == "start" and value is not None):
 				if value is not None:
 					self.usr.set(chat.id, "lang", value)
 					LANG = langs.Lang(self.usr.lang_code(c.callback), self.cfg).string
 				text = self.cmds["start"].welcome_message(LANG, c.callback.from_user)
 				markup = self.cmds["start"].markup(LANG, c.callback.message.chat.id)
-			elif item is not None:
-				backbutton = f"{c.args[0]}"
+			# set value
+			else:
+				back_button = f"{c.args[0]}"
 				if item == "start":
-					backbutton = f"{c.args[0]} welcome"
+					back_button = f"{c.args[0]} welcome"
 					item = "lang"
 				option = self.usr.values.get(item)
 				if option:
-					old_value = self.usr.get(chat.id, item)
-					if type(old_value) == bool:
-						value = not old_value
+					current_value = self.usr.get(chat.id, item)
+					if option.type == bool:
+						value = not current_value
+					# set value usually for option with multiple possible values
+					elif value == "set":
+						value = c.args[3] if len(c.args) > 3 else None
+					# browse pages of multiple values
+					elif value == "page":
+						value = None
+					# change the option's value
 					if value is not None:
 						self.usr.set(chat.id, item, value)
 						# LANG may have been changed
 						if item == "lang":
 							LANG = langs.Lang(self.usr.lang_code(c.callback), self.cfg).string
 						text = LANG('SETTINGS_FOR_THIS_CHAT')
+					# list available options
 					elif option.options:
-						if item == "lang":
-							options = [[InlineKeyboardButton(f"{langs.flag(l)}{langs.formal_name(l)}", f"{c.text} {l}")] for l in option.options]
-						else:
-							options = [[InlineKeyboardButton(f"{i}", f"{c.text} {i}")] for i in option.options]
-						markup = InlineKeyboardMarkup([[InlineKeyboardButton(LANG('BACK'), backbutton)]] + options)
-						text = LANG('SETTINGS_SELECT_VALUE').format(item, old_value)
-			else:
-				text = LANG('SETTINGS_FOR_THIS_CHAT')
-			if text:
-				try:
+						start = int(c.args[3]) if len(c.args) > 3 else 0
+						markup = self.list_buttons(LANG, m, " ".join(c.args[:2]), option, start=start, back_button=back_button, current_value=current_value)
+						text = LANG('SETTINGS_SELECT_VALUE').format(item, current_value)
+			try:
+				if text:
 					c.callback.edit_message_text(text, reply_markup=markup or self.gen_markup(LANG, m))
-				except:
-					pass
+				elif markup:
+					c.callback.edit_message_reply_markup(markup)
+			except MessageNotModified:
+				c.callback.answer(LANG('NOTHING_CHANGED'))
 		else:
 			c.callback.answer(LANG('MUST_BE_ADMIN'), show_alert=True)
 
