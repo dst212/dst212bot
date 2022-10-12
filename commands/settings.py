@@ -2,6 +2,8 @@ from bot.classes import BaseCommand
 from custom.misc import sender_is_admin, can_delete
 import langs
 
+import html
+
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
@@ -109,12 +111,33 @@ class CmdSettings(BaseCommand):
 		args = (m.text or m.caption).split(" ")
 		if sender_is_admin(m):
 			if len(args) > 1:
-				if args[1] == "get":
-					m.reply_document(f"{self.usr.base_dir}{m.chat.id}", file_name=f"{m.chat.id}.json")
-				elif args[1] == "help":
+				if args[1] == "help":
 					m.reply_text(LANG('SETTINGS_HELP'))
+				elif args[1] == "get":
+					m.reply_document(f"{self.usr.base_dir}{m.chat.id}", file_name=f"{m.chat.id}.json")
 				elif args[1] == "set":
-					m.reply_text(LANG('NOT_AVAILABLE_AT_THIS_TIME'))
+					if len(args) > 3:
+						item = args[2]
+						value = args[3]
+						option = self.usr.values.get(item)
+						if option:
+							old_value = self.usr.get(m.chat.id, item)
+							if option.type == bool:
+								if value.lower() in ("on", "true", "enable"):
+									value = True
+								else:
+									value = False
+							if option.is_valid(value):
+								if self.usr.set(m.chat.id, item, option.type(value)):
+									m.reply_text(LANG('SETTINGS_SET_TO').format(item, self.usr.get(m.chat.id, item), old_value))
+								else:
+									m.reply_text(LANG('SETTINGS_COULD_NOT_SET').format(item, self.usr.get(m.chat.id, item), old_value))
+							else:
+								m.reply_text(LANG('SETTINGS_NOT_VALID_VALUE_FOR').format(html.escape(value), item))
+						else:
+							m.reply_text(LANG('NOT_RECOGNIZED').format(f"<code>{html.escape(item)}</code>"))
+					else:
+						m.reply_text(LANG('SYNTAX') + f":\n<code>/{self.name} set &lt;item&gt; &lt;value&gt;</code>")
 				else:
 					m.reply_text(LANG('INVALID_USAGE'))
 			else:

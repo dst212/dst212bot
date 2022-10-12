@@ -131,6 +131,9 @@ News channel: @dst212botnews
 "SETTINGS_OVERRIDE": "Override groups' settings",
 "SETTINGS_AUTO-TR": "Auto-translate messages",
 "SETTINGS_SELECT_VALUE": "Select a new value for <code>{}</code>. Current value is <code>{}</code>.",
+"SETTINGS_NOT_VALID_VALUE_FOR": "<code>{}</code> is not a valid value for <code>{}</code>.",
+"SETTINGS_SET_TO": "<code>{}</code> set to <code>{}</code> (it was <code>{}</code>).",
+"SETTINGS_COULD_NOT_SET": "Could not set <code>{}</code> to <code>{}</code> (it's <code>{}</code> now).",
 "MUST_BE_ADMIN": "You must be admin to perform this action.",
 "SETTINGS_HELP": f"""
 <b>Commands:</b>
@@ -140,6 +143,9 @@ Open settings menu.
 
 <code>/settings get</code>
 Receive a <code>json</code> file containing current chat's settings.
+
+<code>/settings set &lt;item&gt; &lt;value&gt;</code>
+Set <code>&lt;item&gt;</code> to <code>&lt;value&gt;</code>.
 
 <b>Options:</b>
 - <code>lang</code> (language): the language the bot will use replying to you.
@@ -377,7 +383,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 
 "COMMANDS": {
 	"help": "Get info about <code>command</code>.\nOmit <code>command</code> to get a list of available commands.",
-	"settings": "Change preferences for the current chat.\nSend <code>/settings get</code> to get a json file containing the settings (occasional debugging). There is no way to do the opposite (you'll have to change the preferences manually, <s><code>/settings set</code></s> doesn't exist).",
+	"settings": "Change preferences for the current chat.\n<code>/settings get</code> to get a json file containing the settings (occasional debugging).\n<code>/settings set &lt;item&gt; &lt;value&gt;</code> to change a specific option quickly.",
 	"translate": "Translate <code>text</code> from <code>from_lang</code> to <code>to_lang</code>.\n<code>from_lang</code> and <code>to_lang</code> must be either \"auto\" or a valid language identifier (such as <i>en</i>, <i>it</i>, <i>de</i>...).\nUsing the alias <code>/tr</code>, the result is shown directly and not verbosely.\n<code>text</code> may be omitted if replying to a message.",
 	"tts": "Text to speech, turn <code>text</code> into speech and get an <code>mp3</code> file.\n<code>text</code> may be omitted if replying to a message.",
 	"qr": "Create a QR code from <code>text</code>.\nTo decode a QR code reply to a photo containing it omitting <code>text</code>.",

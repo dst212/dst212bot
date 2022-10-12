@@ -8,11 +8,11 @@
     
     - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
 
-- [ ] `/settings`
+- [x] `/settings`
   
-  - [ ] make it possible to choose `auto-translate` destination language
+  - [x] make it possible to choose `auto-translate` destination language
   
-  - [ ] add `set` subcommand
+  - [x] add `set` subcommand
 
 - [ ] revise `/hey` (to turn into `/forward` or `/support`)
   

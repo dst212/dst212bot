@@ -131,6 +131,9 @@ Canale delle notizie: @dst212botnews
 "SETTINGS_OVERRIDE": "Sovrascrivi impostazioni gruppi",
 "SETTINGS_AUTO-TR": "Auto-traduci i messaggi",
 "SETTINGS_SELECT_VALUE": "Scegli un nuovo valore per <code>{}</code>. Il valore attuale è <code>{}</code>.",
+"SETTINGS_NOT_VALID_VALUE_FOR": "<code>{}</code> non è un valore valido per <code>{}</code>.",
+"SETTINGS_SET_TO": "<code>{}</code> impostato a <code>{}</code> (era <code>{}</code>).",
+"SETTINGS_COULD_NOT_SET": "Impossibile impostare <code>{}</code> a <code>{}</code> (è <code>{}</code> ora).",
 "MUST_BE_ADMIN": "Devi essere amminisatore per effettuare questa operazione.",
 "SETTINGS_HELP": f"""
 <b>Comandi:</b>
@@ -140,6 +143,9 @@ Apri il menù delle impostazioni.
 
 <code>/settings get</code>
 Ricevi un file <code>json</code> con le impostazioni della chat corrente.
+
+<code>/settings set &lt;item&gt; &lt;value&gt;</code>
+Imposta <code>&lt;item&gt;</code> a <code>&lt;value&gt;</code>.
 
 <b>Opzioni:</b>
 - <code>lang</code> (lingua): la lingua che il bot userà per risponderti.
@@ -377,7 +383,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 
 "COMMANDS": {
 	"help": "Info sul comando <code>command</code>.\nOmetti <code>command</code> per ottenere una lista di comandi disponibili.",
-	"settings": "Cambia le preferenze per la chat corrente.\nInvia <code>/settings get</code> per ricevere un file json contenente le impostazioni (eventuale debugging). Non c'è alcun modo per effettuare l'opposto (si deve cambiare le impostazioni manualmente, <s><code>/settings set</code></s> non esiste).",
+	"settings": "Cambia le preferenze per la chat corrente.\n<code>/settings get</code> per ricevere un file json contenente le impostazioni (eventuale debugging).\n<code>/settings set &lt;item&gt; &lt;value&gt;</code> per cambiare una specifica opzione velocemente.",
 	"translate": "Traduci <code>text</code> da <code>from_lang</code> a <code>to_lang</code>.\n<code>from_lang</code> e <code>to_lang</code> devono essere \"auto\" o un identificatore di lingua valido (come <i>en</i>, <i>it</i>, <i>de</i>...).\nUsando l'alias <code>/tr</code>, il risultato sarà mostrato direttamente senza dettagli.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"tts": "Text to speech, rendi <code>text</code> del testo parlato e ricevi un file <code>mp3</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"qr": "Crea un codice QR da <code>text</code>.\nPer decodificare un codice QR, rispondere ad una foto che lo contiene omettendo <code>text</code>.",
