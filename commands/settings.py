@@ -63,15 +63,18 @@ class CmdSettings(BaseCommand):
 				m.delete()
 			# settings in the start message
 			elif item == "welcome" or (item == "start" and value is not None):
-				if value is not None:
-					self.usr.set(chat.id, "lang", value)
-					LANG = langs.Lang(self.usr.lang_code(c.callback), self.cfg).string
+				if value == "set":
+					value = c.args[3] if len(c.args) > 3 else None
+					if value is not None:
+						self.usr.set(chat.id, "lang", value)
+						LANG = langs.Lang(self.usr.lang_code(c.callback), self.cfg).string
 				text = self.cmds["start"].welcome_message(LANG, c.callback.from_user)
 				markup = self.cmds["start"].markup(LANG, c.callback.message.chat.id)
 			# set value
 			else:
 				back_button = f"{c.args[0]}"
 				if item == "start":
+					# here value is None, so there's nothing to do but going back to the welcome message
 					back_button = f"{c.args[0]} welcome"
 					item = "lang"
 				option = self.usr.values.get(item)
