@@ -118,8 +118,8 @@ class Config:
 			else:
 				self.cfg[group] += [item.id]
 				out = LANG('CONFIG_ADDED_TO').format(format_user(item), group) + "\n"
-		with open(self.base_dir + group + ".json", "w") as f:
-			json.dump(self.cfg[group], f)
+		with open(self.file, "w") as f:
+			json.dump(self.cfg, f, indent=2)
 			out = (out or LANG('NOTHING_CHANGED')) + "\n" + LANG('CONFIG_UPDATED')
 		return out
 	def rem_items(self, LANG, group, ids) -> str:
@@ -132,8 +132,8 @@ class Config:
 				out = LANG('CONFIG_REMOVED_FROM').format(format_user(item), group) + "\n"
 			else:
 				out = LANG('CONFIG_NOT_IN').format(format_user(item), group) + "\n"
-		with open(self.base_dir + group + ".json", "w") as f:
-			json.dump(self.cfg[group], f)
+		with open(self.file, "w") as f:
+			json.dump(self.cfg, f, indent=2)
 			out = (out or LANG('NOTHING_CHANGED')) + "\n" + LANG('CONFIG_UPDATED')
 		return out
 
