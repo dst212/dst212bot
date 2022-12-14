@@ -8,15 +8,9 @@
     
     - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
 
-- [x] `/settings`
+- [x] revise `/hey` (to turn into `/forward` or `/support`)
   
-  - [x] make it possible to choose `auto-translate` destination language
-  
-  - [x] add `set` subcommand
-
-- [ ] revise `/hey` (to turn into `/forward` or `/support`)
-  
-  - [ ] enable chat forward: every message sent is forwarded (`hey_admins.parse()` will check if forward is enabled in `self.usr`)
+  - [x] enable chat forward: every message sent is forwarded (`hey_admins.parse()` will check if forward is enabled in `self.usr`)
 
 - [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
   
