@@ -137,8 +137,8 @@ class Config:
 			out = (out or LANG('NOTHING_CHANGED')) + "\n" + LANG('CONFIG_UPDATED')
 		return out
 
-	def log(self, text: str, forward: list[Message]=[], exclude: list=[]):
-		for a in self.get_log_chats():
+	def send_to(self, targets: list[int], text: str, forward: list[Message]=[], exclude: list[int]=[]):
+		for a in targets:
 			if a not in exclude:
 				try:
 					self.bot.send_message(a, text)
@@ -146,3 +146,9 @@ class Config:
 						m.forward(a)
 				except Exception as e:
 					log.error(f"[{a}] {e}")
+
+	def log(self, text: str, forward: list[Message]=[], exclude: list[int]=[]):
+		self.send_to(self.get_log_chats(), text, forward, exclude)
+
+	def forward(self, text: str, forward: list[Message]=[], exclude: list[int]=[]):
+		self.send_to(self.get_support_chats(), text, forward, exclude)
