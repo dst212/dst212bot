@@ -45,6 +45,7 @@ class Handlers:
 		if text:
 			# make emojis valid
 			text = text.encode("utf-8").decode("utf-8")
+		# chat forward check in cmds.map["hey"].parse()
 		# allow commands only from non-anonymous and non-bot users, if the message is not send from helpers in a support chat
 		if not self.cmds.map["hey"].parse(bot, m) and m.from_user and not m.from_user.is_bot and text and text[0] == "/":
 			LANG = Lang(self.usr.lang_code(m), self.cfg).string

@@ -44,6 +44,8 @@ class CmdSettings(BaseCommand):
 			buttons.append([self.bool_button(LANG, m, callback, "override")])
 		else:
 			buttons.append([self.button(LANG, m, callback, "auto-tr")]) 
+		# probably the following one would be confusing so let's keep it off for now
+		# buttons.append([self.bool_button(LANG, m, callback, "fwd")])
 		# let's keep sync-tr on by default forever
 		# buttons.append([self.bool_button(LANG, m, callback, "sync-tr")])
 		return InlineKeyboardMarkup(buttons)

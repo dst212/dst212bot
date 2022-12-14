@@ -130,6 +130,7 @@ News channel: @dst212botnews
 "SETTINGS_FOR_THIS_CHAT": "Here you can change the settings for this chat.",
 "SETTINGS_OVERRIDE": "Override groups' settings",
 "SETTINGS_AUTO-TR": "Auto-translate messages",
+"SETTINGS_FWD": "Chat forward (in-chat help)",
 "SETTINGS_SELECT_VALUE": "Select a new value for <code>{}</code>. Current value is <code>{}</code>.",
 "SETTINGS_NOT_VALID_VALUE_FOR": "<code>{}</code> is not a valid value for <code>{}</code>.",
 "SETTINGS_SET_TO": "<code>{}</code> set to <code>{}</code> (it was <code>{}</code>).",
@@ -151,7 +152,21 @@ Set <code>&lt;item&gt;</code> to <code>&lt;value&gt;</code>.
 - <code>lang</code> (language): the language the bot will use replying to you.
 - <code>override</code> (override groups' settings, private): when on, the bot ignores groups' language and uses the language set privately.
 - <code>auto-tr</code> (auto translate, groups only): when on, the bot translates messages sent by group's users if necessary.
+- <code>fwd</code> (chat forward): forward messages in this chat to support volunteers, instead of using the /hey command each time.
 """,
+
+# chat forward
+"ENABLE_CHAT_FORWARD": f"""
+Do you really want to enable chat forward?
+Every message sent in this chat will be forwarded to support volunteers who may reply.
+NOTE: abusing this feature may result in a block and the bot won't work on this chat anymore.
+Volunteers are humans too. Treat them as such, please.
+""",
+"CHAT_FORWARD_NOT_ENABLED": "Chat forward not enabled.",
+"CHAT_FORWARD_DISABLED": "Chat forward disabled.",
+"CHAT_FORWARD_ENABLED": "Chat forward enabled.\nSend {} or any other alias once to stop it.",
+"CHAT_FORWARD_COULD_NOT_ENABLE": "Couldn't enable chat forward, try enabling it from settings with <code>/settings set fwd true</code>.",
+"CHAT_FORWARD_HELPERS_CAN_SEND": "Remember that support volunteers can still send messages here, but no message will be forwarded unless /{} is used.",
 
 # encode
 "ENCODE_FROM_TO": "Encode {}from {} to {}",

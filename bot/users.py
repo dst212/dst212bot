@@ -31,6 +31,7 @@ class Users:
 			"lang": Option(str, "auto", options={i: f"{langs.flag(i)}{langs.formal_name(i)}" for i in ["auto"] + langs.available()}),
 			"auto-tr": Option(str, "off", options={k: v for i in [{"off": "OFF", "auto": "AUTO"}, {k: f"{k} ({v})" for k, v in googletrans.LANGUAGES.items()}] for k, v in i.items()}),
 			"override": Option(bool, False),
+			"fwd": Option(bool, False),
 		}
 		self.default = {k: v.default for k, v in self.values.items()}
 
@@ -176,6 +177,14 @@ class Users:
 		# 	count += len(v) # obviously if this is on, count += 1 (some lines above) must be removed
 		chats["count"] = count
 		return chats
+
+	# enable/disable/get chat-forward
+	def enable_forward(self, uid):
+		return self.set(uid, "fwd", True)
+	def disable_forward(self, uid):
+		return self.set(uid, "fwd", False)
+	def do_forward(self, uid):
+		return self.get(uid, "fwd")
 
 	# messages and queries can (and should) be passed as uid, they will be parsed later on in get_id()
 	def lang_code(self, uid):
