@@ -1,5 +1,5 @@
 from bot.classes import BaseCommand
-from custom.misc import get_message_media, format_user
+from custom.misc import format_user, sender_is_admin
 
 import html, logging, requests
 log = logging.getLogger(__name__)
