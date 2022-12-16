@@ -107,6 +107,9 @@ class CmdHey(BaseCommand):
 			if c.args[1] == "forward":
 				c.callback.edit_message_text(self.enable(LANG, c.callback.message.chat, c.callback.from_user))
 			elif c.args[1] == "cancel":
-				c.callback.edit_message_text(self.disable(LANG, c.callback.message.chat, c.callback.from_user))
+				c.callback.edit_message_text(
+					LANG('CHAT_FORWARD_NOT_ENABLED') if not self.usr.do_forward(c.callback.message.chat.id) else
+					self.disable(LANG, c.callback.message.chat, c.callback.from_user)
+				)
 		else:
 			c.callback.answer(LANG('NO_PERMISSIONS'))
