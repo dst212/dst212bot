@@ -158,7 +158,7 @@ Set <code>&lt;item&gt;</code> to <code>&lt;value&gt;</code>.
 # chat forward
 "ENABLE_CHAT_FORWARD": f"""
 Do you really want to enable chat forward?
-Every message sent in this chat will be forwarded to support volunteers who may reply.
+Every message sent in this chat (except commands starting with <code>/</code> and this bot messages) will be forwarded to support volunteers who may reply.
 NOTE: abusing this feature may result in a block and the bot won't work on this chat anymore.
 Volunteers are humans too. Treat them as such, please.
 """,
@@ -166,6 +166,7 @@ Volunteers are humans too. Treat them as such, please.
 "CHAT_FORWARD_DISABLED": "Chat forward disabled.",
 "CHAT_FORWARD_ENABLED": "Chat forward enabled.\nSend {} or any other alias once to stop it.",
 "CHAT_FORWARD_COULD_NOT_ENABLE": "Couldn't enable chat forward, try enabling it from settings with <code>/settings set fwd true</code>.",
+"CHAT_FORWARD_STILL_ENABLED": "Chat forward still enabled, try disabling it from settings with <code>/settings set fwd false</code>.",
 "CHAT_FORWARD_HELPERS_CAN_SEND": "Remember that support volunteers can still send messages here, but no message will be forwarded unless /{} is used.",
 
 # encode

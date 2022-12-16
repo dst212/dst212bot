@@ -158,7 +158,7 @@ Imposta <code>&lt;item&gt;</code> a <code>&lt;value&gt;</code>.
 # chat forward
 "ENABLE_CHAT_FORWARD": f"""
 Vuoi veramente abilitare l'inoltro della chat?
-Ogni messaggio inviato in questa chat sarà inoltrato ai volontari di supporto che potrebbero rispondere.
+Ogni messaggio inviato in questa chat (eccetto i comandi che iniziano con <code>/</code> e i messaggi di questo bot) sarà inoltrato ai volontari di supporto che potrebbero rispondere.
 NOTA: abusare di questa funzione potrebbe risultare in un ban e il bot non funzionerà più in questa chat.
 I volontari sono esseri umani anche loro. Trattali come tali, per favore.
 """,
@@ -166,6 +166,7 @@ I volontari sono esseri umani anche loro. Trattali come tali, per favore.
 "CHAT_FORWARD_DISABLED": "Inoltro della chat disabilitato.",
 "CHAT_FORWARD_ENABLED": "Inoltro della chat abilitato.\nInvia {} o qualsiasi altro alias una volta per interromperlo.",
 "CHAT_FORWARD_COULD_NOT_ENABLE": "Impossibile abilitare l'inoltro della chat, prova ad abilitarlo dalle impostazioni con <code>/settings set fwd true</code>.",
+"CHAT_FORWARD_STILL_ENABLED": "Inoltro della chat ancora abilitato, prova a disabilitarlo dalle impostazioni con <code>/settings set fwd false</code>.",
 "CHAT_FORWARD_HELPERS_CAN_SEND": "Ricorda che i volontari possono inviare ancora messaggi, ma nessun messaggio verrà inoltrato a loro a meno che /{} venga usato",
 
 # encode
