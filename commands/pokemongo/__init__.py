@@ -83,7 +83,10 @@ class CmdPoGo(BaseCommand):
 			title = title or "Pokémon GO",
 			input_message_content = InputTextMessageContent(f"<b>{title}</b>\n\n{out}"),
 			description = re.sub("<[a-z/]*>","", out),
-			reply_markup = self.markup(config)
+			# disabled since it doesn't work as callback() relys on
+			# callback.message, not accessible from callback queries
+			# originated from inline commands
+			#reply_markup = self.markup(config)
 		)]
 
 	def callback(self, LANG, bot, c):

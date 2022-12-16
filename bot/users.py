@@ -90,7 +90,7 @@ class Users:
 		if type(uid) == Message:
 			return uid.from_user.id if self.do_override(uid) else uid.chat.id
 		elif type(uid) == CallbackQuery:
-			return uid.from_user.id if self.do_override(uid) else uid.message.chat.id
+			return uid.from_user.id if self.do_override(uid) or not uid.message else uid.message.chat.id
 		elif type (uid) == InlineQuery:
 			return uid.from_user.id
 		elif type(uid) in (Chat, User):
