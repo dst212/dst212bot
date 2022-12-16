@@ -40,22 +40,25 @@ class CmdHey(BaseCommand):
 	# - should be forwarded (→False)
 	# - or neither (do nothing, →False)
 	def parse(self, bot, m) -> bool:
-		mdata = self.get_mdata(m)
-		if (
-			mdata and m.from_user and
-			self.cfg.is_in(m.chat.id, "support") and self.cfg.is_helper(m)
-		):
-			bot.copy_message(mdata[0], m.chat.id, m.id, reply_to_message_id=mdata[1])
-			for i in self.cfg.get_support_chats():
-				if i != m.chat.id:
-					try:
-						bot.send_message(i, format_user(m.from_user or m.sender_chat or m.chat) + f" in reply to <code>#{mdata[0]}</code><code>#{mdata[1]}#</code>")
-						bot.forward_message(i, m.chat.id, m.id)
-					except Exception as e:
-						log.error(f"[{i}] {e}")
-			return True
-		elif self.usr.do_forward(m.chat.id):
-			self.forward(m)
+		# commands are ignored
+		if not (m.text or m.caption).startswith("/"):
+			mdata = self.get_mdata(m)
+			if (
+				mdata and
+				self.cfg.is_helper(m) and
+				self.cfg.is_in(m.chat.id, "support")
+			):
+				bot.copy_message(mdata[0], m.chat.id, m.id, reply_to_message_id=mdata[1])
+				for i in self.cfg.get_support_chats():
+					if i != m.chat.id:
+						try:
+							bot.send_message(i, format_user(m.from_user or m.sender_chat or m.chat) + f" in reply to <code>#{mdata[0]}</code><code>#{mdata[1]}#</code>")
+							bot.forward_message(i, m.chat.id, m.id)
+						except Exception as e:
+							log.error(f"[{i}] {e}")
+				return True
+			elif self.usr.do_forward(m.chat.id):
+				self.forward(m)
 		return False
 
 	def enable(self, LANG, chat, user) -> str:
@@ -73,13 +76,14 @@ class CmdHey(BaseCommand):
 
 	def run(self, LANG, bot, m):
 		args = (m.text or m.caption or "").split(" ")
-		# # if it's /bye or chat-fwd already enabled, disable it
-		if self.usr.do_forward(m.chat.id) or args[0][1:] == self.aliases[-1]:
+		# if it's /bye disable it
+		if args[0][1:1+len(self.aliases[-1])] == self.aliases[-1]:
 			# helpers can stop the forward themselves
 			mdata = self.get_mdata(m)
 			if (
-				mdata and m.from_user and
-				self.cfg.is_in(m.chat.id, "support") and self.cfg.is_helper(m)
+				mdata and
+				self.cfg.is_helper(m) and
+				self.cfg.is_in(m.chat.id, "support")
 			):
 				target = bot.get_chat(mdata[0])
 				bot.send_message(target.id, self.disable(LANG, target, m.from_user))
