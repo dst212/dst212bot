@@ -70,7 +70,7 @@ def pokemon_output(pkm: dict, v: list, first: int, rank: int, max_cp: int, min_i
 		f'<i>IVs</i>: <code>{v[1]}/{v[2]}/{v[3]}</code> (min: <code>{min_iv}</code>)\n\n' +
 		'<i>Attack</i> : <code>{}</code>\n'.format(round((pkm["attack"]+v[1])*cpm*100)/100) +
 		'<i>Defense</i> : <code>{}</code>\n'.format(round((pkm["defense"]+v[2])*cpm*100)/100) +
-		'<i>HP</i> : <code>{}</code>\n'.format(round((pkm["hp"]+v[3])*cpm))
+		'<i>HP</i> : <code>{}</code>\n'.format(floor((pkm["hp"]+v[3])*cpm))
 	)
 	return title, out
 
