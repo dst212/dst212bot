@@ -41,7 +41,7 @@ class CmdHey(BaseCommand):
 	# - or neither (do nothing, →False)
 	def parse(self, bot, m) -> bool:
 		# commands are ignored
-		if not (m.text or m.caption).startswith("/"):
+		if not (m.text or m.caption or "").startswith("/"):
 			mdata = self.get_mdata(m)
 			if (
 				mdata and
