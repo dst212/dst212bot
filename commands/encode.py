@@ -55,10 +55,11 @@ class CmdEncode(BaseCommand):
 						ok = True
 					except binascii.Error as e:
 						out = LANG('ENCODE_PROVIDED_ISNT').format("base64")
+					except (UnicodeError, Exception) as e:
+						out = LANG('ENCODE_ERROR')
+						print(traceback.format_exc())
 					except ValueError as e:
 						out = LANG('ENCODE_PROVIDED_ISNT').format("binary")
-					except Exception as e:
-						out = LANG('ENCODE_ERROR')
 						print(traceback.format_exc())
 			elif not dec and enc:
 				out = LANG('ENCODE_IS_NOT_VALID').format(html.escape(args[1]))
