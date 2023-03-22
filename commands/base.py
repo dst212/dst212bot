@@ -56,7 +56,7 @@ class CmdHelp(BaseCommand):
 					buttons += [row]
 					row = []
 			buttons += [row]
-			m.edit_text( 
+			m.edit_text(
 				f"<b>{LANG('HELP')}</b>" + "\n\n" + LANG('CHOOSE_A_BUTTON') + "\n\n" + LANG('INLINE_MODE_NOTICE'),
 				reply_markup=InlineKeyboardMarkup(buttons)
 			)
