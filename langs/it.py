@@ -365,7 +365,7 @@ Info sul rank 1 di Umbreon's nella Lega Mega.
 Info sul rank 1 di Medicham nella Lega Mega con livello massimo 51.
 
 <code>/pogo talonflame 15/15/14 ultra</code>
-Info sul rank di Talonflame con quegli IV (attacco/difesa/stamina) nella Lega Ultra. 
+Info sul rank di Talonflame con quegli IV (attacco/difesa/stamina) nella Lega Ultra.
 
 <code>/pogo registeel 1 raid</code>
 Info sul rank 1 di Registeel con IV da Raid nella Lega Mega.
@@ -391,7 +391,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 "POGO_THAT_IS_THE_ONE_THERE": "È quello lì.",
 
 # Other commands
-"SCRAMBLE_TEXT": "Scombina il testo",
+"SHUFFLE_TEXT": "Scombina il testo",
 
 ################
 ### COMMANDS ###
@@ -411,7 +411,7 @@ Il PokéDex fa riferimento ai dati su <a href="https://pokemondb.net/go/pokedex"
 	"counter": "Crea e gestisci i contatori nella chat corrente. <code>/counter help</code> per ulteriori dettagli.",
 	"random": "Genera un numero casuale da <code>x</code> (0 come predefinito) a <code>y</code> (100 come predefinito).",
 	"pickrandom": "Rispondendo ad un messaggio scritto su più righe con questo comando, una o più righe (<code>limit</code> come limite, 1 come predefinito) saranno prese e mostrate a caso.",
-	"scramble": "Scombina <code>text</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
+	"shuffle": "Scombina <code>text</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"imdumb": "Rendi <code>text</code> scritto come se fossi stupido. <code>text</code> può essere omesso se si risponde ad un messaggio.",
 	"say": "Fa' dire <code>text</code> al bot.",
 	"len": "Visualizza la lunghezza di <code>text</code>.\n<code>text</code> può essere omesso se si risponde ad un messaggio.",

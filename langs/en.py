@@ -391,7 +391,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 "POGO_THAT_IS_THE_ONE_THERE": "It's that one there.",
 
 # Other commands
-"SCRAMBLE_TEXT": "Scramble text",
+"SHUFFLE_TEXT": "Shuffle text",
 
 ################
 ### COMMANDS ###
@@ -411,7 +411,7 @@ The PokéDex refers to <a href="https://pokemondb.net/go/pokedex">PokemonDB</a>'
 	"counter": "Create and edit counters on the current chat. <code>/counter help</code> for details.",
 	"random": "Generate a random number from <code>x</code> (default is 0) to <code>y</code> (default is 100).",
 	"pickrandom": "Replying to a message written on multiple lines with this command, one or more lines (<code>limit</code>, default is 1) will be picked up randomly.",
-	"scramble": "Scramble <code>text</code>.\n<code>text</code> may be omitted if replying to a message.",
+	"shuffle": "Shuffle <code>text</code>'s letters.\n<code>text</code> may be omitted if replying to a message.",
 	"imdumb": "Make <code>text</code> written like if you were dumb. <code>text</code> may be omitted if replying to a message.",
 	"say": "Make the bot say <code>text</code>.",
 	"len": "Get <code>text</code>'s length.\n<code>text</code> may be omitted if replying to a message.",

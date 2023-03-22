@@ -61,11 +61,11 @@ class CmdPickRandom(BaseCommand):
 			out += self.function((m.reply_to_message.text or m.reply_to_message.caption).split("\n"), limit)
 			m.reply_text(out)
 
-# /scramble
-class CmdScramble(BaseCommand):
+# /shuffle
+class CmdShuffle(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.name = "scramble"
+		self.name = "shuffle"
 		self.args = ["[text]"]
 		self.inline_args = ["text"]
 		self.cache_time = 1
@@ -93,7 +93,7 @@ class CmdScramble(BaseCommand):
 		text = self.function(q.text[len(q.args[0])+1:])
 		return [InlineQueryResultArticle(
 			id = "0",
-			title = LANG('SCRAMBLE_TEXT'),
+			title = LANG('SHUFFLE_TEXT'),
 			input_message_content = InputTextMessageContent(text),
 			description = text,
 		)]
