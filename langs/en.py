@@ -104,6 +104,7 @@ News channel: @dst212botnews
 "ADMIN_REPLY_ID_MUST_BE_INTEGER": "The message's ID to reply to must be integer.",
 "ADMIN_SENT_MESSAGE": "{} sent this message to {}",
 "ADMIN_BROADCAST_MESSAGE": "{} spammed the message above ({}/{} delivered).",
+"ADMIN_BROADCAST_MISSED": "The message couldn't be sent to the following chats:\n{}",
 "ADMIN_RESTARTING": "[<code>{}</code>] Restarting...",
 "ADMIN_ITEMS_IN": "Items in <code>{}</code>:\n",
 "ADMIN_NO_ITEMS_IN": "No items in <code>{}</code>.",

@@ -123,32 +123,37 @@ class CmdAdmin(BaseCommand):
 			m.reply_text(out, reply_to_message_id=m.id)
 
 	def broadcast(self, LANG, bot, m, args):
-		outm = m.reply_text(LANG('LOADING'))
 		spam = None # will be a lambda function
+		outm = m.reply_text(LANG('LOADING'))
 		chats = self.usr.get_active_chats_list()
-		count = 0
+		missed = []
 		if m.reply_to_message:
 			spam = lambda chat : m.reply_to_message.copy(chat)
+			log.info(f"""Broadcasting this message:\n{m.reply_to_message.text or "[media]" + m.reply_to_message.caption}""")
 		else:
 			text = " ".join(args[2:])
 			if text:
 				spam = lambda chat : bot.send_message(chat, text)
 			else:
 				outm.edit_text(LANG('PROVIDE_TEXT'))
+			log.info(f"Broadcasting this message:\n{text}")
 		if spam:
 			i = 0
 			for chat in chats:
-				# commented the line below to avoid flood waits...
-				# should fix this but it will take something like
-				# a minute to send another message, it's probably not worth it
-				# outm.edit_text(f"{i}/{len(chats)}")
+				outm.edit_text(f"{i}/{len(chats)}")
 				try:
 					spam(chat.id)
-					count += 1
+					log.info(f"Broadcast: {i}/{len(chats)}, {len(chats)-len(missed)} delivered.")
 				except Exception as e:
-					log.warning(f"[{chat.id}] {e}")
+					missed.append(f"{format_user(chat)}: <code>{e}</code>")
+					log.warning(missed[-1])
 				i += 1
-			self.cfg.log(LANG('ADMIN_BROADCAST_MESSAGE').format(format_user(m.from_user), count, len(chats)))
+				# avoid flood wait, let's keep a message per second
+				time.sleep(1)
+			self.cfg.log(
+				LANG('ADMIN_BROADCAST_MESSAGE').format(format_user(m.from_user), len(chats)-len(missed), len(chats)) +
+				("\n" + LANG('ADMIN_BROADCAST_MISSED').format("- " + "\n- ".join(missed)) if missed else "")
+			)
 			outm.delete()
 
 	def byebye(self, bot, chat, me):

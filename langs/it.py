@@ -104,6 +104,7 @@ Canale delle notizie: @dst212botnews
 "ADMIN_REPLY_ID_MUST_BE_INTEGER": "L'ID del messaggio deve essere un numero intero.",
 "ADMIN_SENT_MESSAGE": "{} ha inviato questo messaggio a {}",
 "ADMIN_BROADCAST_MESSAGE": "{} ha spammato il messaggio sopra ({}/{} inviati).",
+"ADMIN_BROADCAST_MISSED": "Il messaggio non è stato inviato alle chat seguenti:\n{}",
 "ADMIN_RESTARTING": "[<code>{}</code>] Riavviando...",
 "ADMIN_ITEMS_IN": "Elementi in <code>{}</code>:\n",
 "ADMIN_NO_ITEMS_IN": "Nessun elemento in <code>{}</code>.",
