@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat
 from pyrogram.enums import ChatType, ChatMemberStatus
-from pyrogram.errors import Forbidden
+from pyrogram.errors import Forbidden, FloodWait, MessageNotModified
 
 class CmdAdmin(BaseCommand):
 	def __init__(self, *args, **kwargs):
@@ -140,21 +140,29 @@ class CmdAdmin(BaseCommand):
 		if spam:
 			i = 0
 			for chat in chats:
-				outm.edit_text(f"{i}/{len(chats)}")
-				try:
-					spam(chat.id)
-					log.info(f"Broadcast: {i}/{len(chats)}, {len(chats)-len(missed)} delivered.")
-				except Exception as e:
-					missed.append(f"{format_user(chat)}: <code>{e}</code>")
-					log.warning(missed[-1])
+				self.broadcast_send(chats, missed, chat, i, outm, spam)
 				i += 1
-				# avoid flood wait, let's keep a message per second
-				time.sleep(1)
 			self.cfg.log(
 				LANG('ADMIN_BROADCAST_MESSAGE').format(format_user(m.from_user), len(chats)-len(missed), len(chats)) +
 				("\n" + LANG('ADMIN_BROADCAST_MISSED').format("- " + "\n- ".join(missed)) if missed else "")
 			)
 			outm.delete()
+
+	def broadcast_send(self, chats, missed, chat, i, outm, spam):
+		# trying to avoid flood wait with sleep() calls
+		try:
+			outm.edit_text(f"{i}/{len(chats)}")
+			time.sleep(1)
+			spam(chat.id)
+			log.info(f"Broadcast: {i}/{len(chats)}, {i-len(missed)} delivered.")
+		except FloodWait as e:
+			log.warning(f"Waiting {e.value + 10} seconds because of floodwait, then resending...")
+			time.sleep(e.value + 10) # wait some time before sending messages again
+			self.broadcast_send(chats, missed, chat, i, outm, spam)
+		except Exception as e:
+			missed.append(f"{format_user(chat)}: <code>{e}</code>")
+			log.warning(missed[-1])
+		time.sleep(1)
 
 	def byebye(self, bot, chat, me):
 		use_chat_perm = not me.permissions and chat.permissions
