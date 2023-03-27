@@ -7,3 +7,4 @@ dst212bot
 *.session
 *.session-journal
 env
+unknown_errors.txt
