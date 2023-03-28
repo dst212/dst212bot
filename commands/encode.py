@@ -3,6 +3,7 @@ from bot.classes import BaseCommand
 import base64, binascii, html, traceback
 
 from pyrogram.enums import ParseMode
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 class CmdEncode(BaseCommand):
 	def __init__(self, *args, **kwargs):
