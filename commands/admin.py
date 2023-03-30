@@ -138,7 +138,7 @@ class CmdAdmin(BaseCommand):
 				outm.edit_text(LANG('PROVIDE_TEXT'))
 			log.info(f"Broadcasting this message:\n{text}")
 		if spam:
-			i = 0
+			i = 1
 			for chat in chats:
 				self.broadcast_send(chats, missed, chat, i, outm, spam)
 				i += 1
@@ -152,7 +152,6 @@ class CmdAdmin(BaseCommand):
 			outm.edit_text(f"{i}/{len(chats)}")
 			time.sleep(1)
 			spam(chat.id)
-			log.info(f"Broadcast: {i}/{len(chats)}, {i-len(missed)} delivered.")
 		except FloodWait as e:
 			log.warning(f"Waiting {e.value + 10} seconds because of floodwait, then resending...")
 			time.sleep(e.value + 10) # wait some time before sending messages again
@@ -160,6 +159,7 @@ class CmdAdmin(BaseCommand):
 		except Exception as e:
 			missed.append(f"{format_user(chat)}: <code>{e}</code>")
 			log.warning(missed[-1])
+		log.info(f"Broadcast: {i}/{len(chats)}, {i-len(missed)} delivered.")
 		time.sleep(1)
 
 	def byebye(self, bot, chat, me):
