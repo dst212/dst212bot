@@ -142,10 +142,8 @@ class CmdAdmin(BaseCommand):
 			for chat in chats:
 				self.broadcast_send(chats, missed, chat, i, outm, spam)
 				i += 1
-			self.cfg.log(
-				LANG('ADMIN_BROADCAST_MESSAGE').format(format_user(m.from_user), len(chats)-len(missed), len(chats)) +
-				("\n" + LANG('ADMIN_BROADCAST_MISSED').format("- " + "\n- ".join(missed)) if missed else "")
-			)
+			self.cfg.log(LANG('ADMIN_BROADCAST_MESSAGE').format(format_user(m.from_user), len(chats)-len(missed), len(chats)))
+			#("\n" + LANG('ADMIN_BROADCAST_MISSED').format("- " + "\n- ".join(missed)) if missed else "")
 			outm.delete()
 
 	def broadcast_send(self, chats, missed, chat, i, outm, spam):
