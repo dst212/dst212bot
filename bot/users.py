@@ -4,7 +4,8 @@ import datetime, googletrans, json, logging, os, threading
 log = logging.getLogger(__name__)
 
 from pyrogram.types import Chat, User, Message, CallbackQuery, InlineQuery
-from pyrogram.enums import ChatType
+from pyrogram.enums import ChatType, ChatAction
+import pyrogram.errors as Errors
 
 class Option:
 	def __init__(self, t: type, default, minimum=None, maximum=None, options: dict={}):
@@ -24,6 +25,7 @@ class Option:
 class Users:
 	def __init__(self, bot):
 		self.base_dir = "./data/users/"
+		self.unused_dir = "./data/deactivated/"
 		self.bot = bot
 		self.chat = {}
 		self.mutex = threading.Lock()
@@ -50,6 +52,11 @@ class Users:
 		self.mutex.acquire()
 		try:
 			file = f"{self.base_dir}{uid}"
+			# check if the user was previously deactivated
+			if not os.path.exists(file):
+				unused = f"{self.unused_dir}{uid}"
+				if os.path.exists(unused):
+					os.rename(unused, file)
 			if os.path.exists(file):
 				with open(file, "r") as f:
 					return json.load(f)
@@ -79,6 +86,30 @@ class Users:
 		finally:
 			self.mutex.release()
 		return False
+
+	# move settings away from the main folder
+	# settings will be re-activated if the user/chat interacts again with the bot
+	def deactivate(self, uid: int):
+		uid = self.get_id(uid)
+		self.mutex.acquire()
+		try:
+			os.makedirs(self.unused_dir, exist_ok=True)
+			file = f"{self.base_dir}{uid}"
+			log.info(f"Deactivating settings for {uid}...")
+			if os.path.exists(file):
+				os.rename(file, f"{self.unused_dir}{uid}")
+				if self.chat.get(uid):
+					del self.chat[uid]
+				log.info(f"Successfully deactivated settings for {uid}.")
+			else:
+				log.info(f"{file} not found.")
+			return True
+		except Exception as e:
+			raise e
+		finally:
+			self.mutex.release()
+		return False
+
 
 	def do_override(self, m) -> bool:
 		# it's safe to call directly self.get() here
@@ -134,8 +165,27 @@ class Users:
 				raise ValueError(f"Type mismatch: {type(self.chat[uid][item])} and {type(value)} ({value})")
 		return False
 
+	# the user is valid, didn't stop the bot and wasn't deleted
+	def can_send_to(self, uid: int) -> bool:
+		if uid:
+			try:
+				self.bot.send_chat_action(uid, ChatAction.TYPING)
+				self.bot.send_chat_action(uid, ChatAction.CANCEL)
+				return True
+			except (Errors.UserIsBlocked, Errors.InputUserDeactivated) as e:
+				log.info(f"Deactivating [{uid}]: {e}")
+				self.deactivate(uid)
+			except Errors.UserIdInvalid:
+				log.info(f"[{i}] is an invalid id. Forgetting it.")
+				self.forget(i)
+			except Errors.PeerIdInvalid:
+				log.info(f"[{uid}] has never interacted with the bot privately.")
+			except Exception as e:
+				log.warning(f"[{uid}]: {e}")
+		return False
+
 	# retrieve all chats' ids for which settings were saved
-	def get_all_chats():
+	def get_all_chats(self):
 		chats = []
 		for i in os.listdir(self.basr_dir):
 			try:
@@ -146,36 +196,33 @@ class Users:
 
 	# retrieve active chats list
 	def get_active_chats_list(self):
-		chats = []
-		for i in os.listdir(self.base_dir):
-			try:
-				i = self.bot.get_chat(int(i))
-				if type(i) == Chat:
-					chats.append(i)
-			except:
-				pass
-		return chats
+		return self.get_active_chats(as_list=True)
 
-	# retrieve active chats grouped in objects
-	def get_active_chats(self):
-		chats = {}
-		count = 0
+	# retrieve active chats grouped by chat type
+	def get_active_chats(self, as_list=False):
+		chats = [] if as_list else {k.name: {} for k in ChatType}
+		add = (lambda chat : chats.append(chat)) if as_list else (lambda chat : chats[chat.type.name].update({chat.id: chat}))
 		for i in os.listdir(self.base_dir):
 			try:
-				i = self.bot.get_chat(int(i))
-				if type(i) == Chat:
-					if not chats.get(i.type.name):
-						chats[i.type.name] = {}
-					chats[i.type.name][i.id] = i
-					count += 1
-			except:
+				chat = self.bot.get_chat(int(i))
+				if type(chat) != Chat:
+					log.warning(f"Settings for {i} are unused. Deactivating.")
+					self.deactivate(i)
+				elif self.can_send_to(chat.id):
+					add(chat)
+			except (Errors.ChannelInvalid, Errors.ChannelPrivate) as e:
+				log.warn(f"Channel {i} is private or invalid. Deactivating it.")
+				self.deactivate(i)
+			except Errors.UserIdInvalid:
+				log.warn(f"[{i}] is an invalid id. Forgetting it.")
+				self.forget(i)
+			except Errors.PeerIdInvalid:
+				# log.warn(f"Chat {i} never interacted with the bot.")
 				pass
-		# this is actually useless as one could simply do something like
-		# len(chats["BOT"]) which is also shorter to type than chats["BOT"]["count"] 
-		# for v in chats.values():
-		# 	v["count"] = len(v)
-		# 	count += len(v) # obviously if this is on, count += 1 (some lines above) must be removed
-		chats["count"] = count
+			except Exception as e:
+				log.warning(f"[{uid}]: {e}")
+		if not as_list:
+			chats["count"] = sum([len(i) for i in chats.values()])
 		return chats
 
 	# enable/disable/get chat-forward
