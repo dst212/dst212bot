@@ -7,10 +7,10 @@
   - [ ] pokedex:
     
     - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
+  
+  - [ ] moves info?
 
 - [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
-  
-  - [ ] make `spam` work when there's a lot of chats (catching FloodWait exception)
 
 - [ ] new command: `/timezone`
 
@@ -19,6 +19,10 @@
 - [ ] `/games`? Maybe some stuff like Snake, 2048, Atari Breakout and Tetris
 
 - [ ] add examples (link to GIF on a channel to show how to use some commands)
+
+- [ ] `/schedule` command
+
+- [ ] group management commands like `!ban`, `!kick`, `!mute` and so on
 
 # Known bugs
 
