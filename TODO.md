@@ -1,18 +1,22 @@
 # TODO list of *dst212bot*
 
-- [ ] `/pogo`
+- [ ] topics support
+
+- [ ] move `/pogo` to a dedicated bot
+
+- [ ] ~~`/pogo`~~
   
-  - [ ] ~~`/pogo` lets you choose data with buttons~~
-  
-  - [ ] pokedex:
+  - [ ] ~~pokedex:~~
     
-    - [ ] duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)
+    - [ ] ~~duplicate regional forms (e.g. so that "alolan ninetales" and "ninetales alola" give the same result)~~
   
-  - [ ] moves info?
+  - [ ] ~~moves info?~~
 
-- [ ] replace `/admin` command with dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
-
-- [ ] new command: `/timezone`
+- [ ] `/admin`
+  
+  - [ ] dot-commands (`.add` instead of `/admin add` and so on, only admin/support/log chats)
+  
+  - [ ] maybe adding a `/admin undo` command for `/admin broadcast`?
 
 - [ ] `/wordfor` add buttons to browse previous and following definitions
 
@@ -20,11 +24,15 @@
 
 - [ ] add examples (link to GIF on a channel to show how to use some commands)
 
+- [ ] `/alias` command
+
 - [ ] `/schedule` command
 
 - [ ] group management commands like `!ban`, `!kick`, `!mute` and so on
 
-# Known bugs
+- [ ] `/timezone` and `/time` commands (get real global time)
+
+# Known bugs and issues
 
 - [ ] `/pogo`
   
