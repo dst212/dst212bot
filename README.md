@@ -43,6 +43,7 @@ Ensure having a bot token provided by [BotFather](https://botfather.t.me) and an
 Create a file named `variables.py` in the root folder of the repository and put the bot token and the API key in there, so as to make it look like this:
 
 ```python
+BOTNAME = "dst212bot" # you can put whatever name you want here
 TOKEN = "0123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
 API_ID = "12345678"
 API_HASH = "c2306f38edaeb5694c37cdf52b7d573d"

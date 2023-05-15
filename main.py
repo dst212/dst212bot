@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from variables import TOKEN, API_ID, API_HASH
+from variables import TOKEN, API_ID, API_HASH, BOTNAME
 from bot.config import Config
 from bot.handlers import Handlers
 from bot.users import Users
@@ -14,11 +14,10 @@ from pyrogram import Client, idle
 from pyrogram.handlers import MessageHandler, InlineQueryHandler, CallbackQueryHandler
 from pyrogram.enums import ParseMode
 
-
 logging.basicConfig(
     format="[%(asctime)s] - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
-log = logging.getLogger("dst212bot")
+log = logging.getLogger(BOTNAME)
 
 
 def ping_server() -> bool:
@@ -36,7 +35,7 @@ def main():
         while not ping_server():
             time.sleep(20)
 
-    bot = Client("dst212bot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
+    bot = Client(BOTNAME, api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
     bot.set_parse_mode(ParseMode.HTML)
 
     users = Users(bot)
