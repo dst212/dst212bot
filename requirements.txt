@@ -1,6 +1,7 @@
 beautifulsoup4
 datetime
-googletrans-py
+#googletrans-py
+https://github.com/bllendev/py-googletrans/archive/refs/heads/master.zip
 gtts
 html5lib
 opencv-python

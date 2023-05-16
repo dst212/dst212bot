@@ -97,7 +97,7 @@ Used libraries:
 - [`pyrogram`](https://pyrogram.org/): Telegram client
 - [`opencv-python`](https://pypi.org/project/opencv-python/): QR code detection and decoding
 - [`pyqrcode`](https://pypi.org/project/PyQRCode/): QR code generation
-- [`googletrans-py`](https://pypi.org/project/googletrans-py/): Translation APIs
+- [`googletrans-py`](https://github.com/bllendev/py-googletrans): Translation APIs
 - [`gtts`](https://pypi.org/project/gTTS/): Text to speech APIs
 - [`BeautifulSoup`](https://pypi.org/project/beautifulsoup4/): HTML parser
 - [`psutil`](https://pypi.org/project/psutil/): processes info gathering

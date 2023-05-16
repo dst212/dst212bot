@@ -21,7 +21,7 @@ News channel: @dst212botnews
 - <code>pyrogram</code>: Telegram client
 - <code>opencv-python</code>: QR code detection and decoding
 - <code>pyqrcode</code>: QR code generation
-- <code>googletrans-py</code>: Translation APIs
+- <code>py-googletrans</code> (<a href="https://github.com/bllendev/py-googletrans">GitHub repo</a>): Translation APIs
 - <code>gtts</code>: Text to speech APIs
 - <code>BeautifulSoup</code>: HTML parser
 - <code>psutil</code>: processes info gathering
