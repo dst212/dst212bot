@@ -84,6 +84,18 @@ You may want to edit other things manually:
 
 - `support`: chats receiving feedback sent with /hey.
 
+You can put chats' ids in `log` and `support` or a pair of `[id, topic]` where `topic` is the id of the first message of a topic, like this:
+
+```json
+{
+  ...
+  "log": [448025569, [-1001706967970, 5]],
+  ...
+}
+```
+
+You can retrieve group and topic info by sending `/id` in the desired chat; when in a topic, `Reply to` or `Top message` refers to the topic ID (the first message).
+
 ## Other notes
 
 The script located at [`commands/pokemongo/fetch_pokedex.py`](commands/pokemongo/fetch_pokedex.py) fetches the Pokémon Go pokédex from [pokemondb.net](https://pokemondb.net/go/pokedex) and saves it to `data/cache/pogo/pokedex.json` upon the first start. It can be run manually (this way it creates the file into the running directory).

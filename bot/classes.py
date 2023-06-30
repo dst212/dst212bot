@@ -1,3 +1,6 @@
+from json import JSONEncoder
+
+
 class CustomCallbackQuery:
     def __init__(self, callback):
         self.callback = callback  # the object itself
@@ -35,3 +38,35 @@ class BaseCommand:
 
     def inline(self, LANG, bot, q):
         pass
+
+
+class CustomChat:
+    def __init__(self, chat_id, topic=None):
+        self._id, self._first = (
+            (chat_id[0], chat_id[1]) if type(chat_id) == list
+            else (chat_id, topic) if type(chat_id) == int
+            else (None, None)
+        )
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def first(self):
+        return self._first
+
+    def __eq__(self, c):
+        return self.id == (
+            c if type(c) == int
+            else c.id if type(c) == type(self)
+            else None
+        )
+
+    def default(self):
+        return [self.id, self.first] if type(self.first) == int else self.id
+
+
+class ChatEncoder(JSONEncoder):
+    def default(self, o):
+        return o.default() if type(o) == CustomChat else o

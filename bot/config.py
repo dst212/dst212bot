@@ -1,4 +1,5 @@
 from custom.misc import format_user
+from bot.classes import CustomChat, ChatEncoder
 
 import datetime
 import json
@@ -7,6 +8,7 @@ import os
 import psutil
 
 from pyrogram.types import User, Message
+from pyrogram.raw.functions.messages import ForwardMessages
 
 log = logging.getLogger(__name__)
 
@@ -19,10 +21,10 @@ class Config:
         self.usr = users
         self.file = "data/config.json"
         self.default = {
-            "admin": [],  # can do admin stuff except adding or removing other admins
-            "log": [],  # will get info about the bot operations (boot up, shutdown, errors)
+            "admin": [],    # can do admin stuff except adding or removing other admins
+            "log": [],      # will get info about the bot operations (boot up, shutdown, errors)
             "support": [],  # can see /hey reports
-            "helper": [],  # can reply to /hey reports (also admin can do that whether they're helper or not)
+            "helper": [],   # can reply to /hey reports (also admin can do that whether they're helper or not)
             "blocked": [],  # users/chats which can't use the bot
         }
         self.cfg = self.default.copy()
@@ -58,13 +60,14 @@ class Config:
                 log.error(f"Couldn't correctly read and parse {self.file}, renamed.")
             # add loaded groups to current config
             for k, v in obj.items():
-                self.cfg[k] = v
+                self.cfg[k] = [CustomChat(i) for i in v]
         else:
             with open(self.file, "w") as f:
-                json.dump(self.cfg, f, indent=2)
+                json.dump(self.cfg, f, indent=2, cls=ChatEncoder)
         if len(self.cfg["admin"]) == 0:
             log.warning(
-                f"No admins listed in {self.file}, add one or more. See https://github.com/dst212/dst212bot/blob/main/README.md#configuration for further details."
+                f"No admins listed in {self.file}, add one or more. "
+                "See https://github.com/dst212/dst212bot/blob/main/README.md#configuration for further details."
             )
 
     def get(self, what) -> list:
@@ -180,9 +183,16 @@ class Config:
         for a in targets:
             if a not in exclude:
                 try:
-                    self.bot.send_message(a, text)
+                    self.bot.send_message(a.id, text, reply_to_message_id=a.first)
                     for m in forward:
-                        m.forward(a)
+                        self.bot.invoke(ForwardMessages(
+                            from_peer=self.bot.resolve_peer(m.chat.id),
+                            id=[m.id],
+                            random_id=[self.bot.rnd_id()],
+                            to_peer=self.bot.resolve_peer(a.id),
+                            top_msg_id=a.first,
+                        ))
+                        # m.copy(a.id, reply_to_message_id=a.first)
                 except Exception as e:
                     log.error(f"[{a}] {e}")
 
