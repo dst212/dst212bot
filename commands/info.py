@@ -11,6 +11,21 @@ from pyrogram.types import (
 from pyrogram.enums import UserStatus, ChatType
 
 
+class CmdId(BaseCommand):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name = "id"
+
+    def run(self, LANG, bot, m):
+        m.reply_text(
+            f"<b>Chat</b>: <code>{m.chat.id}</code>\n" +
+            f"<b>Sender</b>: <code>{(m.from_user or m.sender_chat).id}</code>\n" +
+            f"<b>Message</b>: <code>{m.id}</code>\n" +
+            (f"<b>Reply to</b>: <code>{m.reply_to_message_id}</code>\n" if m.reply_to_message_id else "") +
+            (f"<b>Top message</b>: <code>{m.reply_to_top_message_id}</code>" if m.reply_to_top_message_id else "")
+        )
+
+
 class CmdInfo(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
