@@ -1,10 +1,8 @@
 from bot.classes import CustomCallbackQuery, CustomInlineQuery
 from langs import Lang
-# from variables import GAMES_URL
 
-# import base64
 import html
-# import json
+
 import logging
 import traceback
 
@@ -55,7 +53,8 @@ class Handlers:
             # make emojis valid
             text = text.encode("utf-8").decode("utf-8")
         # chat forward check in cmds.map["hey"].parse()
-        # allow commands only from non-anonymous and non-bot users, if the message is not send from helpers in a support chat
+        # allow commands only from non-anonymous and non-bot users
+        # if the message is not send from helpers in a support chat
         if (
             not self.cmds.map["hey"].parse(bot, m)
             and m.from_user
@@ -73,7 +72,7 @@ class Handlers:
                     cmd = cmd[:i]
                 i = cmd.find("@")
                 if i != -1:
-                    cmd = cmd[:i] if self.cfg.me.username == cmd[i+1:] else ""
+                    cmd = cmd[:i] if self.cfg.me.username == cmd[i + 1:] else ""
                 if self.cmds.map.get(cmd):
                     self.cmds.map[cmd].run(LANG, bot, m)
             except Exception:
@@ -91,8 +90,8 @@ class Handlers:
                     else "Unknown"
                 )
                 self.cfg.log(
-                    f"<code>#{m.chat.id}</code><code>#{m.id}#</code>\nAn exception occurred to someone ({sender}):\n\n" +
-                    f"<code>{html.escape(traceback.format_exc())}</code>\nMessage:",
+                    f"<code>#{m.chat.id}</code><code>#{m.id}#</code>\nAn exception occurred to someone ({sender}):\n\n"
+                    + f"<code>{html.escape(traceback.format_exc())}</code>\nMessage:",
                     forward=[m],
                 )
                 m.reply_text(LANG("AN_ERROR_OCCURRED_WHILE_PERFORMING"))
@@ -102,9 +101,9 @@ class Handlers:
     def callback(self, bot, callback):
         if self.cfg.is_blocked(callback):
             return  # ignore the query
+        LANG = Lang(self.usr.lang_code(callback), self.cfg).string
         if callback.data:
             try:
-                LANG = Lang(self.usr.lang_code(callback), self.cfg).string
                 query = CustomCallbackQuery(callback)
                 cmd = query.args[0]
                 if self.cmds.map.get(cmd):
@@ -112,23 +111,14 @@ class Handlers:
             except Exception:
                 traceback.print_exc()
                 self.cfg.log(
-                    f"An exception occurred to someone ({callback.from_user.mention() if callback.from_user else 'Unknown'}):\n\n" +
-                    f"<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(callback.data)}</code>"
+                    f"An exception occurred to someone ({callback.from_user.mention() if callback.from_user else 'Unknown'}):\n\n"
+                    + f"<code>{html.escape(traceback.format_exc())}</code>\nQuery data:\n<code>{html.escape(callback.data)}</code>"
                 )
                 callback.answer(
                     LANG("AN_ERROR_OCCURRED_WHILE_PERFORMING"), show_alert=True
                 )
         elif callback.game_short_name:
-            pass
-            # payload = base64.b64encode(
-            #     bytes(
-            #         json.dumps(
-            #             {"u": callback.from_user.id, "i": callback.inline_message_id}
-            #         ),
-            #         "utf-8",
-            #     )
-            # ).decode()
-            # callback.answer(url=f"{GAMES_URL}{callback.game_short_name}?{payload}")
+            self.cmds.map.get("games").callback(LANG, bot, callback)
 
     def inline(self, bot, inline):
         if self.cfg.is_blocked(inline):
