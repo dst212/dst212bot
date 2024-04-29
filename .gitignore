@@ -8,3 +8,4 @@ dst212bot
 *.session-journal
 env
 unknown_errors.txt
+*.vim
