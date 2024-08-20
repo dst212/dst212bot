@@ -17,7 +17,7 @@ class CmdStart(BaseCommand):
     def welcome_message(self, m):
         return (
             m.lang.HI_THERE_ADMIN
-            if self.cfg.is_admin(m.from_user.id)
+            if m.from_user.id in self.sudo.admins
             else m.lang.WELCOME_MESSAGE
         ).format(html.escape(m.from_user.first_name))
 
