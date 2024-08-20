@@ -20,7 +20,7 @@ class BaseCommand:
     def init(self, bot):
         aliases = f"({self.name}|{"|".join(self.aliases)})" if self.aliases else self.name
         bot.on_message(filters.command([self.name, *self.aliases]))(self.run)
-        bot.on_callback_query(filters.regex(rf"^{self.name} "))(self.callback)
+        bot.on_callback_query(filters.regex(rf"^({self.name} |{self.name}$)"))(self.callback)
         bot.on_inline_query(filters.regex(rf"^{aliases} "))(self.inline)
 
     async def run(self, bot, m):
