@@ -3,49 +3,47 @@ import importlib
 import os
 
 
-def closure():
-    langs = {
-        lang: importlib.import_module("." + lang, os.path.basename(__path__[0]))
-        for lang in [
-            os.path.basename(i)[:-3]
-            for i in glob.glob(os.path.join(os.path.dirname(__file__), "[!_]*.py"))
-            if os.path.isfile(i)
-        ]
-    }
-
-    def available():
-        return [k for k in langs]
-
-    # return the lang dictionary, using English as fallback
-    def get(lang):
-        return langs[lang].strings if langs.get(lang) else langs["en"].strings
-
-    def formal_name(lang):
-        return (
-            langs[lang].name or lang
-            if langs.get(lang)
-            else lang
-            if lang == "auto"
-            else ""
-        )
-
-    def flag(lang):
-        return langs[lang].flag if langs.get(lang) else "🏳️"
-
-    class Lang:
-        def __init__(self, lang, cfg):
-            self.lang = lang
-            self.cfg = cfg
-
-        def string(self, s):  # get a specific string of the current language
-            text = get(self.lang).get(s) or get("auto").get(s)
-            if text is None:
-                self.cfg.log(f"A missing string was found: <code>{s}</code>")
-                return f"[Missing: <code>{s}</code>]"
-            return text
-
-    return Lang, get, formal_name, available, flag
+langs = {
+    lang: importlib.import_module(f".{lang}", os.path.basename(__path__[0])).init()
+    for lang in [
+        os.path.basename(i)[:-3]
+        for i in glob.glob(os.path.join(__path__[0], "[!_]*.py"))
+        if os.path.isfile(i)
+    ]
+}
 
 
-Lang, get, formal_name, available, flag = closure()
-del closure
+# return the lang dictionary, using English as fallback
+def get(lang: str = "en"):
+    return langs.get(lang) or langs["en"]
+
+
+def formal_name(lang: str):
+    return (
+        langs[lang].name or lang
+        if langs.get(lang)
+        else lang
+        if lang == "auto"
+        else ""
+    )
+
+
+def flag(lang: str):
+    return langs[lang].flag if langs.get(lang) else "🏳️"
+
+
+class LangString:
+    def __init__(self, string: str):
+        self._string = string
+
+    @property
+    def string(self):
+        return self._string
+
+    def apply(self, lang: str | object):
+        if not isinstance(lang, type(get())):
+            if type(lang) is not str:
+                lang = lang.lang
+        if type(lang) is str:
+            lang = get(lang)
+        return lang.__dict__.get(self._string) or f"{self._string}"

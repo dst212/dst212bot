@@ -1,11 +1,12 @@
-variables.py
-data
-trash
 **/__pycache__
 __pycache__
+env/
+data/
+keys.py
+config.py
 dst212bot
 *.session
 *.session-journal
-env
 unknown_errors.txt
 *.vim
+trash/

@@ -7,11 +7,9 @@ import re
 
 
 class CmdScore(BaseCommand):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.name = "score"
-        self.args = ["command", "arguments"]
-        self.base_dir = "data/score/"
+    name = "score"
+    args = ["command", "arguments"]
+    base_dir = "data/score/"
 
     def sort(self, data):
         data["items"] = {
@@ -19,43 +17,43 @@ class CmdScore(BaseCommand):
             for k, v in sorted(data["items"].items(), key=lambda x: x[1], reverse=True)
         }
 
-    def score_str(self, LANG, score):
-        return f"<b>{html.escape(score['display'])}</b>\n\n" + (
+    def score_str(self, lang, score):
+        return f"<b>{html.escape(score["display"])}</b>\n\n" + (
             (
                 "\n".join(
                     f"<i>{html.escape(k)}</i> : <code>{v}</code>"
                     for k, v in score["items"].items()
                 )
-                or LANG("SCORE_NO_ITEMS")
+                or lang.SCORE_NO_ITEMS
             )
         )
 
-    def get_score(self, LANG, m, name):
-        cdir = f"{self.base_dir}{m.chat.id}/"  # + m.from_user.id
+    async def get_score(self, m, name):
+        cdir = f"{self.base_dir}{m.chat.id}/"
         os.makedirs(cdir, exist_ok=True)
-        if not bool(re.match("^[a-zA-Z0-9_-]+$", name)):
-            m.reply(LANG("SCORE_INVALID_NAME"))
+        if not re.match("^[a-zA-Z0-9_-]+$", name):
+            await m.reply(m.lang.SCORE_INVALID_NAME)
             return ""
         return cdir + name + ".json"
 
-    def score_get(self, LANG, m, score):
-        file = self.get_score(LANG, m, score)
+    async def score_get(self, m, score):
+        file = await self.get_score(m, score)
         if not file:
             return
         if not os.path.exists(file):
-            m.reply(LANG("SCORE_DOESNT_EXIST").format(score))
+            await m.reply(m.lang.SCORE_DOESNT_EXIST.format(score))
             return
         data = {}
         with open(file, "r") as f:
             data = json.load(f)
-        m.reply(self.score_str(LANG, data))
+        await m.reply(self.score_str(m.lang, data))
 
-    def score_new(self, LANG, m, score):
-        file = self.get_score(LANG, m, score)
+    async def score_new(self, m, score):
+        file = await self.get_score(m, score)
         if not file:
             return
         if os.path.exists(file):
-            m.reply(LANG("SCORE_ALREADY_EXISTS").format(score))
+            await m.reply(m.lang.SCORE_ALREADY_EXISTS.format(score))
             return
         data = {
             "display": score,
@@ -65,36 +63,36 @@ class CmdScore(BaseCommand):
         }
         with open(file, "w") as f:
             json.dump(data, f)
-        m.reply(LANG("SCORE_CREATED_SUCCESSFULLY").format(score))
+        await m.reply(m.lang.SCORE_CREATED_SUCCESSFULLY.format(score))
 
-    def score_del(self, LANG, m, score):
-        file = self.get_score(LANG, m, score)
+    async def score_del(self, m, score):
+        file = await self.get_score(m, score)
         if not file:
             return
         if not os.path.exists(file):
-            m.reply(LANG("SCORE_DOESNT_EXIST").format(score))
+            await m.reply(m.lang.SCORE_DOESNT_EXIST.format(score))
             return
         data = {}
         with open(file, "r") as f:
             data = json.load(f)
             if not m.from_user.id == data["owner"]:
-                m.reply(LANG("SCORE_YOU_ARENT_THE_OWNER"))
+                await m.reply(m.lang.SCORE_YOU_ARENT_THE_OWNER)
                 return
         os.remove(file)
-        m.reply(LANG("SCORE_WAS_NOW_GONE").format(self.score_str(LANG, data)))
+        await m.reply(m.lang.SCORE_WAS_NOW_GONE.format(self.score_str(m.lang, data)))
 
-    def score_add(self, LANG, m, score, item, value=1):
-        file = self.get_score(LANG, m, score)
+    async def score_add(self, m, score, item, value=1):
+        file = await self.get_score(m, score)
         if not file:
             return
         if not os.path.exists(file):
-            m.reply(LANG("SCORE_DOESNT_EXIST").format(score))
+            await m.reply(m.lang.SCORE_DOESNT_EXIST.format(score))
             return
         data = {}
         with open(file) as f:
             data = json.load(f)
             if m.from_user.id not in data["editors"]:
-                m.reply(LANG("SCORE_YOU_ARENT_AN_EDITOR"))
+                await m.reply(m.lang.SCORE_YOU_ARENT_AN_EDITOR)
                 return
         if not data["items"].get(item):
             data["items"][item] = 0
@@ -102,24 +100,24 @@ class CmdScore(BaseCommand):
         self.sort(data)
         with open(file, "w") as f:
             json.dump(data, f)
-        m.reply(
-            LANG("SCORE_ITEM_SET_TO").format(
+        await m.reply(
+            m.lang.SCORE_ITEM_SET_TO.format(
                 html.escape(item), html.escape(data["display"]), data["items"][item]
             )
         )
 
-    def score_set(self, LANG, m, score, item, value=1):
-        file = self.get_score(LANG, m, score)
+    async def score_set(self, m, score, item, value=1):
+        file = await self.get_score(m, score)
         if not file:
             return False
         if not os.path.exists(file):
-            m.reply(LANG("SCORE_DOESNT_EXIST").format(score))
+            await m.reply(m.lang.SCORE_DOESNT_EXIST.format(score))
             return False
         data = {}
         with open(file) as f:
             data = json.load(f)
             if m.from_user.id not in data["editors"]:
-                m.reply(LANG("SCORE_YOU_ARENT_AN_EDITOR"))
+                await m.reply(m.lang.SCORE_YOU_ARENT_AN_EDITOR)
                 return False
         if data["items"].get(item) and value == 0:
             del data["items"][item]
@@ -129,151 +127,145 @@ class CmdScore(BaseCommand):
         with open(file, "w") as f:
             json.dump(data, f)
         if value != 0:
-            m.reply(
-                LANG("SCORE_ITEM_SET_TO").format(
+            await m.reply(
+                m.lang.SCORE_ITEM_SET_TO.format(
                     html.escape(item), html.escape(data["display"]), data["items"][item]
                 )
             )
         else:
-            m.reply(
-                LANG("SCORE_ITEM_DELETED").format(
+            await m.reply(
+                m.lang.SCORE_ITEM_DELETED.format(
                     html.escape(item), html.escape(data["display"])
                 )
             )
         return True
 
-    def score_ren(self, LANG, m, score, newname):
-        file = self.get_score(LANG, m, score)
-        newfile = self.get_score(LANG, m, newname)
+    async def score_ren(self, m, score, newname):
+        file = await self.get_score(m, score)
+        newfile = await self.get_score(m, newname)
         if not file or not newfile:
             return
         with open(file, "r") as f:
             data = json.load(f)
             if not m.from_user.id == data["owner"]:
-                m.reply(LANG("SCORE_YOU_ARENT_THE_OWNER"))
+                await m.reply(m.lang.SCORE_YOU_ARENT_THE_OWNER)
                 return
         os.rename(file, newfile)
-        m.reply(LANG("SCORE_RENAMED_FROM").format(score, newname))
+        await m.reply(m.lang.SCORE_RENAMED_FROM.format(score, newname))
 
-    def score_display(self, LANG, m, score, display):
-        file = self.get_score(LANG, m, score)
+    async def score_display(self, m, score, display):
+        file = await self.get_score(m, score)
         if not file:
             return
         if not os.path.exists(file):
-            m.reply(LANG("SCORE_DOESNT_EXIST").format(score))
+            await m.reply(m.lang.SCORE_DOESNT_EXIST.format(score))
             return
         data = {}
         with open(file, "r") as f:
             data = json.load(f)
         if not m.from_user.id == data["owner"]:
-            m.reply(LANG("SCORE_YOU_ARENT_THE_OWNER"))
+            await m.reply(m.lang.SCORE_YOU_ARENT_THE_OWNER)
             return
         data["display"] = display
         with open(file, "w") as f:
             json.dump(data, f)
-        m.reply(LANG("SCORE_DISPLAY_SET").format(score, display))
+        await m.reply(m.lang.SCORE_DISPLAY_SET.format(score, html.escape(display)))
 
-    def score_setraw(self, LANG, m, score, items):
-        file = self.get_score(LANG, m, score)
+    async def score_setraw(self, m, score, items):
+        file = await self.get_score(m, score)
         if not file:
             return
         if not os.path.exists(file):
-            m.reply(LANG("SCORE_DOESNT_EXIST").format(score))
+            await m.reply(m.lang.SCORE_DOESNT_EXIST.format(score))
             return
         data = {}
         with open(file, "r") as f:
             data = json.load(f)
         if not m.from_user.id == data["owner"]:
-            m.reply(LANG("SCORE_YOU_ARENT_THE_OWNER"))
+            await m.reply(m.lang.SCORE_YOU_ARENT_THE_OWNER)
             return
-        was = self.score_str(LANG, data)
+        was = self.score_str(m.lang, data)
         data["items"] = items
         with open(file, "w") as f:
             json.dump(data, f)
-        m.reply(
-            f"{LANG('SCORE_WAS').format(was)}\n\n{LANG('SCORE_NOW_ITS').format(self.score_str(LANG, data))}"
+        await m.reply(
+            f"{m.lang.SCORE_WAS.format(was)}\n\n{m.lang.SCORE_NOW_ITS.format(self.score_str(m.lang, data))}"
         )
 
-    def run(self, LANG, bot, m):
+    async def run(self, bot, m):
         args = (m.text or m.caption).split(" ")
         if len(args) > 1:
             if args[1] in ("h", "help"):
-                m.reply(LANG("SCORE_HELP"))
+                await m.reply(m.lang.SCORE_HELP)
             elif args[1] in ("get", "print"):
                 if len(args) <= 2:
-                    m.reply(LANG("SCORE_PROVIDE_NAME"))
-                    return
+                    await m.reply(m.lang.SCORE_PROVIDE_NAME)
                 elif len(args) > 3:
-                    m.reply(LANG("SCORE_UNNEEDED_ARGUMENT"))
-                    return
-                self.score_get(LANG, m, args[2])
+                    await m.reply(m.lang.SCORE_UNNEEDED_ARGUMENT)
+                else:
+                    await self.score_get(m, args[2])
             elif args[1] in ("new", "create"):
                 if len(args) <= 2:
-                    m.reply(LANG("SCORE_PROVIDE_NAME"))
-                    return
+                    await m.reply(m.lang.SCORE_PROVIDE_NAME)
                 elif len(args) > 3:
-                    m.reply(LANG("SCORE_UNNEEDED_ARGUMENT"))
-                    return
-                self.score_new(LANG, m, args[2])
+                    await m.reply(m.lang.SCORE_UNNEEDED_ARGUMENT)
+                else:
+                    await self.score_new(m, args[2])
             elif args[1] in ("del", "delete", "remove"):
                 if len(args) <= 2:
-                    m.reply(LANG("SCORE_PROVIDE_NAME"))
-                    return
-                for arg in args[2:]:
-                    self.score_del(LANG, m, arg)
+                    await m.reply(m.lang.SCORE_PROVIDE_NAME)
+                else:
+                    for arg in args[2:]:
+                        await self.score_del(m, arg)
             elif args[1] in ("ren", "rename"):
                 if len(args) <= 3:
-                    m.reply(LANG("SCORE_PROVIDE_NAME"))
-                    return
-                self.score_ren(LANG, m, args[2], args[3])
+                    await m.reply(m.lang.SCORE_PROVIDE_NAME)
+                else:
+                    await self.score_ren(m, args[2], args[3])
             elif args[1] in ("display", "setdisplay"):
                 if len(args) <= 3:
-                    m.reply(LANG("SCORE_PROVIDE_NAME"))
-                    return
-                self.score_display(LANG, m, args[2], " ".join(args[3:]))
+                    await m.reply(m.lang.SCORE_PROVIDE_NAME)
+                else:
+                    await self.score_display(m, args[2], " ".join(args[3:]))
             elif args[1] in ("add",):
                 if len(args) <= 3:
-                    m.reply(LANG("USAGE") + ":\n" + LANG("SCORE_HELP_ADD"))
-                    return
-                try:
-                    self.score_add(
-                        LANG, m, args[2], args[3], int(args[4]) if len(args) > 4 else 1
-                    )
-                except ValueError:
-                    m.reply(LANG("SCORE_ONLY_NUMBERS"))
+                    await m.reply(f"{m.lang.USAGE}:\n{m.lang.SCORE_HELP_ADD}")
+                else:
+                    try:
+                        await self.score_add(
+                            m, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
+                    except ValueError:
+                        await m.reply(m.lang.SCORE_ONLY_NUMBERS)
             elif args[1] in ("set",):
                 if len(args) <= 3:
-                    m.reply(LANG("USAGE") + ":\n" + LANG("SCORE_HELP_SET"))
-                    return
-                try:
-                    self.score_set(
-                        LANG, m, args[2], args[3], int(args[4]) if len(args) > 4 else 1
-                    )
-                except ValueError:
-                    m.reply(LANG("SCORE_ONLY_NUMBERS"))
+                    await m.reply(f"{m.lang.USAGE}:\n{m.lang.SCORE_HELP_SET}")
+                else:
+                    try:
+                        await self.score_set(
+                            m, args[2], args[3], int(args[4]) if len(args) > 4 else 1)
+                    except ValueError:
+                        await m.reply(m.lang.SCORE_ONLY_NUMBERS)
             elif args[1] in ("setraw",):
                 i = args[2].find("\n") if len(args) > 2 else -1
                 if i == -1:
-                    m.reply(LANG("USAGE") + ":\n" + LANG("SCORE_HELP_SETRAW"))
-                    return
-                score = args[2][:i]
-                items = {}
-                try:
-                    for item in (m.text or m.caption).split("\n")[1:]:
-                        item = item.split(":")
-                        if len(item) > 0 and item[0] != "":
-                            items[item[0].strip()] = (
-                                int(item[1]) if len(item) > 1 else 1
-                            )
-                except ValueError:
-                    m.reply(LANG("SCORE_ONLY_NUMBERS"))
-                self.score_setraw(LANG, m, score, items)
+                    await m.reply(f"{m.lang.USAGE}:\n{m.lang.SCORE_HELP_SETRAW}")
+                else:
+                    score = args[2][:i]
+                    items = {}
+                    try:
+                        for item in (m.text or m.caption).split("\n")[1:]:
+                            item = item.split(":")
+                            if len(item) > 0 and item[0] != "":
+                                items[item[0].strip()] = int(item[1]) if len(item) > 1 else 1
+                        await self.score_setraw(m, score, items)
+                    except ValueError:
+                        await m.reply(m.lang.SCORE_ONLY_NUMBERS)
             elif args[1] in ("delitem",):
                 if len(args) <= 3:
-                    m.reply(LANG("SCORE_PROVIDE_ITEM_NAME"))
-                    return
-                self.score_set(LANG, m, args[2], args[3], 0)
+                    await m.reply(m.lang.SCORE_PROVIDE_ITEM_NAME)
+                else:
+                    await self.score_set(m, args[2], args[3], 0)
             else:
-                m.reply(LANG("INVALID_SYNTAX"))
+                await m.reply(m.lang.INVALID_SYNTAX)
         else:
-            m.reply(LANG("SCORE_HELP"))
+            await m.reply(m.lang.SCORE_HELP)

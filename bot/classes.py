@@ -1,72 +1,36 @@
-from json import JSONEncoder
+import logging
 
+from pyrogram import filters
 
-class CustomCallbackQuery:
-    def __init__(self, callback):
-        self.callback = callback  # the object itself
-        self.text = callback.data  # the text of the query
-        self.args = callback.data.split(" ")  # the arguments splitted
-
-
-class CustomInlineQuery:
-    def __init__(self, inline):
-        self.inline = inline  # the object itself
-        self.text = inline.query  # the text of the query
-        self.args = inline.query.split(" ")  # the arguments splitted
+log = logging.getLogger(__name__)
 
 
 class BaseCommand:
-    def __init__(self, data):
-        self.usr = data["users"]
-        self.cfg = data["config"]
-        self.cmds = data["commands"]
+    cache_time = 300
+    args = []
+    aliases = []
+    examples = []
+    inline_args = []
 
-        self.cache_time = 300
-        # self.name = ""
-        self.args = []
-        self.aliases = []
-        self.examples = []
-        self.inline_args = []
+    def __init__(self, cmds):
+        self.usr = cmds.usr
+        self.sudo = cmds.sudo
+        self.cmds = cmds.map
 
-    def run(self, LANG, bot, m):
-        # LANG = lambda s : self.usr.lang(m, s)
-        m.reply("@dst212 is pretty stupid and forgot to link the correct function.")
+    def init(self, bot):
+        aliases = f"({self.name}|{"|".join(self.aliases)})" if self.aliases else self.name
+        bot.on_message(filters.command([self.name, *self.aliases]))(self.run)
+        bot.on_callback_query(filters.regex(rf"^{self.name} "))(self.callback)
+        bot.on_inline_query(filters.regex(rf"^{aliases} "))(self.inline)
+
+    async def run(self, bot, m):
+        await m.reply("@dst212 is pretty stupid and forgot to link the correct function.")
         raise Warning("Yoo dst are you dumb")
 
-    def callback(self, LANG, bot, c):
-        pass
+    async def callback(self, bot, c):
+        log.warning(f"Ignoring callback: {c.data}")
+        c.continue_propagation()
 
-    def inline(self, LANG, bot, q):
-        pass
-
-
-class CustomChat:
-    def __init__(self, chat_id, topic=None):
-        self._id, self._first = (
-            (chat_id[0], chat_id[1]) if type(chat_id) == list
-            else (chat_id, topic) if type(chat_id) == int
-            else (None, None)
-        )
-
-    @property
-    def id(self):
-        return self._id
-
-    @property
-    def first(self):
-        return self._first
-
-    def __eq__(self, c):
-        return self.id == (
-            c if type(c) == int
-            else c.id if type(c) == type(self)
-            else None
-        )
-
-    def default(self):
-        return [self.id, self.first] if type(self.first) == int else self.id
-
-
-class ChatEncoder(JSONEncoder):
-    def default(self, o):
-        return o.default() if type(o) == CustomChat else o
+    async def inline(self, bot, q):
+        log.warning(f"Ignoring query: {q.query}")
+        q.continue_propagation()

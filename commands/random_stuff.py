@@ -1,5 +1,6 @@
 from bot.classes import BaseCommand
 
+import html
 import random
 
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
@@ -7,11 +8,9 @@ from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 # /random
 class CmdRand(BaseCommand):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.name = "random"
-        self.args = ["[x]", "[y]"]
-        self.aliases = ["r"]
+    name = "random"
+    args = ["[x]", "[y]"]
+    aliases = ["rand"]
 
     def function(self, args: list) -> int:
         min_num = 0
@@ -30,17 +29,15 @@ class CmdRand(BaseCommand):
             max_num += 1
         return random.randrange(min_num, max_num)
 
-    def run(self, LANG, bot, m):
-        m.reply_text(self.function((m.text or m.caption).split(" ")))
+    async def run(self, bot, m):
+        await m.reply(self.function((m.text or m.caption).split(" ")))
 
 
 # /pickrandom
 class CmdPickRandom(BaseCommand):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.name = "pickrandom"
-        self.args = ["[limit]"]
-        self.aliases = ["pr"]
+    name = "pickrandom"
+    args = ["[limit]"]
+    aliases = ["pr"]
 
     def function(self, items: list, limit=1):
         out = ""
@@ -50,9 +47,9 @@ class CmdPickRandom(BaseCommand):
             out += items.pop(random.randrange(0, len(items))) + "\n"
         return out
 
-    def run(self, LANG, bot, m):
+    async def run(self, bot, m):
         if not m.reply_to_message:
-            m.reply_text(LANG("PICK_RANDOM_REPLY_TO_A_MESSAGE"))
+            await m.reply(m.lang.PICK_RANDOM_REPLY_TO_A_MESSAGE)
         else:
             args = (m.text or m.caption).split(" ")
             out = ""
@@ -61,24 +58,22 @@ class CmdPickRandom(BaseCommand):
                 try:
                     limit = int(args[1])
                     if limit < 1:
-                        raise ValueError("Limit must be greater than 1")
-                except Exception:
-                    out = LANG("IS_INVALID_USING").format(args[1], 1)
+                        raise ValueError
+                except ValueError:
+                    out = m.lang.IS_INVALID_USING.format(html.escape(args[1]), 1)
             out += self.function(
                 (m.reply_to_message.text or m.reply_to_message.caption).split("\n"),
                 limit,
             )
-            m.reply_text(out)
+            await m.reply(html.escape(out))
 
 
 # /shuffle
 class CmdShuffle(BaseCommand):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.name = "shuffle"
-        self.args = ["[text]"]
-        self.inline_args = ["text"]
-        self.cache_time = 1
+    name = "shuffle"
+    args = ["[text]"]
+    inline_args = ["text"]
+    cache_time = 1
 
     def function(self, s: str) -> str:
         t = list(s)
@@ -87,7 +82,7 @@ class CmdShuffle(BaseCommand):
             s += [t.pop(int(random.random() * len(t)))]
         return "".join(s)
 
-    def run(self, LANG, bot, m):
+    async def run(self, bot, m):
         text = None
         if m.reply_to_message is None:
             text = m.text or m.caption
@@ -95,17 +90,16 @@ class CmdShuffle(BaseCommand):
         else:
             text = m.reply_to_message.text or m.reply_to_message.caption
         if text:
-            m.reply_text(self.function(text))
+            await m.reply(self.function(text))
         else:
-            m.reply_text(LANG("PROVIDE_TEXT"))
+            await m.reply(m.lang.PROVIDE_TEXT)
 
-    def inline(self, LANG, bot, q):
-        text = self.function(q.text[len(q.args[0])+1:])
-        return [
+    async def inline(self, bot, q):
+        text = self.function((q.query.strip().split(" ", 1)[1:] or [q.lang.WRITE_SOME_TEXT])[0])
+        await q.answer([
             InlineQueryResultArticle(
-                id="0",
-                title=LANG("SHUFFLE_TEXT"),
+                title=q.lang.SHUFFLE_TEXT,
                 input_message_content=InputTextMessageContent(text),
                 description=text,
             )
-        ]
+        ], cache_time=self.cache_time)
