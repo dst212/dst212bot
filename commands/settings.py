@@ -92,7 +92,7 @@ class CmdSettings(BaseCommand):
                     value = args[3] if len(args) > 3 else None
                     if value is not None:
                         await self.usr.set(chat.id, "lang", value)
-                        c.lang = self.usr.lang(c)
+                        c.lang = await self.usr.lang(c)
                 text = self.cmds["start"].welcome_message(c)
                 markup = self.cmds["start"].markup(c.lang)
             # set value
