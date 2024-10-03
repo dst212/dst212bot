@@ -5,7 +5,6 @@ from pyrogram.enums import ParseMode
 
 class CmdPoGo(BaseCommand):
     name = "pogo"
-    aliases = ["rank"]
 
     async def run(self, bot, m):
         await m.reply(
@@ -18,7 +17,6 @@ class CmdPoGo(BaseCommand):
 
 class CmdInfo(BaseCommand):
     name = "info"
-    aliases = ["i"]
 
     async def run(self, bot, m):
         await m.reply(
